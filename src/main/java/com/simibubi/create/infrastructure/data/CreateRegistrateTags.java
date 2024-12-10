@@ -161,6 +161,22 @@ public class CreateRegistrateTags {
 		prov.tag(AllBlockTags.PLOUGH_BLACKLIST.tag)
 			.addTag(BlockTags.PORTALS);
 
+		prov.tag(AllBlockTags.STEM_GROWN.tag)
+				.add(Blocks.PUMPKIN, Blocks.MELON);
+
+		prov.tag(AllBlockTags.VERTICAL_PLANTS.tag)
+				.add(Blocks.BAMBOO, Blocks.CACTUS, Blocks.SUGAR_CANE, Blocks.KELP, Blocks.KELP_PLANT);
+
+		prov.tag(AllBlockTags.MUSHROOM_STEMS.tag)
+				.add(Blocks.MUSHROOM_STEM);
+
+		prov.tag(AllBlockTags.NON_DECAYING_LEAF_DIST2.tag)
+				.add(Blocks.RED_MUSHROOM_BLOCK);
+
+		prov.tag(AllBlockTags.NON_DECAYING_LEAF_DIST3.tag)
+				.add(Blocks.BROWN_MUSHROOM_BLOCK, Blocks.WEEPING_VINES, Blocks.WEEPING_VINES_PLANT)
+				.addTag(BlockTags.WART_BLOCKS);
+
 		// COMPAT
 
 		TagGen.addOptional(prov.tag(AllBlockTags.NON_MOVABLE.tag), Mods.IE, List.of(
@@ -168,8 +184,32 @@ public class CreateRegistrateTags {
 			"connector_hv", "connector_hv_relay", "connector_bundled", "connector_structural",
 			"connector_redstone", "connector_probe", "breaker_switch"));
 
-		TagGen.addOptional(prov.tag(AllBlockTags.ROOTS.tag), Mods.TF,
-			List.of("root", "liveroot_block", "mangrove_root"));
+		TagGen.addOptional(prov.tag(AllBlockTags.ROOTS.tag), Mods.TF, List.of(
+				"root", "liveroot_block", "mangrove_root"));
+
+		TagGen.addOptional(prov.tag(AllBlockTags.NON_DECAYING_LEAF_DIST2.tag), Mods.D_AET, List.of(
+				"lightcap_mushroom_block"));
+
+		TagGen.addOptional(prov.tag(AllBlockTags.VERTICAL_PLANTS.tag), Mods.GOTD, List.of(
+				"whistlecane"));
+
+		TagGen.addOptional(prov.tag(AllBlockTags.VERTICAL_PLANTS.tag), Mods.UUE, List.of(
+				"chorus_cane", "blooming_chorus_cane"));
+
+		TagGen.addOptional(prov.tag(AllBlockTags.MUSHROOM_STEMS.tag), Mods.Q, List.of(
+			"glow_shroom_stem"));
+
+		TagGen.addOptional(prov.tag(AllBlockTags.NON_DECAYING_LEAF_DIST1.tag), Mods.Q, List.of(
+				"glow_shroom_block"));
+
+		TagGen.addOptional(prov.tag(AllBlockTags.STEM_GROWN.tag), Mods.UG, List.of(
+			"gloomgourd"));
+
+		TagGen.addOptional(prov.tag(AllBlockTags.MUSHROOM_STEMS.tag), Mods.UG, List.of(
+				"indigo_mushroom_stem", "blood_mushroom_stem", "ink_mushroom_stem", "veil_mushroom_stem"));
+
+		TagGen.addOptional(prov.tag(AllBlockTags.NON_DECAYING_LEAF_DIST3.tag), Mods.UG, List.of(
+				"indigo_mushroom_cap", "blood_mushroom_cap", "engorged_blood_mushroom_cap", "ink_mushroom_cap", "veil_mushroom_cap"));
 	}
 
 	private static void genItemTags(RegistrateTagsProvider<Item> provIn) {

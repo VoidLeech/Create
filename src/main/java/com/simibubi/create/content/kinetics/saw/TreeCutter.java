@@ -219,16 +219,7 @@ public class TreeCutter {
 	}
 
 	public static boolean isVerticalPlant(BlockState stateAbove) {
-		Block block = stateAbove.getBlock();
-		if (block instanceof BambooStalkBlock)
-			return true;
-		if (block instanceof CactusBlock)
-			return true;
-		if (block instanceof SugarCaneBlock)
-			return true;
-		if (block instanceof KelpPlantBlock)
-			return true;
-		return block instanceof KelpBlock;
+		return AllBlockTags.VERTICAL_PLANTS.matches(stateAbove);
 	}
 
 	/**
@@ -301,17 +292,20 @@ public class TreeCutter {
 	}
 
 	public static boolean isLog(BlockState state) {
-		return state.is(BlockTags.LOGS) || AllTags.AllBlockTags.SLIMY_LOGS.matches(state)
-			|| state.is(Blocks.MUSHROOM_STEM);
+		return state.is(BlockTags.LOGS) || AllBlockTags.SLIMY_LOGS.matches(state)
+			|| AllBlockTags.MUSHROOM_STEMS.matches(state);
 	}
 
 	private static int nonDecayingLeafDistance(BlockState state) {
-		if (state.is(Blocks.RED_MUSHROOM_BLOCK))
+		if (AllBlockTags.NON_DECAYING_LEAF_DIST3.matches(state)){
+			return 3;
+		}
+		if (AllBlockTags.NON_DECAYING_LEAF_DIST2.matches(state)){
 			return 2;
-		if (state.is(Blocks.BROWN_MUSHROOM_BLOCK))
-			return 3;
-		if (state.is(BlockTags.WART_BLOCKS) || state.is(Blocks.WEEPING_VINES) || state.is(Blocks.WEEPING_VINES_PLANT))
-			return 3;
+		}
+		if (AllBlockTags.NON_DECAYING_LEAF_DIST1.matches(state)){
+			return 1;
+		}
 		return -1;
 	}
 

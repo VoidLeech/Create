@@ -1,0 +1,28 @@
+{
+  "values": [
+    "minecraft:brown_mushroom_block",
+    "minecraft:weeping_vines",
+    "minecraft:weeping_vines_plant",
+    "#minecraft:wart_blocks",
+    {
+      "id": "undergarden:indigo_mushroom_cap",
+      "required": false
+    },
+    {
+      "id": "undergarden:blood_mushroom_cap",
+      "required": false
+    },
+    {
+      "id": "undergarden:engorged_blood_mushroom_cap",
+      "required": false
+    },
+    {
+      "id": "undergarden:ink_mushroom_cap",
+      "required": false
+    },
+    {
+      "id": "undergarden:veil_mushroom_cap",
+      "required": false
+    }
+  ]
+}

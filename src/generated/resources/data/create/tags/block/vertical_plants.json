@@ -1,0 +1,21 @@
+{
+  "values": [
+    "minecraft:bamboo",
+    "minecraft:cactus",
+    "minecraft:sugar_cane",
+    "minecraft:kelp",
+    "minecraft:kelp_plant",
+    {
+      "id": "gardens_of_the_dead:whistlecane",
+      "required": false
+    },
+    {
+      "id": "unusualend:chorus_cane",
+      "required": false
+    },
+    {
+      "id": "unusualend:blooming_chorus_cane",
+      "required": false
+    }
+  ]
+}

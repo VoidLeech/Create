@@ -1,0 +1,9 @@
+{
+  "values": [
+    "minecraft:red_mushroom_block",
+    {
+      "id": "deep_aether:lightcap_mushroom_block",
+      "required": false
+    }
+  ]
+}
