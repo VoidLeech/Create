@@ -337,7 +337,7 @@ public class ChainConveyorBlockEntity extends KineticBlockEntity implements Tran
 			notifyUpdate();
 	}
 
-	public void connectPromisedConnections() {
+	private void connectPromisedConnections() {
 		boolean changed = false;
 		for (Iterator<BlockPos> iterator = promisedConnections.iterator(); iterator.hasNext(); ) {
 			BlockPos next = iterator.next();
@@ -345,15 +345,29 @@ public class ChainConveyorBlockEntity extends KineticBlockEntity implements Tran
 			if (!level.isLoaded(target))
 				continue;
 			if (level.getBlockEntity(target) instanceof ChainConveyorBlockEntity ccbe) {
-				if (!ccbe.connections.contains(target.subtract(worldPosition)))
+				if (!ccbe.connections.contains(target.subtract(worldPosition))
+					&& connections.size() < AllConfigs.server().kinetics.maxChainConveyorConnections.get()
+					&& ccbe.connections.size() < AllConfigs.server().kinetics.maxChainConveyorConnections.get()) {
 					AllPackets.getChannel()
 						.sendToServer(new ChainConveyorConnectionPacket(target, worldPosition, new ItemStack(Items.CHAIN, getChainCost(worldPosition.subtract(target))), true));
+				}
+				else {
+					refundChains(next);
+				}
 				iterator.remove();
 				changed = true;
 			}
 		}
 		if (changed)
 			notifyUpdate();
+	}
+
+	private void refundChains(BlockPos blockPos) {
+		int chainCount = getChainCost(blockPos);
+		while (chainCount > 0) {
+			Block.popResource(level, worldPosition, new ItemStack(Blocks.CHAIN.asItem(), Math.min(chainCount, 64)));
+			chainCount -= 64;
+		}
 	}
 
 	public void notifyConnectedToValidate() {
@@ -627,6 +641,12 @@ public class ChainConveyorBlockEntity extends KineticBlockEntity implements Tran
 				clbe.removeConnectionTo(worldPosition);
 		}
 
+		if (!cancelDrops) {
+			for (BlockPos blockPos : promisedConnections) {
+				refundChains(blockPos);
+			}
+		}
+
 		for (ChainConveyorPackage box : loopingPackages)
 			drop(box);
 		for (Entry<BlockPos, List<ChainConveyorPackage>> entry : travellingPackages.entrySet())
@@ -807,7 +827,7 @@ public class ChainConveyorBlockEntity extends KineticBlockEntity implements Tran
 	@Override
 	public ItemRequirement getRequiredItems(BlockState state) {
 		int totalCost = 0;
-		for (BlockPos pos : promisedConnections)
+		for (BlockPos pos : connections)
 			totalCost += getChainCost(pos);
 		if (totalCost > 0)
 			return new ItemRequirement(ItemUseType.CONSUME, new ItemStack(Items.CHAIN, Mth.ceil(totalCost / 2.0)));
