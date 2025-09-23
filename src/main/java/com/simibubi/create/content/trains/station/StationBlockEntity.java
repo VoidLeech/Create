@@ -48,7 +48,6 @@ import com.simibubi.create.content.trains.graph.TrackNodeLocation;
 import com.simibubi.create.content.trains.graph.TrackNodeLocation.DiscoveredLocation;
 import com.simibubi.create.content.trains.schedule.Schedule;
 import com.simibubi.create.content.trains.schedule.ScheduleItem;
-import com.simibubi.create.content.trains.station.GlobalStation.GlobalPackagePort;
 import com.simibubi.create.content.trains.track.ITrackBlock;
 import com.simibubi.create.content.trains.track.TrackTargetingBehaviour;
 import com.simibubi.create.foundation.advancement.AllAdvancements;
@@ -974,22 +973,15 @@ public class StationBlockEntity extends SmartBlockEntity implements Transformabl
 		if (ppbe instanceof PostboxBlockEntity pbe)
 			pbe.trackedGlobalStation = new WeakReference<>(station);
 
-		if (station.connectedPorts.containsKey(ppbe.getBlockPos()))
-			restoreOfflineBuffer(ppbe, station.connectedPorts.get(ppbe.getBlockPos()));
+		GlobalPackagePort globalPackagePort = station.connectedPorts.get(ppbe.getBlockPos());
 
-		GlobalPackagePort globalPackagePort = new GlobalPackagePort();
-		globalPackagePort.address = ppbe.addressFilter;
-		station.connectedPorts.put(ppbe.getBlockPos(), globalPackagePort);
-	}
-
-	private void restoreOfflineBuffer(PackagePortBlockEntity ppbe, GlobalPackagePort globalPackagePort) {
-		if (!globalPackagePort.primed)
-			return;
-		for (int i = 0; i < globalPackagePort.offlineBuffer.getSlotCount(); i++) {
-			ppbe.inventory.setStackInSlot(i, globalPackagePort.offlineBuffer.getStackInSlot(i));
-			globalPackagePort.offlineBuffer.setStackInSlot(i, ItemStack.EMPTY);
+		if (globalPackagePort == null) {
+			globalPackagePort = new GlobalPackagePort();
+			globalPackagePort.address = ppbe.addressFilter;
+			station.connectedPorts.put(ppbe.getBlockPos(), globalPackagePort);
+		} else {
+			globalPackagePort.restoreOfflineBuffer(ppbe.inventory);
 		}
-		globalPackagePort.primed = false;
 	}
 
 	public void removePackagePort(PackagePortBlockEntity ppbe) {

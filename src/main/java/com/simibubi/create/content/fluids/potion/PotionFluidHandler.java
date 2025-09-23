@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import com.google.common.collect.Lists;
+import com.simibubi.create.AllTags.AllItemTags;
 import com.simibubi.create.content.fluids.potion.PotionFluid.BottleType;
 import com.simibubi.create.foundation.fluid.FluidHelper;
 import com.simibubi.create.foundation.fluid.FluidIngredient;
@@ -43,8 +44,9 @@ import io.github.fabricators_of_create.porting_lib.fluids.FluidStack;
 public class PotionFluidHandler {
 
 	public static boolean isPotionItem(ItemStack stack) {
-		return stack.getItem() instanceof PotionItem && !(stack.getRecipeRemainder()
-			.getItem() instanceof BucketItem);
+		return stack.getItem() instanceof PotionItem
+			&& !(stack.getRecipeRemainder().getItem() instanceof BucketItem)
+			&& !AllItemTags.NOT_POTION.matches(stack);
 	}
 
 	public static Pair<FluidStack, ItemStack> emptyPotion(ItemStack stack, boolean simulate) {

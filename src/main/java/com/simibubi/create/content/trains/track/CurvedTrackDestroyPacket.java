@@ -83,7 +83,7 @@ public class CurvedTrackDestroyPacket extends BlockEntityConfigurationPacket<Tra
 
 	@Override
 	protected int maxRange() {
-		return 64;
+		return AllConfigs.server().trains.maxTrackPlacementLength.get() + 16;
 	}
 
 	@Override

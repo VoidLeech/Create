@@ -9,8 +9,7 @@ import com.simibubi.create.compat.pojav.PojavChecker;
 import com.simibubi.create.compat.sodium.SodiumCompat;
 import com.simibubi.create.compat.trinkets.Trinkets;
 import com.simibubi.create.content.contraptions.glue.SuperGlueSelectionHandler;
-import com.simibubi.create.content.contraptions.render.ContraptionRenderInfo;
-import com.simibubi.create.content.contraptions.render.ContraptionRenderInfoManager;
+import com.simibubi.create.content.contraptions.render.ClientContraption;
 import com.simibubi.create.content.decoration.encasing.CasingConnectivity;
 import com.simibubi.create.content.equipment.armor.RemainingAirOverlay;
 import com.simibubi.create.content.equipment.bell.SoulPulseEffectHandler;
@@ -41,8 +40,6 @@ import com.simibubi.create.foundation.utility.fabric.CustomRenderTypeGeometryLoa
 import com.simibubi.create.infrastructure.config.AllConfigs;
 import com.simibubi.create.infrastructure.gui.CreateMainMenuScreen;
 
-import io.github.fabricators_of_create.porting_lib.models.geometry.RegisterGeometryLoadersCallback;
-
 import net.createmod.catnip.config.ui.BaseConfigScreen;
 import net.createmod.catnip.config.ui.ConfigScreen;
 import net.createmod.catnip.render.CachedBuffers;
@@ -61,6 +58,8 @@ import net.minecraft.network.chat.MutableComponent;
 
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
+
+import io.github.fabricators_of_create.porting_lib.models.geometry.RegisterGeometryLoadersCallback;
 
 public class CreateClient implements ClientModInitializer {
 
@@ -106,7 +105,7 @@ public class CreateClient implements ClientModInitializer {
 		SuperByteBufferCache.getInstance().registerCompartment(CachedBuffers.DIRECTIONAL_PARTIAL);
 		SuperByteBufferCache.getInstance().registerCompartment(KineticBlockEntityRenderer.KINETIC_BLOCK);
 		SuperByteBufferCache.getInstance().registerCompartment(WaterWheelRenderer.WATER_WHEEL);
-		SuperByteBufferCache.getInstance().registerCompartment(ContraptionRenderInfo.CONTRAPTION, 20);
+		SuperByteBufferCache.getInstance().registerCompartment(ClientContraption.CONTRAPTION, 20);
 
 		AllKeys.register();
 		AllPartialModels.init();
@@ -181,7 +180,6 @@ public class CreateClient implements ClientModInitializer {
 
 	public static void invalidateRenderers() {
 		SCHEMATIC_HANDLER.updateRenderers();
-		ContraptionRenderInfoManager.resetAll();
 	}
 
 	public static void checkGraphicsFanciness() {

@@ -8,20 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import net.createmod.catnip.data.LongAttached;
-
-import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
-import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
-import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
-import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
-import net.fabricmc.fabric.api.transfer.v1.storage.StorageView;
-import net.fabricmc.fabric.api.transfer.v1.storage.base.CombinedStorage;
-import net.fabricmc.fabric.api.transfer.v1.storage.base.SidedStorageBlockEntity;
-
-import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
-import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
-import net.fabricmc.fabric.api.transfer.v1.transaction.base.SnapshotParticipant;
-
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import com.google.common.collect.ImmutableList;
@@ -54,6 +41,7 @@ import net.createmod.catnip.animation.LerpedFloat;
 import net.createmod.catnip.animation.LerpedFloat.Chaser;
 import net.createmod.catnip.data.Couple;
 import net.createmod.catnip.data.Iterate;
+import net.createmod.catnip.data.LongAttached;
 import net.createmod.catnip.lang.LangBuilder;
 import net.createmod.catnip.math.VecHelper;
 import net.createmod.catnip.nbt.NBTHelper;
@@ -76,6 +64,17 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
+
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
+import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
+import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
+import net.fabricmc.fabric.api.transfer.v1.storage.StorageView;
+import net.fabricmc.fabric.api.transfer.v1.storage.base.CombinedStorage;
+import net.fabricmc.fabric.api.transfer.v1.storage.base.SidedStorageBlockEntity;
+import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
+import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
+import net.fabricmc.fabric.api.transfer.v1.transaction.base.SnapshotParticipant;
 
 import io.github.fabricators_of_create.porting_lib.fluids.FluidStack;
 import io.github.fabricators_of_create.porting_lib.transfer.TransferUtil;
@@ -133,6 +132,8 @@ public class BasinBlockEntity extends SmartBlockEntity implements IHaveGoggleInf
 
 	record Data(List<ItemStack> spoutputBuffer, List<io.github.fabricators_of_create.porting_lib.fluids.FluidStack> spoutputFluidBuffer) {
 	}
+
+	private @Nullable HeatLevel cachedHeatLevel;
 
 	public BasinBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
 		super(type, pos, state);
@@ -378,6 +379,8 @@ public class BasinBlockEntity extends SmartBlockEntity implements IHaveGoggleInf
 
 	@Override
 	public void tick() {
+		cachedHeatLevel = null;
+
 		super.tick();
 		if (needsUpdate) {
 			needsUpdate = false;
@@ -833,6 +836,16 @@ public class BasinBlockEntity extends SmartBlockEntity implements IHaveGoggleInf
 			tooltip.remove(0);
 
 		return true;
+	}
+
+	@NotNull HeatLevel getHeatLevel() {
+		if (cachedHeatLevel == null) {
+			if (level == null)
+				return HeatLevel.NONE;
+
+			cachedHeatLevel = getHeatLevelOf(level.getBlockState(getBlockPos().below(1)));
+		}
+		return cachedHeatLevel;
 	}
 
 	@Nullable

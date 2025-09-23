@@ -100,7 +100,6 @@ public class Create implements ModInitializer {
 		LOGGER.info("{} {} initializing!", NAME, CreateBuildInfo.VERSION);
 
 		AllSoundEvents.prepare();
-		AllTags.init();
 		AllCreativeModeTabs.register();
 		AllDisplaySources.register();
 		AllDisplayTargets.register();

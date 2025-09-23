@@ -76,7 +76,7 @@ public class SuperGlueSelectionHandler {
 		selected = null;
 		if (firstPos == null) {
 			double range = ReachUtil.reach(player) + 1;
-			Vec3 traceOrigin = RaycastHelper.getTraceOrigin(player);
+			Vec3 traceOrigin = player.getEyePosition();
 			Vec3 traceTarget = RaycastHelper.getTraceTarget(player, range, traceOrigin);
 
 			double bestDistance = Double.MAX_VALUE;

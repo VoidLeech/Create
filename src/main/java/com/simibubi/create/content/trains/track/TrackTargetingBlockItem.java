@@ -17,6 +17,7 @@ import com.simibubi.create.content.trains.signal.TrackEdgePoint;
 import com.simibubi.create.content.trains.track.TrackBlockOutline.BezierPointSelection;
 import com.simibubi.create.foundation.advancement.AllAdvancements;
 import com.simibubi.create.foundation.utility.CreateLang;
+import com.simibubi.create.infrastructure.config.AllConfigs;
 import com.tterrag.registrate.util.nullness.NonNullBiFunction;
 
 import net.createmod.catnip.data.Couple;
@@ -119,7 +120,7 @@ public class TrackTargetingBlockItem extends BlockItem {
 
 		boolean bezier = tag.contains("Bezier");
 
-		if (!selectedPos.closerThan(placedPos, bezier ? 64 + 16 : 16)) {
+		if (!selectedPos.closerThan(placedPos, bezier ? AllConfigs.server().trains.maxTrackPlacementLength.get() + 16 : 16)) {
 			player.displayClientMessage(CreateLang.translateDirect("track_target.too_far")
 				.withStyle(ChatFormatting.RED), true);
 			return InteractionResult.FAIL;

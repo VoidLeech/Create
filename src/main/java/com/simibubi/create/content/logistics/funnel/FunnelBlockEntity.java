@@ -3,10 +3,6 @@ package com.simibubi.create.content.logistics.funnel;
 import java.lang.ref.WeakReference;
 import java.util.List;
 
-import io.github.fabricators_of_create.porting_lib.util.EnvExecutor;
-
-import net.fabricmc.api.EnvType;
-
 import org.apache.commons.lang3.mutable.MutableBoolean;
 
 import com.simibubi.create.AllBlocks;
@@ -60,7 +56,7 @@ public class FunnelBlockEntity extends SmartBlockEntity implements IHaveHovering
 
 	LerpedFloat flap;
 
-	static enum Mode {
+	enum Mode {
 		INVALID, PAUSED, COLLECT, PUSHING_TO_BELT, TAKING_FROM_BELT, EXTRACT
 	}
 
@@ -70,7 +66,7 @@ public class FunnelBlockEntity extends SmartBlockEntity implements IHaveHovering
 		flap = createChasingFlap();
 	}
 
-	public Mode determineCurrentMode() {
+	Mode determineCurrentMode() {
 		BlockState state = getBlockState();
 		if (!FunnelBlock.isFunnel(state))
 			return Mode.INVALID;
@@ -338,27 +334,20 @@ public class FunnelBlockEntity extends SmartBlockEntity implements IHaveHovering
 
 	public boolean hasFlap() {
 		BlockState blockState = getBlockState();
-		if (!AbstractFunnelBlock.getFunnelFacing(blockState)
+		return AbstractFunnelBlock.getFunnelFacing(blockState)
 			.getAxis()
-			.isHorizontal())
-			return false;
-		return true;
+			.isHorizontal();
 	}
 
 	public float getFlapOffset() {
 		BlockState blockState = getBlockState();
 		if (!(blockState.getBlock() instanceof BeltFunnelBlock))
 			return -1 / 16f;
-		switch (blockState.getValue(BeltFunnelBlock.SHAPE)) {
-			default:
-			case RETRACTED:
-				return 0;
-			case EXTENDED:
-				return 8 / 16f;
-			case PULLING:
-			case PUSHING:
-				return -2 / 16f;
-		}
+		return switch (blockState.getValue(BeltFunnelBlock.SHAPE)) {
+			case EXTENDED -> 8 / 16f;
+			case PULLING, PUSHING -> -2 / 16f;
+			default -> 0;
+		};
 	}
 
 	@Override

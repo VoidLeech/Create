@@ -4,9 +4,9 @@ import com.simibubi.create.AllBlocks;
 import com.simibubi.create.Create;
 import com.simibubi.create.api.data.recipe.ItemApplicationRecipeGen;
 
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
-
 import io.github.fabricators_of_create.porting_lib.tags.Tags.Items;
+
+import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 
 /**
  * Create's own Data Generation for Item Application recipes

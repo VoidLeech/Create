@@ -5,13 +5,12 @@ import static com.simibubi.create.content.decoration.palettes.PaletteBlockPatter
 
 import java.util.function.Function;
 
-import com.simibubi.create.AllTags;
 import com.simibubi.create.Create;
 import com.simibubi.create.foundation.data.CreateRegistrate;
 import com.tterrag.registrate.util.nullness.NonNullSupplier;
 
 import net.createmod.catnip.lang.Lang;
-import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -90,7 +89,7 @@ public enum AllPaletteStoneTypes {
 			paletteStoneVariants.baseBlock = baseBlock;
 			String id = Lang.asId(paletteStoneVariants.name());
 			paletteStoneVariants.materialTag =
-				AllTags.optionalTag(BuiltInRegistries.ITEM, Create.asResource("stone_types/" + id));
+				TagKey.create(Registries.ITEM, Create.asResource("stone_types/" + id));
 			paletteStoneVariants.variants = new PalettesVariantEntry(id, paletteStoneVariants);
 		}
 	}

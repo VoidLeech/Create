@@ -22,8 +22,8 @@ import com.simibubi.create.foundation.blockEntity.behaviour.BehaviourType;
 import com.simibubi.create.foundation.blockEntity.behaviour.BlockEntityBehaviour;
 import com.simibubi.create.foundation.item.ItemHelper;
 
-import net.createmod.catnip.nbt.NBTHelper;
 import net.createmod.catnip.math.VecHelper;
+import net.createmod.catnip.nbt.NBTHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -97,7 +97,7 @@ public class DepotBehaviour extends BlockEntityBehaviour {
 		processingOutputBuffer = new ItemStackHandler(8) {
 			protected void onContentsChanged(int slot) {
 				be.notifyUpdate();
-			};
+			}
 		};
 	}
 
@@ -121,7 +121,7 @@ public class DepotBehaviour extends BlockEntityBehaviour {
 
 		Level world = blockEntity.getLevel();
 
-		for (Iterator<TransportedItemStack> iterator = incoming.iterator(); iterator.hasNext();) {
+		for (Iterator<TransportedItemStack> iterator = incoming.iterator(); iterator.hasNext(); ) {
 			TransportedItemStack ts = iterator.next();
 			if (!tick(ts))
 				continue;
@@ -164,7 +164,7 @@ public class DepotBehaviour extends BlockEntityBehaviour {
 		boolean wasLocked = heldItem.locked;
 		ProcessingResult result = wasLocked ? processingBehaviour.handleHeldItem(heldItem, transportedHandler)
 			: processingBehaviour.handleReceivedItem(heldItem, transportedHandler);
-		if (result == ProcessingResult.REMOVE) {
+		if (heldItem == null || result == ProcessingResult.REMOVE) {
 			heldItem = null;
 			blockEntity.sendData();
 			return;
@@ -346,8 +346,7 @@ public class DepotBehaviour extends BlockEntityBehaviour {
 			returned = ItemHandlerHelper.copyStackWithSize(heldItem.stack, heldItem.stack.getCount() - maxCount);
 
 		if (this.isEmpty()) {
-			if (heldItem.insertedFrom.getAxis()
-				.isHorizontal())
+			if (heldItem.insertedFrom.getAxis().isHorizontal())
 				TransactionCallback.onSuccess(ctx, () -> AllSoundEvents.DEPOT_SLIDE.playOnServer(getWorld(), getPos()));
 			else
 				TransactionCallback.onSuccess(ctx, () -> AllSoundEvents.DEPOT_PLOP.playOnServer(getWorld(), getPos()));
@@ -419,7 +418,7 @@ public class DepotBehaviour extends BlockEntityBehaviour {
 	}
 
 	private void applyToAllItems(float maxDistanceFromCentre,
-		Function<TransportedItemStack, TransportedResult> processFunction) {
+								 Function<TransportedItemStack, TransportedResult> processFunction) {
 		if (heldItem == null)
 			return;
 		if (.5f - heldItem.beltPosition > maxDistanceFromCentre)

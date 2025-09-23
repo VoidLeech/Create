@@ -95,9 +95,6 @@ public class CreateRegistrateTags {
 			.addTag(BlockTags.FENCE_GATES)
 			.addTag(BlockTags.BANNERS);
 
-		prov.tag(AllBlockTags.ORE_OVERRIDE_STONE.tag)
-			.addTag(BlockTags.STONE_ORE_REPLACEABLES);
-
 		prov.tag(AllBlockTags.PASSIVE_BOILER_HEATERS.tag)
 			.add(Blocks.MAGMA_BLOCK, Blocks.LAVA)
 			.addTag(BlockTags.CAMPFIRES)
@@ -166,14 +163,6 @@ public class CreateRegistrateTags {
 
 		TagGen.addOptional(prov.tag(AllBlockTags.ROOTS.tag), Mods.TF,
 			List.of("root", "liveroot_block", "mangrove_root"));
-
-		// VALIDATE
-
-		for (AllBlockTags tag : AllBlockTags.values()) {
-			if (tag.alwaysDatagen) {
-				prov.getOrCreateRawBuilder(tag.tag);
-			}
-		}
 	}
 
 	private static void genItemTags(RegistrateTagsProvider<Item> provIn) {
@@ -243,14 +232,6 @@ public class CreateRegistrateTags {
 		TagGen.addOptional(prov.tag(AllItemTags.UA_CORAL.tag), Mods.UA, List.of("acan_coral",
 			"finger_coral", "star_coral", "moss_coral", "petal_coral", "branch_coral",
 			"rock_coral", "pillow_coral", "chrome_coral", "silk_coral"));
-
-		// VALIDATE
-
-		for (AllItemTags tag : AllItemTags.values()) {
-			if (tag.alwaysDatagen) {
-				prov.getOrCreateRawBuilder(tag.tag);
-			}
-		}
 	}
 
 	private static ArrayList<String> gsPalette(String material) {
@@ -334,15 +315,7 @@ public class CreateRegistrateTags {
 		// fabric: this was requested by TelepathicGrunt for swimming in Bumblezone honey.
 		// This is not needed on Forge as FluidType is sufficient.
 		prov.tag(AllFluidTags.DIVING_FLUIDS.tag)
-				.addTag(FluidTags.WATER);
-
-		// VALIDATE
-
-		for (AllFluidTags tag : AllFluidTags.values()) {
-			if (tag.alwaysDatagen) {
-				prov.getOrCreateRawBuilder(tag.tag);
-			}
-		}
+			.addTag(FluidTags.WATER);
 	}
 
 	private static void genEntityTags(RegistrateTagsProvider<EntityType<?>> provIn) {
@@ -350,14 +323,6 @@ public class CreateRegistrateTags {
 
 		prov.tag(AllEntityTags.BLAZE_BURNER_CAPTURABLE.tag)
 			.add(EntityType.BLAZE);
-
-		// VALIDATE
-
-		for (AllEntityTags tag : AllEntityTags.values()) {
-			if (tag.alwaysDatagen) {
-				prov.getOrCreateRawBuilder(tag.tag);
-			}
-		}
 	}
 
 	private static class StrippedWoodHelper {
@@ -371,10 +336,10 @@ public class CreateRegistrateTags {
 
 		public void add(Mods mod, String... woodTypes) {
 			for (String type : woodTypes) {
-				String strippedPre = mod.strippedIsSuffix ? "" : "stripped_";
-				String strippedPost = mod.strippedIsSuffix ? "_stripped" : "";
+				String strippedPre = mod.strippedIsSuffix() ? "" : "stripped_";
+				String strippedPost = mod.strippedIsSuffix() ? "_stripped" : "";
 				TagGen.addOptional(logAppender, mod, strippedPre + type + "_log" + strippedPost);
-				TagGen.addOptional(woodAppender, mod, strippedPre + type + (mod.omitWoodSuffix ? "" : "_wood") + strippedPost);
+				TagGen.addOptional(woodAppender, mod, strippedPre + type + (mod.omitWoodSuffix() ? "" : "_wood") + strippedPost);
 			}
 		}
 	}

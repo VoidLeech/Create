@@ -9,6 +9,8 @@ import com.simibubi.create.foundation.blockEntity.SmartBlockEntity;
 import com.simibubi.create.foundation.blockEntity.behaviour.BlockEntityBehaviour;
 import com.simibubi.create.foundation.utility.fabric.ReachUtil;
 
+import io.github.fabricators_of_create.porting_lib.transfer.item.ItemStackHandler;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -31,7 +33,7 @@ import io.github.fabricators_of_create.porting_lib.util.EnvExecutor;
 
 public class LecternControllerBlockEntity extends SmartBlockEntity {
 
-	private CompoundTag controllerNbt = new CompoundTag();
+	private ItemStackHandler controllerFreq;
 	private UUID user;
 	private UUID prevUser;    // used only on client
 	private boolean deactivatedThisTick;    // used only on server
@@ -47,7 +49,7 @@ public class LecternControllerBlockEntity extends SmartBlockEntity {
 	@Override
 	protected void write(CompoundTag compound, boolean clientPacket) {
 		super.write(compound, clientPacket);
-		compound.put("ControllerData", controllerNbt);
+		compound.put("ControllerFreq", controllerFreq.serializeNBT());
 		if (user != null)
 			compound.putUUID("User", user);
 	}
@@ -55,19 +57,27 @@ public class LecternControllerBlockEntity extends SmartBlockEntity {
 	@Override
 	public void writeSafe(CompoundTag compound) {
 		super.writeSafe(compound);
-		compound.put("ControllerData", controllerNbt);
+		compound.put("ControllerFreq", controllerFreq.serializeNBT());
 	}
 
 	@Override
 	protected void read(CompoundTag compound, boolean clientPacket) {
 		super.read(compound, clientPacket);
 
+		// TODO: 1.21.1+ - Remove fallback
 		// Migrate old data if that is found
+		CompoundTag freqTag;
 		if (compound.contains("Controller")) {
-			controllerNbt = ItemStack.of(compound.getCompound("Controller")).getTag();
+			freqTag = compound.getCompound("Controller")
+				.getCompound("tag")
+				.getCompound("Items");
+		} else if (compound.contains("ControllerData")) {
+			freqTag = compound.getCompound("ControllerData")
+				.getCompound("Items");
 		} else {
-			controllerNbt = compound.getCompound("ControllerData");
+			freqTag = compound.getCompound("ControllerFreq");
 		}
+		controllerFreq = LinkedControllerItem.getFrequencyItems(freqTag);
 
 		user = compound.hasUUID("User") ? compound.getUUID("User") : null;
 	}
@@ -151,7 +161,7 @@ public class LecternControllerBlockEntity extends SmartBlockEntity {
 
 	public void setController(ItemStack newController) {
 		if (newController != null) {
-			controllerNbt = newController.getOrCreateTag();
+			controllerFreq = LinkedControllerItem.getFrequencyItems(newController);
 			AllSoundEvents.CONTROLLER_PUT.playOnServer(level, worldPosition);
 		}
 	}
@@ -168,9 +178,9 @@ public class LecternControllerBlockEntity extends SmartBlockEntity {
 	}
 
 	public void dropController(BlockState state) {
-		Entity playerEntity = ((ServerLevel) level).getEntity(user);
-		if (playerEntity instanceof Player)
-			stopUsing((Player) playerEntity);
+		Entity entity = ((ServerLevel) level).getEntity(user);
+		if (entity instanceof Player player)
+			stopUsing(player);
 
 		Direction dir = state.getValue(LecternControllerBlock.FACING);
 		double x = worldPosition.getX() + 0.5 + 0.25 * dir.getStepX();
@@ -179,7 +189,7 @@ public class LecternControllerBlockEntity extends SmartBlockEntity {
 		ItemEntity itementity = new ItemEntity(level, x, y, z, createLinkedController());
 		itementity.setDefaultPickUpDelay();
 		level.addFreshEntity(itementity);
-		controllerNbt = new CompoundTag();
+		controllerFreq = null;
 	}
 
 	public static boolean playerInRange(Player player, Level world, BlockPos pos) {
@@ -190,7 +200,7 @@ public class LecternControllerBlockEntity extends SmartBlockEntity {
 
 	private ItemStack createLinkedController() {
 		ItemStack stack = AllItems.LINKED_CONTROLLER.asStack();
-		stack.setTag(controllerNbt.copy());
+		stack.getOrCreateTag().put("Items", controllerFreq.serializeNBT());
 		return stack;
 	}
 

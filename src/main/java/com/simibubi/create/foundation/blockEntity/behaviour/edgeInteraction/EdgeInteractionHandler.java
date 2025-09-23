@@ -37,7 +37,7 @@ public class EdgeInteractionHandler {
 		EdgeInteractionBehaviour behaviour = BlockEntityBehaviour.get(world, pos, EdgeInteractionBehaviour.TYPE);
 		if (behaviour == null)
 			return InteractionResult.PASS;
-		if (behaviour.requiredItem.isPresent() && behaviour.requiredItem.get() != heldItem.getItem())
+		if (!behaviour.requiredItem.test(heldItem.getItem()))
 			return InteractionResult.PASS;
 		BlockHitResult ray = RaycastHelper.rayTraceRange(world, player, 10);
 		if (ray == null)

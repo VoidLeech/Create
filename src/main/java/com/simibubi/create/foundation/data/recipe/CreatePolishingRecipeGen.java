@@ -2,7 +2,6 @@ package com.simibubi.create.foundation.data.recipe;
 
 import com.simibubi.create.AllItems;
 import com.simibubi.create.Create;
-import com.simibubi.create.api.data.recipe.BaseRecipeProvider.GeneratedRecipe;
 import com.simibubi.create.api.data.recipe.PolishingRecipeGen;
 
 import net.minecraft.data.PackOutput;

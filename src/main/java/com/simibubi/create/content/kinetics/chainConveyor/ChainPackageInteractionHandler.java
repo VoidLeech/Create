@@ -31,7 +31,7 @@ public class ChainPackageInteractionHandler {
 					.inflate(0.45);
 
 				double range = ReachUtil.reach(mc.player) + 1;
-				Vec3 from = RaycastHelper.getTraceOrigin(mc.player);
+				Vec3 from = mc.player.getEyePosition();
 				Vec3 to = RaycastHelper.getTraceTarget(mc.player, range, from);
 
 				if (bounds.clip(from, to)

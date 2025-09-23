@@ -1,18 +1,17 @@
 package com.simibubi.create.foundation.data.recipe;
 
-import static com.simibubi.create.foundation.data.recipe.CompatMetals.ALUMINUM;
-import static com.simibubi.create.foundation.data.recipe.CompatMetals.LEAD;
-import static com.simibubi.create.foundation.data.recipe.CompatMetals.NICKEL;
-import static com.simibubi.create.foundation.data.recipe.CompatMetals.OSMIUM;
-import static com.simibubi.create.foundation.data.recipe.CompatMetals.PLATINUM;
-import static com.simibubi.create.foundation.data.recipe.CompatMetals.QUICKSILVER;
-import static com.simibubi.create.foundation.data.recipe.CompatMetals.SILVER;
-import static com.simibubi.create.foundation.data.recipe.CompatMetals.TIN;
-import static com.simibubi.create.foundation.data.recipe.CompatMetals.URANIUM;
+import static com.simibubi.create.foundation.data.recipe.CommonMetal.ALUMINUM;
+import static com.simibubi.create.foundation.data.recipe.CommonMetal.LEAD;
+import static com.simibubi.create.foundation.data.recipe.CommonMetal.NICKEL;
+import static com.simibubi.create.foundation.data.recipe.CommonMetal.OSMIUM;
+import static com.simibubi.create.foundation.data.recipe.CommonMetal.PLATINUM;
+import static com.simibubi.create.foundation.data.recipe.CommonMetal.QUICKSILVER;
+import static com.simibubi.create.foundation.data.recipe.CommonMetal.SILVER;
+import static com.simibubi.create.foundation.data.recipe.CommonMetal.TIN;
+import static com.simibubi.create.foundation.data.recipe.CommonMetal.URANIUM;
 
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.AllItems;
-import com.simibubi.create.AllRecipeTypes;
 import com.simibubi.create.Create;
 import com.simibubi.create.api.data.recipe.WashingRecipeGen;
 import com.simibubi.create.content.decoration.palettes.AllPaletteBlocks;
@@ -127,8 +126,8 @@ public final class CreateWashingRecipeGen extends WashingRecipeGen {
 		super(output, Create.ID);
 	}
 
-	public GeneratedRecipe moddedCrushedOre(ItemEntry<? extends Item> crushed, CompatMetals metal) {
-		for (Mods mod : metal.getMods()) {
+	public GeneratedRecipe moddedCrushedOre(ItemEntry<? extends Item> crushed, CommonMetal metal) {
+		for (Mods mod : metal.mods) {
 			String metalName = metal.getName(mod);
 			ResourceLocation nugget = mod.nuggetOf(metalName);
 			create(mod.getId() + "/" + crushed.getId()
@@ -139,15 +138,4 @@ public final class CreateWashingRecipeGen extends WashingRecipeGen {
 		}
 		return null;
 	}
-
-	public GeneratedRecipe simpleModded(Mods mod, String input, String output) {
-		return create(mod.getId() + "/" + output, b -> b.require(mod, input)
-			.output(mod, output).whenModLoaded(mod.getId()));
-	}
-
-	@Override
-	protected AllRecipeTypes getRecipeType() {
-		return AllRecipeTypes.SPLASHING;
-	}
-
 }

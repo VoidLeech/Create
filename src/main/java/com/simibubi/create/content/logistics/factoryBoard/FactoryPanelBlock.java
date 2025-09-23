@@ -16,10 +16,7 @@ import com.simibubi.create.foundation.block.IBE;
 import com.simibubi.create.foundation.block.ProperWaterloggedBlock;
 import com.simibubi.create.foundation.utility.BlockHelper;
 import com.simibubi.create.foundation.utility.CreateLang;
-
 import com.simibubi.create.foundation.utility.fabric.ReachUtil;
-
-import io.github.fabricators_of_create.porting_lib.block.PlayerDestroyBlock;
 
 import net.createmod.catnip.math.AngleHelper;
 import net.createmod.catnip.math.VecHelper;
@@ -57,6 +54,8 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.EntityCollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+
+import io.github.fabricators_of_create.porting_lib.block.PlayerDestroyBlock;
 
 public class FactoryPanelBlock extends FaceAttachedHorizontalDirectionalBlock
 	implements ProperWaterloggedBlock, IBE<FactoryPanelBlockEntity>, IWrenchable, SpecialBlockItemRequirement, PlayerDestroyBlock {
@@ -194,7 +193,7 @@ public class FactoryPanelBlock extends FaceAttachedHorizontalDirectionalBlock
 
 	@Override
 	public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand,
-		BlockHitResult pHit) {
+								 BlockHitResult pHit) {
 		if (pPlayer == null)
 			return InteractionResult.PASS;
 		ItemStack item = pPlayer.getItemInHand(pHand);
@@ -230,7 +229,7 @@ public class FactoryPanelBlock extends FaceAttachedHorizontalDirectionalBlock
 
 	@Override
 	public boolean onDestroyedByPlayer(BlockState state, Level level, BlockPos pos, Player player, boolean willHarvest,
-		FluidState fluid) {
+									   FluidState fluid) {
 		if (tryDestroySubPanelFirst(state, level, pos, player))
 			return false;
 		boolean result = PlayerDestroyBlock.super.onDestroyedByPlayer(state, level, pos, player, willHarvest, fluid);
@@ -270,13 +269,9 @@ public class FactoryPanelBlock extends FaceAttachedHorizontalDirectionalBlock
 
 	@Override
 	public boolean canBeReplaced(BlockState pState, BlockPlaceContext pUseContext) {
-		if (pUseContext.isSecondaryUseActive())
-			return false;
 		if (!AllBlocks.FACTORY_GAUGE.isIn(pUseContext.getItemInHand()))
 			return false;
 		Vec3 location = pUseContext.getClickLocation();
-		if (location == null)
-			return false;
 
 		BlockPos pos = pUseContext.getClickedPos();
 		PanelSlot slot = getTargetedSlot(pos, pState, location);
@@ -284,15 +279,13 @@ public class FactoryPanelBlock extends FaceAttachedHorizontalDirectionalBlock
 
 		if (blockEntity == null)
 			return false;
-		if (blockEntity.panels.get(slot)
-			.isActive())
-			return false;
-		return true;
+		return !blockEntity.panels.get(slot)
+			.isActive();
 	}
 
 	@Override
 	public VoxelShape getCollisionShape(BlockState pState, BlockGetter pLevel, BlockPos pPos,
-		CollisionContext pContext) {
+										CollisionContext pContext) {
 		if (pContext instanceof EntityCollisionContext ecc && ecc.getEntity() == null)
 			return getShape(pState, pLevel, pPos, pContext);
 		return Shapes.empty();
@@ -308,7 +301,7 @@ public class FactoryPanelBlock extends FaceAttachedHorizontalDirectionalBlock
 
 	@Override
 	public BlockState updateShape(BlockState pState, Direction pFacing, BlockState pFacingState, LevelAccessor pLevel,
-		BlockPos pCurrentPos, BlockPos pFacingPos) {
+								  BlockPos pCurrentPos, BlockPos pFacingPos) {
 		updateWater(pLevel, pState, pCurrentPos);
 		return super.updateShape(pState, pFacing, pFacingState, pLevel, pCurrentPos, pFacingPos);
 	}

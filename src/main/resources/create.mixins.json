@@ -33,6 +33,7 @@
     "accessor.FlowingFluidAccessor",
     "accessor.FluidInteractionRegistryAccessor",
     "accessor.GameTestHelperAccessor",
+    "accessor.ItemFrameAccessor",
     "accessor.ItemModelGeneratorsAccessor",
     "accessor.ItemStackLinkedSetAccessor",
     "accessor.LivingEntityAccessor",

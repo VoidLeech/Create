@@ -7,8 +7,7 @@ import java.util.function.Consumer;
 
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.AllItems;
-import com.simibubi.create.AllTags;
-
+import com.simibubi.create.AllTags.AllItemTags;
 import com.simibubi.create.api.data.recipe.ProcessingRecipeGen;
 
 import net.minecraft.data.CachedOutput;
@@ -91,7 +90,7 @@ public final class CreateRecipeProvider extends FabricRecipeProvider {
 		}
 
 		static TagKey<Item> goldSheet() {
-			return AllTags.forgeItemTag("gold_plates");
+			return CommonMetal.GOLD.plates;
 		}
 
 		static TagKey<Item> stone() {
@@ -127,11 +126,11 @@ public final class CreateRecipeProvider extends FabricRecipeProvider {
 		}
 
 		static TagKey<Item> brass() {
-			return AllTags.forgeItemTag("brass_ingots");
+			return CommonMetal.BRASS.ingots;
 		}
 
 		static TagKey<Item> brassSheet() {
-			return AllTags.forgeItemTag("brass_plates");
+			return CommonMetal.BRASS.plates;
 		}
 
 		static TagKey<Item> iron() {
@@ -143,15 +142,15 @@ public final class CreateRecipeProvider extends FabricRecipeProvider {
 		}
 
 		static TagKey<Item> zinc() {
-			return AllTags.forgeItemTag("zinc_ingots");
+			return CommonMetal.ZINC.ingots;
 		}
 
 		static TagKey<Item> ironSheet() {
-			return AllTags.forgeItemTag("iron_plates");
+			return CommonMetal.IRON.plates;
 		}
 
 		static TagKey<Item> sturdySheet() {
-			return AllTags.forgeItemTag("obsidian_plates");
+			return AllItemTags.OBSIDIAN_PLATES.tag;
 		}
 
 		static ItemLike brassCasing() {
@@ -175,15 +174,15 @@ public final class CreateRecipeProvider extends FabricRecipeProvider {
 		}
 
 		static TagKey<Item> brassBlock() {
-			return AllTags.forgeItemTag("brass_blocks");
+			return CommonMetal.BRASS.storageBlocks.items();
 		}
 
 		static TagKey<Item> zincBlock() {
-			return AllTags.forgeItemTag("zinc_blocks");
+			return CommonMetal.ZINC.storageBlocks.items();
 		}
 
 		static TagKey<Item> wheatFlour() {
-			return AllTags.forgeItemTag("wheat_flour");
+			return AllItemTags.WHEAT_FLOUR.tag;
 		}
 
 		static TagKey<Item> copper() {
@@ -191,7 +190,7 @@ public final class CreateRecipeProvider extends FabricRecipeProvider {
 		}
 
 		static TagKey<Item> copperNugget() {
-			return AllTags.forgeItemTag("copper_nuggets");
+			return CommonMetal.COPPER.nuggets;
 		}
 
 		static TagKey<Item> copperBlock() {
@@ -199,15 +198,15 @@ public final class CreateRecipeProvider extends FabricRecipeProvider {
 		}
 
 		static TagKey<Item> copperSheet() {
-			return AllTags.forgeItemTag("copper_plates");
+			return CommonMetal.COPPER.plates;
 		}
 
 		static TagKey<Item> brassNugget() {
-			return AllTags.forgeItemTag("brass_nuggets");
+			return CommonMetal.BRASS.nuggets;
 		}
 
 		static TagKey<Item> zincNugget() {
-			return AllTags.forgeItemTag("zinc_nuggets");
+			return CommonMetal.ZINC.nuggets;
 		}
 
 		static ItemLike copperCasing() {

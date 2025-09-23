@@ -12,10 +12,10 @@ import com.simibubi.create.content.schematics.client.SchematicTransformation;
 import com.simibubi.create.foundation.utility.RaycastHelper;
 import com.simibubi.create.foundation.utility.RaycastHelper.PredicateTraceResult;
 
-import net.createmod.catnip.render.SuperRenderTypeBuffer;
 import net.createmod.catnip.animation.AnimationTickHolder;
 import net.createmod.catnip.math.VecHelper;
 import net.createmod.catnip.outliner.AABBOutline;
+import net.createmod.catnip.render.SuperRenderTypeBuffer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.player.LocalPlayer;
@@ -78,7 +78,7 @@ public abstract class SchematicToolBase implements ISchematicTool {
 			SchematicTransformation transformation = schematicHandler.getTransformation();
 			AABB localBounds = schematicHandler.getBounds();
 
-			Vec3 traceOrigin = RaycastHelper.getTraceOrigin(player);
+			Vec3 traceOrigin = player.getEyePosition();
 			Vec3 start = transformation.toLocalSpace(traceOrigin);
 			Vec3 end = transformation.toLocalSpace(RaycastHelper.getTraceTarget(player, 70, traceOrigin));
 			PredicateTraceResult result =
@@ -121,10 +121,12 @@ public abstract class SchematicToolBase implements ISchematicTool {
 	}
 
 	@Override
-	public void renderTool(PoseStack ms, SuperRenderTypeBuffer buffer, Vec3 camera) {}
+	public void renderTool(PoseStack ms, SuperRenderTypeBuffer buffer, Vec3 camera) {
+	}
 
 	@Override
-	public void renderOverlay(GuiGraphics graphics, float partialTicks, int width, int height) {}
+	public void renderOverlay(GuiGraphics graphics, float partialTicks, int width, int height) {
+	}
 
 	@Override
 	public void renderOnSchematic(PoseStack ms, SuperRenderTypeBuffer buffer) {

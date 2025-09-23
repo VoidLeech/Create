@@ -79,6 +79,7 @@ public class CreateDatagen implements DataGeneratorEntrypoint {
 			AllSoundEvents.provideLang(langConsumer);
 			AllKeys.provideLang(langConsumer);
 			providePonderLang(langConsumer);
+			new TagLangGenerator(langConsumer).generate();
 		});
 	}
 

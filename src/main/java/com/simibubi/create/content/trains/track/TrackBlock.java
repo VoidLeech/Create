@@ -17,14 +17,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import com.simibubi.create.api.contraption.train.PortalTrackProvider;
-
-import com.simibubi.create.api.schematic.requirement.SpecialBlockItemRequirement;
-
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.registry.LandPathNodeTypesRegistry;
-
 import org.jetbrains.annotations.Nullable;
 
 import com.google.common.base.Predicates;
@@ -268,8 +260,9 @@ public class TrackBlock extends Block implements IBE<TrackBlockEntity>, IWrencha
 			if (be instanceof TrackBlockEntity tbe)
 				tbe.bind(otherLevel.dimension(), otherTrackPos);
 
-			otherLevel.setBlock(otherTrackPos, state.setValue(SHAPE, TrackShape.asPortal(otherTrack.getFace()))
-				.setValue(HAS_BE, true), 3);
+			BlockState otherState = ProperWaterloggedBlock.withWater(otherLevel, state.setValue(SHAPE,
+					TrackShape.asPortal(otherTrack.getFace())).setValue(HAS_BE, true), otherTrackPos);
+			otherLevel.setBlock(otherTrackPos, otherState, 3);
 			BlockEntity otherBE = otherLevel.getBlockEntity(otherTrackPos);
 			if (otherBE instanceof TrackBlockEntity tbe)
 				tbe.bind(level.dimension(), pos);

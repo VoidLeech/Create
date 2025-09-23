@@ -53,6 +53,7 @@ import com.simibubi.create.foundation.data.RuntimeDataGenerator;
 import com.simibubi.create.foundation.pack.DynamicPack;
 import com.simibubi.create.foundation.pack.DynamicPackSource;
 import com.simibubi.create.foundation.recipe.RecipeFinder;
+import com.simibubi.create.foundation.recipe.trie.RecipeTrieFinder;
 import com.simibubi.create.foundation.utility.ServerSpeedProvider;
 import com.simibubi.create.foundation.utility.TickBasedCache;
 import com.simibubi.create.infrastructure.command.AllCommands;
@@ -165,6 +166,7 @@ public class CommonEvents {
 
 	public static void addReloadListeners() {
 		ResourceManagerHelper.get(PackType.SERVER_DATA).registerReloadListener(RecipeFinder.LISTENER);
+		ResourceManagerHelper.get(PackType.SERVER_DATA).registerReloadListener(RecipeTrieFinder.LISTENER);
 		ResourceManagerHelper.get(PackType.SERVER_DATA).registerReloadListener(BeltHelper.LISTENER);
 	}
 

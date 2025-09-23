@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.regex.PatternSyntaxException;
 
-import io.github.fabricators_of_create.porting_lib.transfer.item.ItemStackHandler;
-
 import org.apache.commons.lang3.StringUtils;
 
 import com.google.common.collect.ImmutableList;
@@ -19,8 +17,8 @@ import com.simibubi.create.content.trains.graph.DiscoveredPath;
 import com.simibubi.create.content.trains.graph.EdgePointType;
 import com.simibubi.create.content.trains.schedule.ScheduleRuntime;
 import com.simibubi.create.content.trains.schedule.ScheduleRuntime.State;
+import com.simibubi.create.content.trains.station.GlobalPackagePort;
 import com.simibubi.create.content.trains.station.GlobalStation;
-import com.simibubi.create.content.trains.station.GlobalStation.GlobalPackagePort;
 import com.simibubi.create.foundation.utility.CreateLang;
 
 import net.createmod.catnip.data.Glob;
@@ -37,6 +35,8 @@ import net.minecraft.world.level.Level;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+
+import io.github.fabricators_of_create.porting_lib.transfer.item.ItemStackHandler;
 
 public class FetchPackagesInstruction extends TextScheduleInstruction {
 
@@ -95,7 +95,7 @@ public class FetchPackagesInstruction extends TextScheduleInstruction {
 
 	@Override
 	public boolean supportsConditions() {
-		return false;
+		return true;
 	}
 
 	@Override

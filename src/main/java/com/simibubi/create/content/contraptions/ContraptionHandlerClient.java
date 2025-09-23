@@ -7,7 +7,6 @@ import javax.annotation.Nullable;
 
 import org.apache.commons.lang3.mutable.MutableObject;
 
-import com.jamieswhiteshirt.reachentityattributes.ReachEntityAttributes;
 import com.simibubi.create.AllItems;
 import com.simibubi.create.AllPackets;
 import com.simibubi.create.content.contraptions.sync.ContraptionInteractionPacket;
@@ -142,8 +141,8 @@ public class ContraptionHandlerClient {
 	@Environment(EnvType.CLIENT)
 	public static Couple<Vec3> getRayInputs(LocalPlayer player) {
 		Minecraft mc = Minecraft.getInstance();
-		Vec3 origin = RaycastHelper.getTraceOrigin(player);
-		double reach = ReachEntityAttributes.getReachDistance(player, mc.gameMode.getPickRange());
+		Vec3 origin = player.getEyePosition();
+		double reach = mc.gameMode.getPickRange();
 		if (mc.hitResult != null && mc.hitResult.getLocation() != null)
 			reach = Math.min(mc.hitResult.getLocation()
 				.distanceTo(origin), reach);

@@ -3,11 +3,6 @@ package com.simibubi.create.content.contraptions.actors.contraptionControls;
 import java.util.Iterator;
 import java.util.List;
 
-import com.simibubi.create.content.trains.entity.Carriage;
-import com.simibubi.create.content.trains.entity.CarriageContraptionEntity;
-import com.simibubi.create.content.trains.entity.Train;
-import com.simibubi.create.foundation.utility.AdventureUtil;
-
 import org.apache.commons.lang3.tuple.MutablePair;
 
 import com.simibubi.create.AllPackets;
@@ -20,6 +15,10 @@ import com.simibubi.create.content.contraptions.actors.contraptionControls.Contr
 import com.simibubi.create.content.contraptions.behaviour.MovementContext;
 import com.simibubi.create.content.contraptions.elevator.ElevatorContraption;
 import com.simibubi.create.content.contraptions.elevator.ElevatorTargetFloorPacket;
+import com.simibubi.create.content.trains.entity.Carriage;
+import com.simibubi.create.content.trains.entity.CarriageContraptionEntity;
+import com.simibubi.create.content.trains.entity.Train;
+import com.simibubi.create.foundation.utility.AdventureUtil;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.ItemTags;
@@ -29,6 +28,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate.StructureBlockInfo;
 import net.minecraft.world.phys.Vec3;
+
 public class ContraptionControlsMovingInteraction extends MovingInteractionBehaviour {
 
 	@Override
@@ -49,7 +49,7 @@ public class ContraptionControlsMovingInteraction extends MovingInteractionBehav
 			return false;
 
 		if (contraptionEntity.level().isClientSide()) {
-			if (contraption.presentBlockEntities.get(ctx.localPos) instanceof ContraptionControlsBlockEntity cbe)
+			if (contraption.getOrCreateClientContraptionLazy().getBlockEntity(ctx.localPos) instanceof ContraptionControlsBlockEntity cbe)
 				cbe.pressButton();
 			return true;
 		}
@@ -147,7 +147,7 @@ public class ContraptionControlsMovingInteraction extends MovingInteractionBehav
 			return true;
 
 		AllPackets.getChannel().sendToServer(new ElevatorTargetFloorPacket(contraptionEntity, efs.currentTargetY));
-		if (contraption.presentBlockEntities.get(ctx.localPos) instanceof ContraptionControlsBlockEntity cbe)
+		if (contraption.getOrCreateClientContraptionLazy().getBlockEntity(ctx.localPos) instanceof ContraptionControlsBlockEntity cbe)
 			cbe.pressButton();
 		return true;
 	}

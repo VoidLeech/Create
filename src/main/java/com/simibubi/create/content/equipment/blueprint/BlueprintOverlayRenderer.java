@@ -13,18 +13,14 @@ import com.simibubi.create.AllItems;
 import com.simibubi.create.content.equipment.blueprint.BlueprintEntity.BlueprintCraftingInventory;
 import com.simibubi.create.content.equipment.blueprint.BlueprintEntity.BlueprintSection;
 import com.simibubi.create.content.logistics.BigItemStack;
-import com.simibubi.create.content.logistics.filter.AttributeFilterMenu.WhitelistMode;
 import com.simibubi.create.content.logistics.filter.FilterItem;
 import com.simibubi.create.content.logistics.filter.FilterItemStack;
-import com.simibubi.create.content.logistics.item.filter.attribute.ItemAttribute;
-import com.simibubi.create.content.logistics.item.filter.attribute.attributes.InTagAttribute;
 import com.simibubi.create.content.logistics.packager.InventorySummary;
 import com.simibubi.create.content.logistics.tableCloth.BlueprintOverlayShopContext;
 import com.simibubi.create.content.logistics.tableCloth.ShoppingListItem.ShoppingList;
 import com.simibubi.create.content.logistics.tableCloth.TableClothBlockEntity;
 import com.simibubi.create.content.trains.track.TrackPlacement.PlacementInfo;
 import com.simibubi.create.foundation.gui.AllGuiTextures;
-import com.simibubi.create.foundation.item.ItemHelper;
 
 import net.createmod.catnip.animation.AnimationTickHolder;
 import net.createmod.catnip.data.Couple;
@@ -36,10 +32,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.tooltip.TooltipRenderUtil;
-import net.minecraft.core.Holder;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.CraftingContainer;
@@ -437,26 +429,8 @@ public class BlueprintOverlayRenderer {
 
 	private static ItemStack[] getItemsMatchingFilter(ItemStack filter) {
 		return cachedRenderedFilters.computeIfAbsent(filter, itemStack -> {
-			CompoundTag tag = itemStack.getOrCreateTag();
-
-			if (AllItems.FILTER.isIn(itemStack) && !tag.getBoolean("Blacklist")) {
-				ItemStackHandler filterItems = FilterItem.getFilterItems(itemStack);
-				return ItemHelper.getNonEmptyStacks(filterItems).toArray(ItemStack[]::new);
-			}
-
-			if (AllItems.ATTRIBUTE_FILTER.isIn(itemStack)) {
-				WhitelistMode whitelistMode = WhitelistMode.values()[tag.getInt("WhitelistMode")];
-				ListTag attributes = tag.getList("MatchedAttributes", net.minecraft.nbt.Tag.TAG_COMPOUND);
-				if (whitelistMode == WhitelistMode.WHITELIST_DISJ && attributes.size() == 1) {
-					ItemAttribute fromNBT = ItemAttribute.loadStatic((CompoundTag) attributes.get(0));
-					if (fromNBT instanceof InTagAttribute inTag) {
-						List<ItemStack> stacks = new ArrayList<>();
-						for (Holder<Item> holder : BuiltInRegistries.ITEM.getTagOrEmpty(inTag.tag)) {
-							stacks.add(new ItemStack(holder.value()));
-						}
-						return stacks.toArray(ItemStack[]::new);
-					}
-				}
+			if (itemStack.getItem() instanceof FilterItem filterItem) {
+				return filterItem.getFilterItems(itemStack);
 			}
 
 			return new ItemStack[0];

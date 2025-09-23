@@ -5,7 +5,7 @@ import java.util.stream.Stream;
 
 import org.jetbrains.annotations.Nullable;
 
-import com.simibubi.create.AllTags;
+import com.simibubi.create.foundation.data.recipe.CommonMetal;
 import com.tterrag.registrate.util.nullness.NonNullSupplier;
 
 import dev.engine_room.flywheel.lib.model.baked.PartialModel;
@@ -25,8 +25,8 @@ public class TrackMaterialFactory {
 	private NonNullSupplier<NonNullSupplier<? extends TrackBlock>> trackBlock;
 	private Ingredient sleeperIngredient = Ingredient.EMPTY;
 	private Ingredient railsIngredient = Ingredient.fromValues(Stream.of(
-			TagValueAccessor.createTagValue(AllTags.forgeItemTag("iron_nuggets")),
-			TagValueAccessor.createTagValue(AllTags.forgeItemTag("zinc_nuggets"))
+			TagValueAccessor.createTagValue(CommonMetal.IRON.nuggets),
+			TagValueAccessor.createTagValue(CommonMetal.ZINC.nuggets)
 	));
 	private ResourceLocation particle;
 	private TrackMaterial.TrackType trackType = TrackMaterial.TrackType.STANDARD;

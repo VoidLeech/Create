@@ -9,6 +9,7 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import com.simibubi.create.AllTags.AllFluidTags;
+import com.simibubi.create.AllTags.AllItemTags;
 import com.simibubi.create.content.decoration.palettes.AllPaletteStoneTypes;
 import com.simibubi.create.content.fluids.VirtualFluid;
 import com.simibubi.create.content.fluids.potion.PotionFluid;
@@ -80,17 +81,17 @@ public class AllFluids {
 					.register();
 
 	public static final FluidEntry<VirtualFluid> TEA = REGISTRATE.virtualFluid("tea")
-			.lang("Builder's Tea")
-			.tag(AllTags.forgeFluidTag("tea"))
-			.fluidAttributes(() -> new CreateAttributeHandler("fluid.create.tea"))
-			.onRegisterAfter(Registries.ITEM, tea -> {
-				Fluid still = tea.getSource();
-				FluidStorage.combinedItemApiProvider(AllItems.BUILDERS_TEA.get()).register(context ->
-						new FullItemFluidStorage(context, bottle -> ItemVariant.of(GLASS_BOTTLE), FluidVariant.of(still), FluidConstants.BOTTLE));
-				FluidStorage.combinedItemApiProvider(GLASS_BOTTLE).register(context ->
-						new EmptyItemFluidStorage(context, bottle -> ItemVariant.of(AllItems.BUILDERS_TEA.get()), still, FluidConstants.BOTTLE));
-			})
-			.register();
+		.lang("Builder's Tea")
+		.tag(AllFluidTags.TEA.tag)
+		.fluidAttributes(() -> new CreateAttributeHandler("fluid.create.tea"))
+		.onRegisterAfter(Registries.ITEM, tea -> {
+			Fluid still = tea.getSource();
+			FluidStorage.combinedItemApiProvider(AllItems.BUILDERS_TEA.get()).register(context ->
+				new FullItemFluidStorage(context, bottle -> ItemVariant.of(GLASS_BOTTLE), FluidVariant.of(still), FluidConstants.BOTTLE));
+			FluidStorage.combinedItemApiProvider(GLASS_BOTTLE).register(context ->
+				new EmptyItemFluidStorage(context, bottle -> ItemVariant.of(AllItems.BUILDERS_TEA.get()), still, FluidConstants.BOTTLE));
+		})
+		.register();
 
 	public static final FluidEntry<SimpleFlowableFluid.Flowing> HONEY =
 		REGISTRATE.standardFluid("honey")
@@ -107,7 +108,7 @@ public class AllFluids {
 			.build()
 			.bucket()
 			.onRegister(AllFluids::registerFluidDispenseBehavior)
-			.tag(AllTags.forgeItemTag("honey_buckets"))
+			.tag(AllItemTags.HONEY_BUCKETS.tag)
 			.build()
 			.onRegisterAfter(Registries.ITEM, honey -> {
 				Fluid source = honey.getSource();
@@ -125,7 +126,7 @@ public class AllFluids {
 	public static final FluidEntry<SimpleFlowableFluid.Flowing> CHOCOLATE =
 		REGISTRATE.standardFluid("chocolate")
 			.lang("Chocolate")
-			.tag(AllTags.forgeFluidTag("chocolate"), FluidTags.WATER) // fabric: water tag controls physics
+			.tag(AllFluidTags.CHOCOLATE.tag, FluidTags.WATER) // fabric: water tag controls physics
 			.fluidProperties(p -> p.levelDecreasePerBlock(2)
 				.tickRate(25)
 				.flowSpeed(3)
