@@ -8,11 +8,16 @@ import org.jetbrains.annotations.NotNull;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
+import com.simibubi.create.Create;
 import com.simibubi.create.foundation.recipe.RecipeFinder;
 
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.Level;
+
+import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
 
 public class RecipeTrieFinder {
     private static final Cache<Object, RecipeTrie<?>> CACHED_TRIES = CacheBuilder.newBuilder().build();
@@ -30,5 +35,20 @@ public class RecipeTrieFinder {
         });
     }
 
-	public static final ResourceManagerReloadListener LISTENER = resourceManager -> CACHED_TRIES.invalidateAll();
+	// fabric: need to implement IdentifiableResourceReloadListener
+	public enum Listener implements ResourceManagerReloadListener, IdentifiableResourceReloadListener {
+		INSTANCE;
+
+		public static final ResourceLocation ID = Create.asResource("recipe_trie_finder");
+
+		@Override
+		public ResourceLocation getFabricId() {
+			return ID;
+		}
+
+		@Override
+		public void onResourceManagerReload(ResourceManager resourceManager) {
+			CACHED_TRIES.invalidateAll();
+		}
+	}
 }

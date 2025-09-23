@@ -36,24 +36,21 @@ public class CardboardArmorHandler {
 			AllAdvancements.CARDBOARD_ARMOR.awardTo(p);
 	}
 
-	@SubscribeEvent
-	public static void playerChangesEquipment(LivingEquipmentChangeEvent event) {
-		if (event.getEntity() instanceof Player player && player.getPose() == Pose.CROUCHING && (
+	public static void playerChangesEquipment(LivingEntity entity, EquipmentSlot slot, ItemStack oldStack, ItemStack newStack) {
+		if (entity instanceof Player player && player.getPose() == Pose.CROUCHING && (
 			isCardboardArmor(player.getItemBySlot(EquipmentSlot.HEAD))
 				|| isCardboardArmor(player.getItemBySlot(EquipmentSlot.CHEST))
 				|| isCardboardArmor(player.getItemBySlot(EquipmentSlot.LEGS))
 				|| isCardboardArmor(player.getItemBySlot(EquipmentSlot.FEET))
 		)) {
 			//assuming player is putting on last piece or took off first piece of cardboard armor
-			if (!player.level().isClientSide()) {
-				Pose pose = player.getPose();
-				player.setPose(pose == Pose.CROUCHING ? Pose.STANDING : Pose.CROUCHING);
-				player.setPose(pose);
-			}
+			// fabric: this event is server-side only
+			Pose pose = player.getPose();
+			player.setPose(pose == Pose.CROUCHING ? Pose.STANDING : Pose.CROUCHING);
+			player.setPose(pose);
 		}
 	}
 
-	@SubscribeEvent
 	public static void playersStealthWhenWearingCardboard(LivingEntityEvents.LivingVisibilityEvent event) {
 		LivingEntity entity = event.getEntity();
 		if (!testForStealth(entity))

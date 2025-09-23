@@ -165,9 +165,10 @@ public class CommonEvents {
 	}
 
 	public static void addReloadListeners() {
-		ResourceManagerHelper.get(PackType.SERVER_DATA).registerReloadListener(RecipeFinder.LISTENER);
-		ResourceManagerHelper.get(PackType.SERVER_DATA).registerReloadListener(RecipeTrieFinder.LISTENER);
-		ResourceManagerHelper.get(PackType.SERVER_DATA).registerReloadListener(BeltHelper.LISTENER);
+		ResourceManagerHelper helper = ResourceManagerHelper.get(PackType.SERVER_DATA);
+		helper.registerReloadListener(RecipeFinder.LISTENER);
+		helper.registerReloadListener(RecipeTrieFinder.Listener.INSTANCE);
+		helper.registerReloadListener(BeltHelper.LISTENER);
 	}
 
 	public static void serverStopping(MinecraftServer server) {
@@ -287,6 +288,7 @@ public class CommonEvents {
 		PlayerBlockBreakEvents.AFTER.register(ExtendoGripItem::consumeDurabilityOnBlockBreak);
 		BlockEvents.POST_PROCESS_PLACE.register(ExtendoGripItem::consumeDurabilityOnPlace);
 		EntityEvents.SIZE.register(CardboardArmorHandler::playerHitboxChangesWhenHidingAsBox);
+		ServerEntityEvents.EQUIPMENT_CHANGE.register(CardboardArmorHandler::playerChangesEquipment);
 		LivingVisibilityEvent.VISIBILITY.register(CardboardArmorHandler::playersStealthWhenWearingCardboard);
 		LivingEntityEvents.TICK.register(CardboardArmorHandler::mobsMayLoseTargetWhenItIsWearingCardboard);
 		AttackBlockCallback.EVENT.register(CardboardSwordItem::cardboardSwordsMakeNoiseOnClick);
