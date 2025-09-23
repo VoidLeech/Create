@@ -27,9 +27,13 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.items.IItemHandler;
+
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
+import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
+import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
+import net.fabricmc.fabric.api.transfer.v1.storage.StorageView;
+
+import io.github.fabricators_of_create.porting_lib.fluids.FluidStack;
 
 public class RecipeTrie<R extends Recipe<?>> {
     private static final int MAX_CACHE_SIZE = Integer.getInteger("create.recipe_trie.max_cache_size", 512);
@@ -50,25 +54,19 @@ public class RecipeTrie<R extends Recipe<?>> {
         this.universalIngredientId = universalIngredientId;
     }
 
-    public static @NotNull Set<AbstractVariant> getVariants(@Nullable IItemHandler itemStorage, @Nullable IFluidHandler fluidStorage) {
+    public static @NotNull Set<AbstractVariant> getVariants(@Nullable Storage<ItemVariant> itemStorage, @Nullable Storage<FluidVariant> fluidStorage) {
         Set<AbstractVariant> variants = new HashSet<>();
 
         if (itemStorage != null) {
-            for (int slot = 0; slot < itemStorage.getSlots(); slot++) {
-                ItemStack item = itemStorage.getStackInSlot(slot);
-                if (item.isEmpty()) continue;
-
-                variants.add(new AbstractVariant.AbstractItem(item.getItem()));
-            }
+			for (StorageView<ItemVariant> view : itemStorage.nonEmptyViews()) {
+				variants.add(new AbstractVariant.AbstractItem(view.getResource().getItem()));
+			}
         }
 
         if (fluidStorage != null) {
-            for (int tank = 0; tank < fluidStorage.getTanks(); tank++) {
-                FluidStack fluid = fluidStorage.getFluidInTank(tank);
-                if (fluid.isEmpty()) continue;
-
-                variants.add(new AbstractVariant.AbstractFluid(fluid.getFluid()));
-            }
+			for (StorageView<FluidVariant> view : fluidStorage.nonEmptyViews()) {
+				variants.add(new AbstractVariant.AbstractFluid(view.getResource().getFluid()));
+			}
         }
 
         return variants;
@@ -185,7 +183,7 @@ public class RecipeTrie<R extends Recipe<?>> {
                     ingredients.add(AbstractIngredient.Universal.INSTANCE);
                     continue;
                 }
-                if (!ingredient.isSimple()) {
+                if (ingredient.requiresTesting()) {
                     ingredients.add(AbstractIngredient.Universal.INSTANCE);
                     continue;
                 }

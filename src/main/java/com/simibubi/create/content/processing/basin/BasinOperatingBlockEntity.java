@@ -22,6 +22,10 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
+import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
+import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
+
 public abstract class BasinOperatingBlockEntity extends KineticBlockEntity {
 
 	public DeferralBehaviour basinChecker;
@@ -132,10 +136,8 @@ public abstract class BasinOperatingBlockEntity extends KineticBlockEntity {
 
 		List<Recipe<?>> list = new ArrayList<>();
 		try {
-			IItemHandler availableItems = basin.getCapability(ForgeCapabilities.ITEM_HANDLER)
-				.orElse(null);
-			IFluidHandler availableFluids = basin.getCapability(ForgeCapabilities.FLUID_HANDLER)
-				.orElse(null);
+			Storage<ItemVariant> availableItems = basin.getItemStorage(null);
+			Storage<FluidVariant> availableFluids = basin.getFluidStorage(null);
 
 			// no point even searching, since no recipe will ever match
 			if (availableItems == null && availableFluids == null) {
