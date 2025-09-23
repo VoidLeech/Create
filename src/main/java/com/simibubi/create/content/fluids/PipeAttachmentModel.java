@@ -12,7 +12,6 @@ import com.simibubi.create.foundation.blockEntity.behaviour.BlockEntityBehaviour
 
 import net.createmod.catnip.data.Iterate;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -23,7 +22,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.fabricmc.fabric.api.renderer.v1.model.FabricBakedModel;
 import net.fabricmc.fabric.api.renderer.v1.model.ForwardingBakedModel;
 import net.fabricmc.fabric.api.renderer.v1.render.RenderContext;
-import net.fabricmc.fabric.api.rendering.data.v1.RenderAttachedBlockView;
 
 public class PipeAttachmentModel extends ForwardingBakedModel {
 
@@ -52,9 +50,7 @@ public class PipeAttachmentModel extends ForwardingBakedModel {
 		PipeModelData data = new PipeModelData();
 		BracketedBlockEntityBehaviour bracket = BlockEntityBehaviour.get(world, pos, BracketedBlockEntityBehaviour.TYPE);
 
-		RenderAttachedBlockView attachmentView = (RenderAttachedBlockView) world;
-		Object attachment = attachmentView.getBlockEntityRenderAttachment(pos);
-		if (attachment instanceof AttachmentTypes[] attachments) {
+		if (world.getBlockEntityRenderData(pos) instanceof AttachmentTypes[] attachments) {
 			for (int i = 0; i < attachments.length; i++) {
 				data.putAttachment(Iterate.directions[i], attachments[i]);
 			}

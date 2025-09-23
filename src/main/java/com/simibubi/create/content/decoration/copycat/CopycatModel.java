@@ -29,7 +29,6 @@ import net.fabricmc.fabric.api.renderer.v1.mesh.MutableQuadView;
 import net.fabricmc.fabric.api.renderer.v1.model.ForwardingBakedModel;
 import net.fabricmc.fabric.api.renderer.v1.render.RenderContext;
 import net.fabricmc.fabric.api.renderer.v1.render.RenderContext.QuadTransform;
-import net.fabricmc.fabric.api.rendering.data.v1.RenderAttachedBlockView;
 
 import io.github.fabricators_of_create.porting_lib.models.CustomParticleIconModel;
 
@@ -59,8 +58,7 @@ public abstract class CopycatModel extends ForwardingBakedModel implements Custo
 	@Override
 	public void emitBlockQuads(BlockAndTintGetter blockView, BlockState state, BlockPos pos, Supplier<RandomSource> randomSupplier, RenderContext context) {
 		BlockState material;
-		if (blockView instanceof RenderAttachedBlockView attachmentView
-				&& attachmentView.getBlockEntityRenderAttachment(pos) instanceof BlockState material1) {
+		if (blockView.getBlockEntityRenderData(pos) instanceof BlockState material1) {
 			material = material1;
 		} else {
 			material = AllBlocks.COPYCAT_BASE.getDefaultState();

@@ -22,7 +22,6 @@ import net.fabricmc.fabric.api.renderer.v1.model.FabricBakedModel;
 import net.fabricmc.fabric.api.renderer.v1.model.ForwardingBakedModel;
 import net.fabricmc.fabric.api.renderer.v1.model.SpriteFinder;
 import net.fabricmc.fabric.api.renderer.v1.render.RenderContext;
-import net.fabricmc.fabric.api.rendering.data.v1.RenderAttachedBlockView;
 
 import io.github.fabricators_of_create.porting_lib.models.CustomParticleIconModel;
 
@@ -52,8 +51,7 @@ public class BeltModel extends ForwardingBakedModel implements CustomParticleIco
 
 	@Override
 	public void emitBlockQuads(BlockAndTintGetter blockView, BlockState state, BlockPos pos, Supplier<RandomSource> randomSupplier, RenderContext context) {
-		if (!(blockView instanceof RenderAttachedBlockView attachmentView
-				&& attachmentView.getBlockEntityRenderAttachment(pos) instanceof RenderData data)) {
+		if (!(blockView.getBlockEntityRenderData(pos) instanceof RenderData data)) {
 			super.emitBlockQuads(blockView, state, pos, randomSupplier, context);
 			return;
 		}
