@@ -171,7 +171,7 @@ public class CopycatPanelBlock extends WaterloggedCopycatBlock {
 
 	@Override
 	public boolean skipRendering(BlockState state, BlockState adjacentState, Direction direction) {
-		return state.equals(adjacentState) && direction.getAxis().isHorizontal();
+		return false;//state.equals(adjacentState) && direction.getAxis().isHorizontal();
 	}
 
 	@Override
