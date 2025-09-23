@@ -46,6 +46,7 @@ import com.simibubi.create.foundation.blockEntity.behaviour.BlockEntityBehaviour
 import com.simibubi.create.foundation.blockEntity.behaviour.ValueSettingsBoard;
 import com.simibubi.create.foundation.blockEntity.behaviour.ValueSettingsFormatter;
 import com.simibubi.create.foundation.blockEntity.behaviour.filtering.FilteringBehaviour;
+import com.simibubi.create.foundation.mixin.accessor.ItemStackLinkedSetAccessor;
 import com.simibubi.create.foundation.utility.CreateLang;
 import com.simibubi.create.infrastructure.config.AllConfigs;
 
@@ -71,7 +72,6 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.ItemStackLinkedSet;
 import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -429,7 +429,7 @@ public class FactoryPanelBehaviour extends FilteringBehaviour implements MenuPro
 
 
 
-			Map<ItemStack, ItemStackConnections> networkItemCounts = consolidated.computeIfAbsent(source.network, $ -> new Object2ObjectOpenCustomHashMap<>(ItemStackLinkedSet.TYPE_AND_TAG));
+			Map<ItemStack, ItemStackConnections> networkItemCounts = consolidated.computeIfAbsent(source.network, $ -> new Object2ObjectOpenCustomHashMap<>(ItemStackLinkedSetAccessor.getTYPE_AND_TAG()));
 			networkItemCounts.computeIfAbsent(item, $ -> new ItemStackConnections(item));
 			ItemStackConnections existingConnections = networkItemCounts.get(item);
 			existingConnections.add(connection);

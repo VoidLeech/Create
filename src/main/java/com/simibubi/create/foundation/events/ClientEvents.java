@@ -82,7 +82,6 @@ import com.simibubi.create.infrastructure.config.AllConfigs;
 import com.simibubi.create.infrastructure.fabric.RenderItemDecorationsCallback;
 import com.simibubi.create.infrastructure.gui.OpenCreateMenuButton;
 
-import dev.engine_room.flywheel.api.event.ReloadLevelRendererCallback;
 import net.createmod.catnip.animation.AnimationTickHolder;
 import net.createmod.catnip.levelWrappers.WrappedClientLevel;
 import net.createmod.catnip.render.DefaultSuperRenderTypeBuffer;
@@ -467,9 +466,6 @@ public class ClientEvents {
 		ScreenEvents.AFTER_INIT.register(latePhase, OpenCreateMenuButton.OpenConfigButtonHandler::onGuiInit);
 
 		TrainMapEvents.init();
-
-		// Flywheel Events
-		ReloadLevelRendererCallback.EVENT.register(ContraptionRenderInfoManager::onReloadLevelRenderer);
 	}
 
 }

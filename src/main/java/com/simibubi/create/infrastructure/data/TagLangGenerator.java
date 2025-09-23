@@ -91,7 +91,6 @@ public class TagLangGenerator {
 		translate(AllBlockTags.WRENCH_PICKUP, "Wrench-pickupable");
 		translate(AllBlockTags.CHEST_MOUNTED_STORAGE, "Mounted Chests");
 		translate(AllBlockTags.SIMPLE_MOUNTED_STORAGE, "Simple Mounted Storages");
-		translate(AllBlockTags.FALLBACK_MOUNTED_STORAGE_BLACKLIST, "Non-mountable Storages");
 		translate(AllBlockTags.ROOTS, "Roots");
 		translate(AllBlockTags.SUGAR_CANE_VARIANTS, "Sugarcane-like");
 		translate(AllBlockTags.NON_HARVESTABLE, "Non-harvestable");

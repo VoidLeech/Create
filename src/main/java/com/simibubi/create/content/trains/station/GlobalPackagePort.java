@@ -2,8 +2,7 @@ package com.simibubi.create.content.trains.station;
 
 import com.simibubi.create.Create;
 
-import net.minecraftforge.items.IItemHandlerModifiable;
-import net.minecraftforge.items.ItemStackHandler;
+import io.github.fabricators_of_create.porting_lib.transfer.item.ItemStackHandler;
 
 public class GlobalPackagePort {
     public String address = "";
@@ -11,12 +10,12 @@ public class GlobalPackagePort {
     public boolean primed = false;
     private boolean restoring = false;
 
-    public void restoreOfflineBuffer(IItemHandlerModifiable inventory) {
+    public void restoreOfflineBuffer(ItemStackHandler inventory) {
         if (!primed) return;
 
         restoring = true;
 
-        for (int slot = 0; slot < offlineBuffer.getSlots(); slot++) {
+        for (int slot = 0; slot < offlineBuffer.getSlotCount(); slot++) {
             inventory.setStackInSlot(slot, offlineBuffer.getStackInSlot(slot));
         }
 
@@ -24,7 +23,7 @@ public class GlobalPackagePort {
         primed = false;
     }
 
-    public void saveOfflineBuffer(IItemHandlerModifiable inventory) {
+    public void saveOfflineBuffer(ItemStackHandler inventory) {
         /*
             * Each time restoreOfflineBuffer changes a slot, the inventory
             * calls this method. We must filter out those calls to prevent
@@ -34,7 +33,7 @@ public class GlobalPackagePort {
         if (restoring) return;
 
         // TODO: Call save method on individual slots rather than iterating
-        for (int slot = 0; slot < inventory.getSlots(); slot++) {
+        for (int slot = 0; slot < inventory.getSlotCount(); slot++) {
             offlineBuffer.setStackInSlot(slot, inventory.getStackInSlot(slot));
         }
 

@@ -13,30 +13,23 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.simibubi.create.api.behaviour.movement.MovementBehaviour;
 import com.simibubi.create.content.contraptions.Contraption;
 import com.simibubi.create.content.kinetics.base.KineticBlockEntity;
+import com.simibubi.create.foundation.utility.fabric.SingleRenderTypeSbbBuilder;
 import com.simibubi.create.foundation.virtualWorld.VirtualRenderWorld;
 
 import dev.engine_room.flywheel.api.visualization.VisualizationManager;
-import net.createmod.catnip.render.ShadedBlockSbbBuilder;
+import net.createmod.catnip.client.render.model.BakedModelBufferer;
 import net.createmod.catnip.render.SuperByteBuffer;
 import net.createmod.catnip.render.SuperByteBufferCache;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.block.BlockRenderDispatcher;
-import net.minecraft.client.renderer.block.ModelBlockRenderer;
-import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.Mth;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.EntityBlock;
-import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate.StructureBlockInfo;
-import net.minecraftforge.client.model.data.ModelData;
 
 public class ClientContraption {
 	public static final SuperByteBufferCache.Compartment<Pair<Contraption, RenderType>> CONTRAPTION = new SuperByteBufferCache.Compartment<>();
@@ -161,7 +154,7 @@ public class ClientContraption {
 		BlockEntity be = entityBlock.newBlockEntity(pos, state);
 		postprocessReadBlockEntity(level, be, state);
 		if (be != null && nbt != null) {
-			be.handleUpdateTag(nbt);
+			be.load(nbt);
 		}
 
 		return be;
@@ -195,19 +188,6 @@ public class ClientContraption {
 		}, contraption.getBlocks().keySet());
 	}
 
-	/**
-	 * Get the model data for a block in the contraption's render world.
-	 * @param pos The local position of the block.
-	 * @return The model data for the block, or {@link ModelData#EMPTY} if there is no block entity at the position.
-	 */
-	public ModelData getModelData(BlockPos pos) {
-		var blockEntity = renderLevel.getBlockEntity(pos);
-		if (blockEntity != null) {
-			return blockEntity.getModelData();
-		}
-		return ModelData.EMPTY;
-	}
-
 	@Nullable
 	public BlockEntity getBlockEntity(BlockPos localPos) {
 		return renderLevel.getBlockEntity(localPos);
@@ -227,44 +207,21 @@ public class ClientContraption {
 	}
 
 	private static SuperByteBuffer buildStructureBuffer(Contraption contraption, VirtualRenderWorld renderWorld, RenderType layer) {
-		BlockRenderDispatcher dispatcher = Minecraft.getInstance().getBlockRenderer();
-		ModelBlockRenderer renderer = dispatcher.getModelRenderer();
 		ThreadLocalObjects objects = THREAD_LOCAL_OBJECTS.get();
 
 		PoseStack poseStack = objects.poseStack;
-		RandomSource random = objects.random;
 		var clientContraption = contraption.getOrCreateClientContraptionLazy();
 		RenderedBlocks blocks = clientContraption.getRenderedBlocks();
 
-		ShadedBlockSbbBuilder sbbBuilder = objects.sbbBuilder;
-		sbbBuilder.begin();
-
-		ModelBlockRenderer.enableCaching();
-		for (BlockPos pos : blocks.positions()) {
-			BlockState state = blocks.lookup().apply(pos);
-			if (state.getRenderShape() == RenderShape.MODEL) {
-				BakedModel model = dispatcher.getBlockModel(state);
-				ModelData modelData = clientContraption.getModelData(pos);
-				modelData = model.getModelData(renderWorld, pos, state, modelData);
-				long randomSeed = state.getSeed(pos);
-				random.setSeed(randomSeed);
-				if (model.getRenderTypes(state, random, modelData).contains(layer)) {
-					poseStack.pushPose();
-					poseStack.translate(pos.getX(), pos.getY(), pos.getZ());
-					renderer.tesselateBlock(renderWorld, model, state, pos, poseStack, sbbBuilder, true, random, randomSeed, OverlayTexture.NO_OVERLAY, modelData, layer);
-					poseStack.popPose();
-				}
-			}
-		}
-		ModelBlockRenderer.clearCache();
-
-		return sbbBuilder.end();
+		SingleRenderTypeSbbBuilder sbbBuilder = objects.sbbBuilder;
+		sbbBuilder.prepare(layer);
+		BakedModelBufferer.bufferBlocks(blocks.positions().iterator(), renderWorld, poseStack, true, sbbBuilder);
+		return sbbBuilder.build();
 	}
 
 	private static class ThreadLocalObjects {
 		public final PoseStack poseStack = new PoseStack();
-		public final RandomSource random = RandomSource.createNewThreadLocalInstance();
-		public final ShadedBlockSbbBuilder sbbBuilder = ShadedBlockSbbBuilder.create();
+		public final SingleRenderTypeSbbBuilder sbbBuilder = new SingleRenderTypeSbbBuilder();
 	}
 
 	public record RenderedBlocks(Function<BlockPos, BlockState> lookup, Iterable<BlockPos> positions) {
