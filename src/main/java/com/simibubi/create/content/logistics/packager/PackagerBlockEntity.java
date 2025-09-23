@@ -369,7 +369,7 @@ public class PackagerBlockEntity extends SmartBlockEntity implements SidedStorag
 		BlockPos target = worldPosition.relative(facing.getOpposite());
 		BlockState targetState = level.getBlockState(target);
 
-			UnpackingHandler handler = UnpackingHandler.REGISTRY.get(targetState);
+		UnpackingHandler handler = UnpackingHandler.REGISTRY.get(targetState);
 		UnpackingHandler toUse = handler != null ? handler : UnpackingHandler.DEFAULT;
 		// note: handler may modify the passed items
 		boolean unpacked = toUse.unpack(level, target, targetState, facing, items, orderContext, ctx);
@@ -383,7 +383,7 @@ public class PackagerBlockEntity extends SmartBlockEntity implements SidedStorag
 			});
 		}
 
-		return true;
+		return unpacked;
 	}
 
 	public void attemptToSend(List<PackagingRequest> queuedRequests) {
