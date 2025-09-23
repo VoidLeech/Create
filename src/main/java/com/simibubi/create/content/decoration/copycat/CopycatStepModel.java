@@ -18,10 +18,8 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
 import net.fabricmc.fabric.api.renderer.v1.RendererAccess;
-import net.fabricmc.fabric.api.renderer.v1.material.RenderMaterial;
 import net.fabricmc.fabric.api.renderer.v1.mesh.MeshBuilder;
 import net.fabricmc.fabric.api.renderer.v1.mesh.QuadEmitter;
-import net.fabricmc.fabric.api.renderer.v1.model.FabricBakedModel;
 import net.fabricmc.fabric.api.renderer.v1.model.SpriteFinder;
 import net.fabricmc.fabric.api.renderer.v1.render.RenderContext;
 
@@ -60,11 +58,7 @@ public class CopycatStepModel extends CopycatModel {
 				quad.cullFace(null);
 			} else if (occlusionData.isOccluded(quad.cullFace())) {
 				// Add quad to mesh and do not render original quad to preserve quad render order
-				// copyTo does not copy the material
-				RenderMaterial quadMaterial = quad.material();
-				quad.copyTo(emitter);
-				emitter.material(quadMaterial);
-				emitter.emit();
+				emitter.copyFrom(quad).emit();
 				return false;
 			}
 
@@ -95,20 +89,17 @@ public class CopycatStepModel extends CopycatModel {
 					if (top && direction == Direction.DOWN)
 						continue;
 
-					// copyTo does not copy the material
-					RenderMaterial quadMaterial = quad.material();
-					quad.copyTo(emitter);
-					emitter.material(quadMaterial);
-					BakedModelHelper.cropAndMove(emitter, spriteFinder.find(emitter, 0), bb1, offset);
+					emitter.copyFrom(quad);
+					BakedModelHelper.cropAndMove(emitter, spriteFinder.find(emitter), bb1, offset);
 					emitter.emit();
 				}
 			}
 
 			return false;
 		});
-		((FabricBakedModel) model).emitBlockQuads(blockView, material, pos, randomSupplier, context);
+		model.emitBlockQuads(blockView, material, pos, randomSupplier, context);
 		context.popTransform();
-		context.meshConsumer().accept(meshBuilder.build());
+		meshBuilder.build().outputTo(context.getEmitter());
 	}
 
 }

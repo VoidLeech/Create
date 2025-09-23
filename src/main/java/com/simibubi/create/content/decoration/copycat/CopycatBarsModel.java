@@ -14,7 +14,6 @@ import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.block.state.BlockState;
 
-import net.fabricmc.fabric.api.renderer.v1.model.FabricBakedModel;
 import net.fabricmc.fabric.api.renderer.v1.model.SpriteFinder;
 import net.fabricmc.fabric.api.renderer.v1.render.RenderContext;
 
@@ -43,12 +42,12 @@ public class CopycatBarsModel extends CopycatModel {
 		SpriteAndBool altTargetSpriteHolder = new SpriteAndBool(mainTargetSprite, true);
 		context.pushTransform(quad -> {
 			if (altTargetSpriteHolder.bool && quad.cullFace() == null && quad.lightFace() == Direction.UP) {
-				altTargetSpriteHolder.sprite = spriteFinder.find(quad, 0);
+				altTargetSpriteHolder.sprite = spriteFinder.find(quad);
 				altTargetSpriteHolder.bool = false;
 			}
 			return false;
 		});
-		((FabricBakedModel) model).emitBlockQuads(blockView, material, pos, randomSupplier, context);
+		model.emitBlockQuads(blockView, material, pos, randomSupplier, context);
 		context.popTransform();
 		TextureAtlasSprite altTargetSprite = altTargetSpriteHolder.sprite;
 
@@ -61,23 +60,23 @@ public class CopycatBarsModel extends CopycatModel {
 				targetSprite = mainTargetSprite;
 			}
 
-			TextureAtlasSprite original = spriteFinder.find(quad, 0);
+			TextureAtlasSprite original = spriteFinder.find(quad);
 			for (int vertex = 0; vertex < 4; vertex++) {
-				float u = targetSprite.getU(SpriteShiftEntry.getUnInterpolatedU(original, quad.spriteU(vertex, 0)));
-				float v = targetSprite.getV(SpriteShiftEntry.getUnInterpolatedV(original, quad.spriteV(vertex, 0)));
-				quad.sprite(vertex, 0, u, v);
+				float u = targetSprite.getU(SpriteShiftEntry.getUnInterpolatedU(original, quad.u(vertex)));
+				float v = targetSprite.getV(SpriteShiftEntry.getUnInterpolatedV(original, quad.v(vertex)));
+				quad.uv(vertex, u, v);
 			}
 			return true;
 		});
-		((FabricBakedModel) wrapped).emitBlockQuads(blockView, state, pos, randomSupplier, context);
+		wrapped.emitBlockQuads(blockView, state, pos, randomSupplier, context);
 		context.popTransform();
 	}
 
-	private static class SpriteAndBool {
+	private static final class SpriteAndBool {
 		public TextureAtlasSprite sprite;
 		public boolean bool;
 
-		public SpriteAndBool(TextureAtlasSprite sprite, boolean bool) {
+		private SpriteAndBool(TextureAtlasSprite sprite, boolean bool) {
 			this.sprite = sprite;
 			this.bool = bool;
 		}

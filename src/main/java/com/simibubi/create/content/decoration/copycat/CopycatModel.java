@@ -168,7 +168,7 @@ public abstract class CopycatModel extends ForwardingBakedModel implements Custo
 			RenderType type = ItemBlockRenderTypes.getChunkRenderType(materialState);
 			BlendMode blendMode = BlendMode.fromRenderLayer(type);
 			MaterialFinder finder = Objects.requireNonNull(RendererAccess.INSTANCE.getRenderer()).materialFinder();
-			RenderMaterial renderMaterial = finder.blendMode(0, blendMode).find();
+			RenderMaterial renderMaterial = finder.blendMode(blendMode).find();
 			return new MaterialFixer(renderMaterial);
 		}
 	}
