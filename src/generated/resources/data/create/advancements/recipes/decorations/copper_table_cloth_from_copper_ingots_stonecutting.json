@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_ingots_brass": {
+    "has_copper_ingots": {
       "conditions": {
         "items": [
           {
-            "tag": "c:ingots/brass"
+            "tag": "c:copper_ingots"
           }
         ]
       },
@@ -13,20 +13,20 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "create:brass_table_cloth_from_ingots_brass_stonecutting"
+        "recipe": "create:copper_table_cloth_from_copper_ingots_stonecutting"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
   },
   "requirements": [
     [
-      "has_ingots_brass",
+      "has_copper_ingots",
       "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
-      "create:brass_table_cloth_from_ingots_brass_stonecutting"
+      "create:copper_table_cloth_from_copper_ingots_stonecutting"
     ]
   },
   "sends_telemetry_event": false

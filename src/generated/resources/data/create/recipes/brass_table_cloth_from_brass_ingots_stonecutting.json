@@ -2,7 +2,7 @@
   "type": "minecraft:stonecutting",
   "count": 2,
   "ingredient": {
-    "tag": "c:ingots/brass"
+    "tag": "c:brass_ingots"
   },
   "result": "create:brass_table_cloth"
 }

@@ -1,4 +1,4 @@
-// 1.20.1	2025-08-25T05:37:13.386980133	Create/Create's Standard Recipes
+// 1.20.1	2025-09-23T19:56:06.680574058	Create/Create's Standard Recipes
 fcd251937ad8ec78213d8d4277fefff3ae998061 data/create/recipes/crafting/kinetics/speedometer_from_conversion.json
 e89aa3ab801e3ce25387ae67c5e47bab518b9225 data/create/recipes/crafting/materials/raw_zinc_block.json
 fa58c3eeca2d2cd2a42a60f8e72021288773d20f data/create/recipes/crafting/kinetics/radial_chassis.json
@@ -279,8 +279,8 @@ dd4849e6ac91a82a4663477dd2ea51375d184bb3 data/create/advancements/recipes/misc/c
 208487a2d020c2603391f55e815a39a28f8fd9e8 data/create/recipes/crafting/appliances/attribute_filter_clear.json
 09454f1d4db813c89a0a2f3af966298fc5f7da7b data/create/advancements/recipes/misc/crafting/logistics/display_link.json
 d5b29fa27977691c3c50eb36c28bfe33b8462d09 data/create/recipes/smelting/glass_from_framed_glass.json
-12be3c3d0353905fecaaec502123c18e1d654296 data/create/advancements/recipes/misc/smelting/tin_ingot_compat_alloygery.json
 871c262b8293d7127f9fc7dd097c7896c18c5ac8 data/create/advancements/recipes/misc/blasting/tin_ingot_compat_mythicmetals.json
+12be3c3d0353905fecaaec502123c18e1d654296 data/create/advancements/recipes/misc/smelting/tin_ingot_compat_alloygery.json
 9a687ee9dab44c439ab669aa596117064fb13457 data/create/recipes/crafting/schematics/schematicannon.json
 3eec131f33e1b92cb34b5f732498497a8a9e1cbb data/create/advancements/recipes/misc/crafting/kinetics/cuckoo_clock.json
 d2315557fb6d9c5086c8801033b6562c775e35e6 data/create/advancements/recipes/misc/crafting/kinetics/spout.json

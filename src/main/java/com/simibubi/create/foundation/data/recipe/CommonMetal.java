@@ -1,13 +1,18 @@
 package com.simibubi.create.foundation.data.recipe;
 
+import static com.simibubi.create.foundation.data.recipe.Mods.ALG;
+import static com.simibubi.create.foundation.data.recipe.Mods.BWT;
 import static com.simibubi.create.foundation.data.recipe.Mods.CREATE;
 import static com.simibubi.create.foundation.data.recipe.Mods.GS;
 import static com.simibubi.create.foundation.data.recipe.Mods.IC2;
 import static com.simibubi.create.foundation.data.recipe.Mods.IE;
 import static com.simibubi.create.foundation.data.recipe.Mods.IF;
 import static com.simibubi.create.foundation.data.recipe.Mods.MEK;
+import static com.simibubi.create.foundation.data.recipe.Mods.MI;
+import static com.simibubi.create.foundation.data.recipe.Mods.MTM;
 import static com.simibubi.create.foundation.data.recipe.Mods.OREGANIZED;
 import static com.simibubi.create.foundation.data.recipe.Mods.TH;
+import static com.simibubi.create.foundation.data.recipe.Mods.TR;
 import static com.simibubi.create.foundation.data.recipe.Mods.VANILLA;
 
 import java.util.Collections;
@@ -33,17 +38,17 @@ public enum CommonMetal {
 	BRASS(false, CREATE),
 
 	ALUMINUM(IE, IC2),
-	LEAD(MEK, TH, IE, OREGANIZED),
-	NICKEL(TH, IE),
-	OSMIUM(MEK),
-	PLATINUM(),
+	LEAD(MEK, TH, IE, OREGANIZED, TR, MI),
+	NICKEL(TH, IE, MI, ALG),
+	OSMIUM(MEK, MTM),
+	PLATINUM(MTM, MI),
 	QUICKSILVER(),
-	SILVER(TH, IE, IC2, OREGANIZED, GS, IF),
-	TIN(TH, MEK, IC2),
-	URANIUM(MEK, IE, IC2),
+	SILVER(TH, IE, IC2, OREGANIZED, GS, IF, TR, MI, MTM, BWT),
+	TIN(TH, MEK, IC2, TR, MI, ALG, MTM),
+	URANIUM(MEK, IE, IC2, MI),
 	CONSTANTAN(false, IE),
-	ELECTRUM(false, IE),
-	STEEL(false, IE);
+	ELECTRUM(false, IE, MI),
+	STEEL(false, IE, MI);
 
 	private static final Map<Mods, Set<CommonMetal>> metalsOfMods = Util.make(() -> {
 		Map<Mods, Set<CommonMetal>> map = new EnumMap<>(Mods.class);
@@ -97,13 +102,13 @@ public enum CommonMetal {
 
 		this.isNatural = natural;
 
-		this.ores = new ItemLikeTag("ores/" + this.name);
-		this.rawOres = itemTag("raw_materials/" + this.name);
-		this.rawStorageBlocks = new ItemLikeTag("storage_blocks/raw_" + this.name);
-		this.ingots = itemTag("ingots/" + this.name);
-		this.storageBlocks = new ItemLikeTag("storage_blocks/" + this.name);
-		this.nuggets = itemTag("nuggets/" + this.name);
-		this.plates = itemTag("plates/" + this.name);
+		this.ores = new ItemLikeTag(this.name + "_ores");
+		this.rawOres = itemTag("raw_" + this.name + "_ores");
+		this.rawStorageBlocks = new ItemLikeTag("raw_" + this.name + "_blocks");
+		this.ingots = itemTag(this.name + "_ingots");
+		this.storageBlocks = new ItemLikeTag(this.name + "_blocks");
+		this.nuggets = itemTag(this.name + "_nuggets");
+		this.plates = itemTag(this.name + "_plates");
 	}
 
 	public String getName(Mods mod) {
@@ -126,13 +131,11 @@ public enum CommonMetal {
 
 
 	private static TagKey<Item> itemTag(String path) {
-		// TODO: change forge to c in 1.21
-		return TagKey.create(Registries.ITEM, new ResourceLocation("forge", path));
+		return TagKey.create(Registries.ITEM, new ResourceLocation("c", path));
 	}
 
 	private static TagKey<Block> blockTag(String path) {
-		// TODO: change forge to c in 1.21
-		return TagKey.create(Registries.BLOCK, new ResourceLocation("forge", path));
+		return TagKey.create(Registries.BLOCK, new ResourceLocation("c", path));
 	}
 
 	public record ItemLikeTag(TagKey<Item> items, TagKey<Block> blocks) {

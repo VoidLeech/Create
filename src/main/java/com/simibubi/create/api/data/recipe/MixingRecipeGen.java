@@ -5,6 +5,8 @@ import com.simibubi.create.AllRecipeTypes;
 import net.minecraft.data.PackOutput;
 import net.minecraft.world.level.material.Fluids;
 
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
+
 /**
  * The base class for Mixing recipe generation.
  * Addons should extend this and use the {@link ProcessingRecipeGen#create} methods
@@ -16,7 +18,7 @@ public abstract class MixingRecipeGen extends ProcessingRecipeGen {
 
 	protected GeneratedRecipe moddedMud(DatagenMod mod, String name) {
 		String mud = name + "_mud";
-		return create(mod.recipeId(mud), b -> b.require(Fluids.WATER, 250)
+		return create(mod.recipeId(mud), b -> b.require(Fluids.WATER, FluidConstants.BOTTLE)
 			.require(mod, name + "_dirt")
 			.output(mod, mud)
 			.whenModLoaded(mod.getId()));

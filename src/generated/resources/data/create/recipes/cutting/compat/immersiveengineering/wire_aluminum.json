@@ -10,7 +10,7 @@
   "type": "create:cutting",
   "ingredients": [
     {
-      "tag": "c:plates/aluminum"
+      "tag": "c:aluminum_plates"
     }
   ],
   "processingTime": 50,

@@ -10,7 +10,7 @@
   "type": "create:pressing",
   "ingredients": [
     {
-      "tag": "c:ingots/constantan"
+      "tag": "c:constantan_ingots"
     }
   ],
   "results": [

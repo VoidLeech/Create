@@ -3,14 +3,14 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:raw_aluminum"
+        "c:raw_aluminum_ores"
       ]
     }
   ],
   "type": "create:crushing",
   "ingredients": [
     {
-      "tag": "c:raw_aluminum"
+      "tag": "c:raw_aluminum_ores"
     }
   ],
   "processingTime": 400,

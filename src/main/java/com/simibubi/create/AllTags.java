@@ -124,11 +124,11 @@ public class AllTags {
 		SUGAR_CANE_VARIANTS,
 		NON_HARVESTABLE,
 		SINGLE_BLOCK_INVENTORIES,
-		CARDBOARD_STORAGE_BLOCKS(FORGE, "storage_blocks/cardboard"),
-		ANDESITE_ALLOY_STORAGE_BLOCKS(FORGE, "storage_blocks/andesite_alloy"),
+		CARDBOARD_STORAGE_BLOCKS(FORGE, "cardboard_blocks"),
+		ANDESITE_ALLOY_STORAGE_BLOCKS(FORGE, "andesite_alloy_blocks"),
 
-		STONE_ORES_IN_GROUND(FORGE, "ores_in_ground/stone"),
-		DEEPSLATE_ORES_IN_GROUND(FORGE, "ores_in_ground/deepslate"),
+		STONE_ORES_IN_GROUND(FORGE, "stone_ores_in_ground"),
+		DEEPSLATE_ORES_IN_GROUND(FORGE, "deepslate_ores_in_ground"),
 
 		CORALS,
 
@@ -210,11 +210,11 @@ public class AllTags {
 		STRIPPED_LOGS(FORGE),
 		STRIPPED_WOOD(FORGE),
 
-		OBSIDIAN_DUST(FORGE, "dusts/obsidian"),
+		OBSIDIAN_DUST(FORGE, "obsidian_dusts"),
 
 		PLATES(FORGE),
-		OBSIDIAN_PLATES(FORGE, "plates/obsidian"),
-		CARDBOARD_PLATES(FORGE, "plates/cardboard"),
+		OBSIDIAN_PLATES(FORGE, "obsidian_plates"),
+		CARDBOARD_PLATES(FORGE, "cardboard_plates"),
 
 		WRENCH(FORGE, "wrenches"),
 
@@ -222,32 +222,32 @@ public class AllTags {
 		AMETHYST(MOD, "stone_types/galosphere/amethyst"),
 		LUMIERE(MOD, "stone_types/galosphere/lumiere"),
 
-		CERTUS_QUARTZ(FORGE, "gems/certus_quartz"),
+		CERTUS_QUARTZ(FORGE, "certus_quartz/gems"),
 
-		AMETRINE_ORES(FORGE, "ores/ametrine"),
-		ANTHRACITE_ORES(FORGE, "ores/anthracite"),
-		EMERALDITE_ORES(FORGE, "ores/emeraldite"),
-		LIGNITE_ORES(FORGE, "ores/lignite"),
+		AMETRINE_ORES(FORGE, "ametrine_ores"),
+		ANTHRACITE_ORES(FORGE, "anthracite_ores"),
+		EMERALDITE_ORES(FORGE, "emeraldite_ores"),
+		LIGNITE_ORES(FORGE, "lignite_ores"),
 
 		RAW_MATERIALS(FORGE),
-		CARDBOARD_STORAGE_BLOCKS(FORGE, "storage_blocks/cardboard"),
-		ANDESITE_ALLOY_STORAGE_BLOCKS(FORGE, "storage_blocks/andesite_alloy"),
+		CARDBOARD_STORAGE_BLOCKS(FORGE, "cardboard_blocks"),
+		ANDESITE_ALLOY_STORAGE_BLOCKS(FORGE, "andesite_alloy_blocks"),
 
-		STONE_ORES_IN_GROUND(FORGE, "ores_in_ground/stone"),
-		DEEPSLATE_ORES_IN_GROUND(FORGE, "ores_in_ground/deepslate"),
+		STONE_ORES_IN_GROUND(FORGE, "stone_ores_in_ground"),
+		DEEPSLATE_ORES_IN_GROUND(FORGE, "deepslate_ores_in_ground"),
 
-		HONEY_BUCKETS(FORGE, "buckets/honey"),
+		HONEY_BUCKETS(FORGE, "honey_buckets"),
 
 		FLOUR(FORGE),
-		WHEAT_FLOUR(FORGE, "flour/wheat"),
+		WHEAT_FLOUR(FORGE, "wheat_flour"),
 
 		DOUGH(FORGE),
-		WHEAT_DOUGH(FORGE, "dough/wheat"),
+		WHEAT_DOUGH(FORGE, "wheat_dough"),
 
-		HELMET_ARMORS(FORGE, "armors/helmets"),
-		CHESTPLATE_ARMORS(FORGE, "armors/chestplates"),
-		LEGGING_ARMORS(FORGE, "armors/leggings"),
-		BOOT_ARMORS(FORGE, "armors/boots"),
+		HELMET_ARMORS(FORGE, "helmets"),
+		CHESTPLATE_ARMORS(FORGE, "chestplates"),
+		LEGGING_ARMORS(FORGE, "leggings"),
+		BOOT_ARMORS(FORGE, "boots"),
 
 		UA_CORAL(MOD, "upgrade_aquatic/coral"),
 		// fabric: Trinkets compat is used instead

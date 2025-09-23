@@ -1,7 +1,7 @@
 {
   "type": "create:sequenced_assembly",
   "ingredient": {
-    "tag": "c:dusts/obsidian"
+    "tag": "c:obsidian_dusts"
   },
   "loops": 1,
   "results": [

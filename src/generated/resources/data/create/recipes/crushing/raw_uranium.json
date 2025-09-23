@@ -3,14 +3,14 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:raw_uranium"
+        "c:raw_uranium_ores"
       ]
     }
   ],
   "type": "create:crushing",
   "ingredients": [
     {
-      "tag": "c:raw_uranium"
+      "tag": "c:raw_uranium_ores"
     }
   ],
   "processingTime": 400,

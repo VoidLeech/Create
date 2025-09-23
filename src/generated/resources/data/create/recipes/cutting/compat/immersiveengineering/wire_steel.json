@@ -10,7 +10,7 @@
   "type": "create:cutting",
   "ingredients": [
     {
-      "tag": "c:plates/steel"
+      "tag": "c:steel_plates"
     }
   ],
   "processingTime": 50,

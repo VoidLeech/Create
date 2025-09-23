@@ -10,7 +10,7 @@
   "type": "create:pressing",
   "ingredients": [
     {
-      "tag": "c:ingots/aluminum"
+      "tag": "c:aluminum_ingots"
     }
   ],
   "results": [

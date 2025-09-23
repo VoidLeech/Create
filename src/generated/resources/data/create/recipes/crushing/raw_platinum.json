@@ -3,14 +3,14 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:raw_platinum"
+        "c:raw_platinum_ores"
       ]
     }
   ],
   "type": "create:crushing",
   "ingredients": [
     {
-      "tag": "c:raw_platinum"
+      "tag": "c:raw_platinum_ores"
     }
   ],
   "processingTime": 400,

@@ -10,7 +10,7 @@
   "type": "create:cutting",
   "ingredients": [
     {
-      "tag": "c:plates/electrum"
+      "tag": "c:electrum_plates"
     }
   ],
   "processingTime": 50,

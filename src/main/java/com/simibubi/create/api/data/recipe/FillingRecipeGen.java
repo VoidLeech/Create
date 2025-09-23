@@ -5,6 +5,8 @@ import com.simibubi.create.AllRecipeTypes;
 import net.minecraft.data.PackOutput;
 import net.minecraft.world.level.material.Fluids;
 
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
+
 /**
  * The base class for Filling recipe generation.
  * Addons should extend this and use the {@link ProcessingRecipeGen#create} methods
@@ -16,7 +18,7 @@ public abstract class FillingRecipeGen extends ProcessingRecipeGen {
 
 	protected GeneratedRecipe moddedGrass(DatagenMod mod, String name) {
 		String grass = name + "_grass_block";
-		return create(mod.recipeId(grass), b -> b.require(Fluids.WATER, 500)
+		return create(mod.recipeId(grass), b -> b.require(Fluids.WATER, FluidConstants.BUCKET / 2)
 			.require(mod, name + "_dirt")
 			.output(mod, grass)
 			.whenModLoaded(mod.getId()));

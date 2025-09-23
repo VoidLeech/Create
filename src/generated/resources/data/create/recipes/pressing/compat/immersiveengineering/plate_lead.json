@@ -10,7 +10,7 @@
   "type": "create:pressing",
   "ingredients": [
     {
-      "tag": "c:ingots/lead"
+      "tag": "c:lead_ingots"
     }
   ],
   "results": [
