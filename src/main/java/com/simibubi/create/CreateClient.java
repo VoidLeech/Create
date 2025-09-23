@@ -37,8 +37,11 @@ import com.simibubi.create.foundation.model.ModelSwapper;
 import com.simibubi.create.foundation.ponder.CreatePonderPlugin;
 import com.simibubi.create.foundation.render.AllInstanceTypes;
 import com.simibubi.create.foundation.render.RenderTypes;
+import com.simibubi.create.foundation.utility.fabric.CustomRenderTypeGeometryLoader;
 import com.simibubi.create.infrastructure.config.AllConfigs;
 import com.simibubi.create.infrastructure.gui.CreateMainMenuScreen;
+
+import io.github.fabricators_of_create.porting_lib.models.geometry.RegisterGeometryLoadersCallback;
 
 import net.createmod.catnip.config.ui.BaseConfigScreen;
 import net.createmod.catnip.config.ui.ConfigScreen;
@@ -124,6 +127,12 @@ public class CreateClient implements ClientModInitializer {
 //		ArmorTextureRegistry.register(AllArmorMaterials.COPPER, CopperArmorItem.TEXTURE);
 		AllFluids.initRendering();
 		initCompat();
+
+		// fabric: porting lib doesn't support a model that has both a custom render type and is an obj
+		RegisterGeometryLoadersCallback.EVENT.register(loaders -> loaders.put(
+			Create.asResource("custom_render_type"),
+			CustomRenderTypeGeometryLoader.INSTANCE)
+		);
 	}
 
 	@SuppressWarnings("Convert2MethodRef") // may cause class loading issues if changed
