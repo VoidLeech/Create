@@ -21,6 +21,7 @@ import com.simibubi.create.foundation.gui.menu.AbstractSimiContainerScreen;
 import com.simibubi.create.foundation.gui.menu.GhostItemSubmitPacket;
 import com.simibubi.create.foundation.gui.widget.IconButton;
 import com.simibubi.create.foundation.gui.widget.ScrollInput;
+import com.simibubi.create.foundation.mixin.fabric.AbstractContainerScreenAccessor;
 import com.simibubi.create.foundation.utility.CreateLang;
 
 import net.createmod.catnip.animation.LerpedFloat;
@@ -38,6 +39,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 
 import io.github.fabricators_of_create.porting_lib.transfer.item.SlotItemHandler;
@@ -526,6 +528,17 @@ public class StockKeeperCategoryScreen extends AbstractSimiContainerScreen<Stock
 	@Override
 	public List<Rect2i> getExtraAreas() {
 		return extraAreas;
+	}
+
+	@Override
+	protected boolean hasClickedOutside(double mouseX, double mouseY, int guiLeft, int guiTop, int mouseButton) {
+		// fabric: workaround for a missing forge patch that prevents dropping items from slots that are out of screen bounds.
+		// this screen actually has incorrect bounds, but this is invisible on forge because of that patch.
+		if (!super.hasClickedOutside(mouseX, mouseY, guiLeft, guiTop, mouseButton))
+			return false;
+
+		Slot slot = ((AbstractContainerScreenAccessor) this).callFindSlot(mouseX, mouseY);
+		return slot == null;
 	}
 
 	public Font getFont() {

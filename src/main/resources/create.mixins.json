@@ -79,6 +79,7 @@
     "compat.xaeros.XaeroFullscreenMapAccessor",
     "compat.xaeros.XaeroFullscreenMapMixin",
     "compat.xaeros.XaeroPauseScreenOverrideMixin",
+    "fabric.AbstractContainerScreenAccessor",
     "fabric.ClientTextTooltipAccessor",
     "fabric.GuiAccessor",
     "fabric.LivingEntityRendererAccessor",
