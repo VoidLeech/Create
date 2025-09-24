@@ -70,16 +70,17 @@ public enum CrafterUnpackingHandler implements UnpackingHandler {
 					}
 				}
 			}
-		}
 
-		// if anything is still non-empty insertion failed
-		for (ItemStack item : items) {
-			if (!item.isEmpty()) {
-				return false;
+			// if anything is still non-empty insertion failed
+			for (ItemStack item : items) {
+				if (!item.isEmpty()) {
+					return false;
+				}
 			}
-		}
 
-		TransactionCallback.onSuccess(context, () -> crafter.checkCompletedRecipe(true));
+			TransactionCallback.onSuccess(t, () -> crafter.checkCompletedRecipe(true));
+			t.commit();
+		}
 
 		return true;
 	}
