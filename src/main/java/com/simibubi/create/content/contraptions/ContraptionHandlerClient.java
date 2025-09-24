@@ -14,6 +14,7 @@ import com.simibubi.create.content.trains.entity.CarriageContraptionEntity;
 import com.simibubi.create.content.trains.entity.TrainRelocator;
 import com.simibubi.create.foundation.utility.RaycastHelper;
 import com.simibubi.create.foundation.utility.RaycastHelper.PredicateTraceResult;
+import com.simibubi.create.foundation.utility.fabric.ReachUtil;
 
 import net.createmod.catnip.data.Couple;
 import net.createmod.catnip.data.Iterate;
@@ -142,7 +143,8 @@ public class ContraptionHandlerClient {
 	public static Couple<Vec3> getRayInputs(LocalPlayer player) {
 		Minecraft mc = Minecraft.getInstance();
 		Vec3 origin = player.getEyePosition();
-		double reach = mc.gameMode.getPickRange();
+		// fabric: getPickRange -> ReachUtil
+		double reach = ReachUtil.reach(player);
 		if (mc.hitResult != null && mc.hitResult.getLocation() != null)
 			reach = Math.min(mc.hitResult.getLocation()
 				.distanceTo(origin), reach);
