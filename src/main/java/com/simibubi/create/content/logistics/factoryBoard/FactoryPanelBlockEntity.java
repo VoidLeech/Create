@@ -2,12 +2,15 @@ package com.simibubi.create.content.logistics.factoryBoard;
 
 import java.util.EnumMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.annotation.Nullable;
 
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.content.logistics.factoryBoard.FactoryPanelBlock.PanelSlot;
+import com.simibubi.create.content.logistics.factoryBoard.FactoryPanelBlock.PanelState;
+import com.simibubi.create.content.logistics.factoryBoard.FactoryPanelBlock.PanelType;
 import com.simibubi.create.content.logistics.packager.PackagerBlockEntity;
 import com.simibubi.create.content.logistics.packager.repackager.RepackagerBlockEntity;
 import com.simibubi.create.foundation.advancement.AdvancementBehaviour;
@@ -48,7 +51,7 @@ public class FactoryPanelBlockEntity extends SmartBlockEntity {
 		super(type, pos, state);
 		restocker = false;
 	}
-	
+
 	@Override
 	protected AABB createRenderBoundingBox() {
 		return new AABB(worldPosition).inflate(8);
@@ -137,13 +140,13 @@ public class FactoryPanelBlockEntity extends SmartBlockEntity {
 				behaviour.setNetwork(frequency);
 			redraw = true;
 			lastShape = null;
-			
+
 			if (activePanels() > 1) {
 				SoundType soundType = getBlockState().getSoundType();
 				level.playSound(null, worldPosition, soundType.getPlaceSound(), SoundSource.BLOCKS,
 					(soundType.getVolume() + 1.0F) / 2.0F, soundType.getPitch() * 0.8F);
 			}
-			
+
 			return true;
 		}
 		return false;
@@ -155,13 +158,13 @@ public class FactoryPanelBlockEntity extends SmartBlockEntity {
 			behaviour.disable();
 			redraw = true;
 			lastShape = null;
-			
+
 			if (activePanels() > 0) {
 				SoundType soundType = getBlockState().getSoundType();
 				level.playSound(null, worldPosition, soundType.getBreakSound(), SoundSource.BLOCKS,
 					(soundType.getVolume() + 1.0F) / 2.0F, soundType.getPitch() * 0.8F);
 			}
-			
+
 			return true;
 		}
 		return false;
@@ -215,4 +218,23 @@ public class FactoryPanelBlockEntity extends SmartBlockEntity {
 		}
 	}
 
+	// fabric: moved this data from the custom model to here
+
+	@Nullable
+	@Override
+	public Object getRenderData() {
+		PanelType type = this.restocker ? PanelType.PACKAGER : PanelType.NETWORK;
+		Map<PanelSlot, PanelState> states = new EnumMap<>(PanelSlot.class);
+
+		this.panels.forEach((slot, behavior) -> {
+			if (behavior.isActive()) {
+				states.put(slot, behavior.count == 0 ? PanelState.PASSIVE : PanelState.ACTIVE);
+			}
+		});
+
+		return new RenderData(type, states);
+	}
+
+	public record RenderData(PanelType type, Map<PanelSlot, PanelState> states) {
+	}
 }
