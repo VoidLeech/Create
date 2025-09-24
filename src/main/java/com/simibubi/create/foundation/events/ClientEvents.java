@@ -398,8 +398,9 @@ public class ClientEvents {
 	public static class ModBusEvents {
 
 		public static void registerClientReloadListeners() {
-			ResourceManagerHelper.get(PackType.CLIENT_RESOURCES).registerReloadListener(CreateClient.RESOURCE_RELOAD_LISTENER);
-			ResourceManagerHelper.get(PackType.CLIENT_RESOURCES).registerReloadListener(TrainHatInfoReloadListener.LISTENER);
+			ResourceManagerHelper helper = ResourceManagerHelper.get(PackType.CLIENT_RESOURCES);
+			helper.registerReloadListener(CreateClient.RESOURCE_RELOAD_LISTENER);
+			helper.registerReloadListener(TrainHatInfoReloadListener.LISTENER);
 		}
 	}
 
@@ -414,7 +415,7 @@ public class ClientEvents {
 	}
 
 	public static void register() {
-//		ModBusEvents.registerClientReloadListeners();
+		ModBusEvents.registerClientReloadListeners();
 		registerItemDecorations();
 
 		ClientTickEvents.END_CLIENT_TICK.register(ClientEvents::onTick);
