@@ -1,4 +1,4 @@
-// 1.20.1	2025-09-23T19:56:06.719006145	Create/Create's Wiki Block Info Provider
+// 1.20.1	2025-09-24T02:19:24.195974115	Create/Create's Wiki Block Info Provider
 e08896c876723ba9c2678e5fa9b341ff907da7af data/create/.wiki/block_info/stock_link.json
 e08896c876723ba9c2678e5fa9b341ff907da7af data/create/.wiki/block_info/waxed_oxidized_copper_shingle_stairs.json
 316dde19f6eb5e8a28675870f6e727eb0bdfcfe2 data/create/.wiki/block_info/cut_diorite_bricks.json
@@ -29,8 +29,8 @@ cf769af99d1c2a8d3a5898d3abde5439f30fb68b data/create/.wiki/block_info/small_veri
 78e5192797e68bfb114c28bd77d02cfbfc5fc8c3 data/create/.wiki/block_info/small_granite_brick_wall.json
 9d4d88d176647e4690929be15e3cc498cb54a4b1 data/create/.wiki/block_info/small_ochrum_bricks.json
 abfc8cef7d37f0fc830ce65263bbae56420e5146 data/create/.wiki/block_info/pink_toolbox.json
-78e5192797e68bfb114c28bd77d02cfbfc5fc8c3 data/create/.wiki/block_info/polished_cut_scoria_stairs.json
 46b55a12112e8d88e0a0c2475aea1127c6a6c761 data/create/.wiki/block_info/cut_veridium_slab.json
+78e5192797e68bfb114c28bd77d02cfbfc5fc8c3 data/create/.wiki/block_info/polished_cut_scoria_stairs.json
 46b55a12112e8d88e0a0c2475aea1127c6a6c761 data/create/.wiki/block_info/cut_crimsite_stairs.json
 316dde19f6eb5e8a28675870f6e727eb0bdfcfe2 data/create/.wiki/block_info/layered_andesite.json
 78e5192797e68bfb114c28bd77d02cfbfc5fc8c3 data/create/.wiki/block_info/cut_scorchia_wall.json
