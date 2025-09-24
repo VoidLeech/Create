@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.commons.compress.utils.Lists;
 
 import com.simibubi.create.compat.emi.CreateEmiAnimations;
+import com.simibubi.create.compat.emi.CreateEmiPlugin;
 import com.simibubi.create.compat.emi.recipes.BlockCuttingEmiRecipe.CondensedBlockCuttingRecipe;
 import com.simibubi.create.foundation.gui.AllGuiTextures;
 import com.simibubi.create.foundation.item.ItemHelper;
@@ -13,7 +14,6 @@ import com.simibubi.create.foundation.item.ItemHelper;
 import dev.emi.emi.api.recipe.EmiRecipeCategory;
 import dev.emi.emi.api.stack.EmiStack;
 import dev.emi.emi.api.widget.WidgetHolder;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
@@ -23,7 +23,6 @@ public class BlockCuttingEmiRecipe extends CreateEmiRecipe<CondensedBlockCutting
 
 	public BlockCuttingEmiRecipe(EmiRecipeCategory category, CondensedBlockCuttingRecipe recipe) {
 		super(category, recipe, 177, 75);
-		id = null;
 	}
 
 	@Override
@@ -51,8 +50,8 @@ public class BlockCuttingEmiRecipe extends CreateEmiRecipe<CondensedBlockCutting
 	public static class CondensedBlockCuttingRecipe extends StonecutterRecipe {
 		private List<ItemStack> outputs = Lists.newArrayList();
 
-		public CondensedBlockCuttingRecipe(Ingredient ingredient) {
-			super(new ResourceLocation(""), "", ingredient, ItemStack.EMPTY);
+		public CondensedBlockCuttingRecipe(int i, Ingredient ingredient) {
+			super(CreateEmiPlugin.synthetic("condensed_block_cutting_" + i), "", ingredient, ItemStack.EMPTY);
 		}
 
 		public void addOutput(ItemStack stack) {
@@ -101,7 +100,7 @@ public class BlockCuttingEmiRecipe extends CreateEmiRecipe<CondensedBlockCutting
 						continue outer;
 					}
 				}
-				CondensedBlockCuttingRecipe cr = new CondensedBlockCuttingRecipe(ingredient);
+				CondensedBlockCuttingRecipe cr = new CondensedBlockCuttingRecipe(condensed.size(), ingredient);
 				cr.addOutput(CreateEmiRecipe.getResultItem(recipe));
 				condensed.add(cr);
 			}

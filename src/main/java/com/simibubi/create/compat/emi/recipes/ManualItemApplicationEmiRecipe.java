@@ -45,6 +45,6 @@ public class ManualItemApplicationEmiRecipe extends CreateEmiRecipe<ItemApplicat
 			held.appendTooltip(CreateLang.translateDirect("recipe.deploying.not_consumed").withStyle(ChatFormatting.GOLD));
 		}
 
-		addSlot(widgets, output.get(0), 132, 38);
+		addSlot(widgets, output.get(0), 132, 38).recipeContext(this);
 	}
 }
