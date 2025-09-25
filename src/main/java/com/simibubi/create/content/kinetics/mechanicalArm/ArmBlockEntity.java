@@ -398,21 +398,21 @@ public class ArmBlockEntity extends KineticBlockEntity implements TransformableB
 		if (armInteractionPoint != null && armInteractionPoint.isValid()) {
 			try (Transaction t = TransferUtil.getTransaction()) {
 				int amountExtracted = getDistributableAmount(armInteractionPoint);
-				if (amountExtracted == 0)
-					return;
-				ItemStack prevHeld = heldItem;
-				heldItem = armInteractionPoint.extract(amountExtracted, t);
-				phase = Phase.SEARCH_OUTPUTS;
-				chasedPointProgress = 0;
-				chasedPointIndex = -1;
-				sendData();
-				setChanged();
+				if (amountExtracted != 0) {
+					ItemStack prevHeld = heldItem;
+					heldItem = armInteractionPoint.extract(amountExtracted, t);
+					phase = Phase.SEARCH_OUTPUTS;
+					chasedPointProgress = 0;
+					chasedPointIndex = -1;
+					sendData();
+					setChanged();
 
-				if (!ItemStack.isSameItem(heldItem, prevHeld))
-					level.playSound(null, worldPosition, SoundEvents.ITEM_PICKUP, SoundSource.BLOCKS, .125f,
+					if (!ItemStack.isSameItem(heldItem, prevHeld))
+						level.playSound(null, worldPosition, SoundEvents.ITEM_PICKUP, SoundSource.BLOCKS, .125f,
 							.5f + Create.RANDOM.nextFloat() * .25f);
-				t.commit();
-				return;
+					t.commit();
+					return;
+				}
 			}
 		}
 
