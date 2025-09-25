@@ -16,8 +16,6 @@ import com.simibubi.create.content.trains.graph.DimensionPalette;
 import com.simibubi.create.content.trains.graph.TrackNode;
 import com.simibubi.create.content.trains.signal.SingleBlockEntityEdgePoint;
 
-import io.github.fabricators_of_create.porting_lib.util.ServerLifecycleHooks;
-
 import net.createmod.catnip.nbt.NBTHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -38,6 +36,7 @@ import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 
 import io.github.fabricators_of_create.porting_lib.transfer.TransferUtil;
 import io.github.fabricators_of_create.porting_lib.transfer.item.ItemStackHandler;
+import io.github.fabricators_of_create.porting_lib.util.ServerLifecycleHooks;
 
 public class GlobalStation extends SingleBlockEntityEdgePoint {
 
@@ -238,10 +237,10 @@ public class GlobalStation extends SingleBlockEntityEdgePoint {
 						}
 
 						long inserted = postboxInventory.insert(resource, view.getAmount(), t);
-						if (inserted != 0)
+						if (inserted == 0)
 							continue;
 
-						view.extract(resource, view.getAmount(), t);
+						view.extract(resource, inserted, t);
 
 						if (box == null) {
 							port.primed = true;
