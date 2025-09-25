@@ -56,6 +56,7 @@ import com.simibubi.create.content.kinetics.mixer.MixingRecipe;
 import com.simibubi.create.content.kinetics.press.MechanicalPressBlockEntity;
 import com.simibubi.create.content.logistics.filter.AttributeFilterScreen;
 import com.simibubi.create.content.logistics.filter.FilterScreen;
+import com.simibubi.create.content.logistics.redstoneRequester.RedstoneRequesterScreen;
 import com.simibubi.create.content.processing.basin.BasinRecipe;
 import com.simibubi.create.content.processing.recipe.ProcessingRecipeBuilder;
 import com.simibubi.create.content.redstone.link.controller.LinkedControllerScreen;
@@ -166,6 +167,7 @@ public class CreateEmiPlugin implements EmiPlugin {
 		registry.addDragDropHandler(BlueprintScreen.class, new GhostIngredientHandler());
 		registry.addDragDropHandler(LinkedControllerScreen.class, new GhostIngredientHandler());
 		registry.addDragDropHandler(ScheduleScreen.class, new GhostIngredientHandler());
+		registry.addDragDropHandler(RedstoneRequesterScreen.class, new GhostIngredientHandler());
 
 		registerGeneratedRecipes(registry);
 
