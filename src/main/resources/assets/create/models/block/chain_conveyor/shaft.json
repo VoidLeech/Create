@@ -1,22 +1,7 @@
 {
-  "comment0": "fabric: this has been heavily modified because I don't want to update Porting Lib again.",
-  "comment1": "OBJs can't normally be combined with a render type. this custom loader works around that,",
-  "comment2": "the parent (just textures) has been inlined, because resolving those somehow broke too.",
-
-	"loader": "create:custom_render_type",
-  "render_type": "cutout",
-  "wrapped": {
-    "ambientocclusion": false,
-    "textures": {
-      "axis": "create:block/axis",
-      "axis_top": "create:block/axis_top",
-      "conveyor_casing": "create:block/conveyor_casing",
-      "conveyor_port": "create:block/conveyor_port",
-      "bullwheel": "create:block/bullwheel",
-      "particle": "create:block/andesite_casing"
-    },
-    "loader": "porting_lib:obj",
-    "flip_v": true,
-    "model": "create:models/block/chain_conveyor/conveyor_shaft.obj"
-  }
+	"parent": "create:block/chain_conveyor/textures",
+	"loader": "porting_lib:obj",
+	"flip_v": true,
+  "render_type": "minecraft:cutout",
+	"model": "create:models/block/chain_conveyor/conveyor_shaft.obj"
 }
