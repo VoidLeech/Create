@@ -28,6 +28,7 @@ import com.simibubi.create.content.kinetics.base.RotatedPillarKineticBlock;
 import com.simibubi.create.content.kinetics.transmission.sequencer.SequencedGearshiftBlock;
 import com.simibubi.create.content.redstone.DirectedDirectionalBlock;
 import com.simibubi.create.foundation.gui.AllIcons;
+import com.simibubi.create.foundation.utility.fabric.VirtualRenderHelper;
 
 import dev.engine_room.flywheel.lib.transform.TransformStack;
 import net.createmod.catnip.animation.AnimationTickHolder;
@@ -43,6 +44,12 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.renderer.LightTexture;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.MultiBufferSource.BufferSource;
+import net.minecraft.client.renderer.block.BlockRenderDispatcher;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
@@ -277,7 +284,7 @@ public class RadialWrenchMenu extends AbstractSimiScreen {
 			try {
 				Level previousLevel = blockEntity.getLevel();
 				blockEntity.setLevel(nonVisualizationLevel);
-				GuiGameElement.of(blockState, blockEntity)
+				new EvilBlockElement(blockState, blockEntity)
 					.rotateBlock(player.getXRot(), player.getYRot() + 180, 0f)
 					.scale(24)
 					.at(-12, 12)
@@ -416,5 +423,33 @@ public class RadialWrenchMenu extends AbstractSimiScreen {
 		RadialWrenchHandler.COOLDOWN = 2;
 
 		super.removed();
+	}
+
+	// fabric: terrible garbage. we need the BE rendered normally, but the state rendered virtually
+	public static class EvilBlockElement extends GuiGameElement.GuiBlockEntityRenderBuilder {
+		private final BlockEntity realBlockEntity;
+
+		public EvilBlockElement(BlockState state, BlockEntity be) {
+			super(state, null);
+			this.realBlockEntity = be;
+		}
+
+		@Override
+		protected void renderModel(BlockRenderDispatcher blockRenderer, BufferSource buffer, PoseStack ms) {
+			VirtualRenderHelper.withForcedVirtualState(false, () -> super.renderModel(blockRenderer, buffer, ms));
+			this.renderBlockEntity(buffer, ms);
+		}
+
+		// need to duplicate this because it's private
+		private void renderBlockEntity(MultiBufferSource.BufferSource buffer, PoseStack ms) {
+			BlockEntityRenderer<BlockEntity> renderer = Minecraft.getInstance().getBlockEntityRenderDispatcher().getRenderer(this.realBlockEntity);
+			if (renderer == null)
+				return;
+
+			BlockState stateBefore = this.realBlockEntity.getBlockState();
+			this.realBlockEntity.setBlockState(blockState);
+			renderer.render(this.realBlockEntity, /*partials*/0, ms, buffer, LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY);
+			this.realBlockEntity.setBlockState(stateBefore);
+		}
 	}
 }
