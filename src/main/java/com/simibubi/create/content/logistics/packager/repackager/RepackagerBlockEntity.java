@@ -16,7 +16,6 @@ import net.minecraft.world.level.block.state.BlockState;
 
 import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
-import net.fabricmc.fabric.api.transfer.v1.storage.StorageUtil;
 import net.fabricmc.fabric.api.transfer.v1.storage.StorageView;
 import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
@@ -43,7 +42,7 @@ public class RepackagerBlockEntity extends PackagerBlockEntity {
 
 		boolean targetIsCreativeCrate = targetInv instanceof BottomlessItemHandler;
 
-		long insertable = StorageUtil.simulateInsert(targetInv, ItemVariant.of(box), box.getCount(), null);
+		long insertable = targetInv.insert(ItemVariant.of(box), box.getCount(), ctx);
 		boolean anySpace = insertable > 0;
 
 		if (!targetIsCreativeCrate && !anySpace)
