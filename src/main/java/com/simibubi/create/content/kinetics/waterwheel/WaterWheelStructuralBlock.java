@@ -38,10 +38,6 @@ import net.minecraft.world.level.block.state.StateDefinition.Builder;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 
-
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
-
 import io.github.fabricators_of_create.porting_lib.block.CustomDestroyEffectsBlock;
 import io.github.fabricators_of_create.porting_lib.block.CustomHitEffectsBlock;
 import io.github.fabricators_of_create.porting_lib.block.CustomLandingEffectsBlock;
@@ -169,10 +165,10 @@ public class WaterWheelStructuralBlock extends DirectionalBlock implements IWren
 		return true;
 	}
 
-	// fabric: Don't add destroy effects, it'll create missingno particles
 	@Override
+	@Environment(EnvType.CLIENT)
 	public boolean addDestroyEffects(BlockState state, ClientLevel Level, BlockPos pos, ParticleEngine manager) {
-		return false;
+		return true;
 	}
 
 	@Override
