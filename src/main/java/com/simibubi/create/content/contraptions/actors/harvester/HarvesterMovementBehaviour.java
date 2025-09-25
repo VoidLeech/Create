@@ -36,6 +36,10 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.phys.Vec3;
+
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+
 import io.github.fabricators_of_create.porting_lib.common.util.IPlantable;
 
 public class HarvesterMovementBehaviour implements MovementBehaviour {
@@ -212,6 +216,7 @@ public class HarvesterMovementBehaviour implements MovementBehaviour {
 	}
 
 	@Override
+	@Environment(EnvType.CLIENT)
 	public void renderInContraption(MovementContext context, VirtualRenderWorld renderWorld,
 									ContraptionMatrices matrices, MultiBufferSource buffers) {
 		if (!VisualizationManager.supportsVisualization(context.world))
@@ -220,6 +225,7 @@ public class HarvesterMovementBehaviour implements MovementBehaviour {
 
 	@Nullable
 	@Override
+	@Environment(EnvType.CLIENT)
 	public ActorVisual createVisual(VisualizationContext visualizationContext, VirtualRenderWorld simulationWorld,
 									MovementContext movementContext) {
 		return new HarvesterActorVisual(visualizationContext, simulationWorld, movementContext);

@@ -14,6 +14,9 @@ import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.util.Mth;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+
 import io.github.fabricators_of_create.porting_lib.util.ParticleHelper;
 
 public class SoulParticle extends CustomRotationParticle {
@@ -106,6 +109,7 @@ public class SoulParticle extends CustomRotationParticle {
 
 	public static class Data extends BasicParticleData<SoulParticle> {
 		@Override
+		@Environment(EnvType.CLIENT)
 		public IBasicParticleFactory<SoulParticle> getBasicFactory() {
 			return (worldIn, x, y, z, vx, vy, vz, spriteSet) -> new SoulParticle(worldIn, x, y, z, vx, vy, vz,
 				spriteSet, this);
@@ -119,6 +123,7 @@ public class SoulParticle extends CustomRotationParticle {
 
 	public static class PerimeterData extends BasicParticleData<SoulParticle> {
 		@Override
+		@Environment(EnvType.CLIENT)
 		public IBasicParticleFactory<SoulParticle> getBasicFactory() {
 			return (worldIn, x, y, z, vx, vy, vz, spriteSet) -> new SoulParticle(worldIn, x, y, z, vx, vy, vz,
 				spriteSet, this);

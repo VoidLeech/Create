@@ -47,6 +47,7 @@ public class PortableStorageInterfaceMovement implements MovementBehaviour {
 
 	@Nullable
 	@Override
+	@Environment(EnvType.CLIENT)
 	public ActorVisual createVisual(VisualizationContext visualizationContext, VirtualRenderWorld simulationWorld,
 		MovementContext movementContext) {
 		return new PSIActorVisual(visualizationContext, simulationWorld, movementContext);

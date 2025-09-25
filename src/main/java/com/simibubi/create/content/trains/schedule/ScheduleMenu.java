@@ -11,6 +11,9 @@ import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+
 import io.github.fabricators_of_create.porting_lib.transfer.item.ItemStackHandler;
 import io.github.fabricators_of_create.porting_lib.transfer.item.SlotItemHandler;
 
@@ -45,6 +48,7 @@ public class ScheduleMenu extends GhostItemMenu<ItemStack> {
 	}
 
 	@Override
+	@Environment(EnvType.CLIENT)
 	protected ItemStack createOnClient(FriendlyByteBuf extraData) {
 		return extraData.readItem();
 	}

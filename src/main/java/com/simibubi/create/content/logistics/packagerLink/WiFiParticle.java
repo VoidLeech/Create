@@ -13,6 +13,9 @@ import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.util.Mth;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+
 public class WiFiParticle extends CustomRotationParticle {
 
 	private SpriteSet animatedSprite;
@@ -47,6 +50,7 @@ public class WiFiParticle extends CustomRotationParticle {
 	public static class Data extends BasicParticleData<WiFiParticle> implements ParticleOptions {
 
 		@Override
+		@Environment(EnvType.CLIENT)
 		public IBasicParticleFactory<WiFiParticle> getBasicFactory() {
 			return WiFiParticle::new;
 		}

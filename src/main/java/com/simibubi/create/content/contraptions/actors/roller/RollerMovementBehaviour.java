@@ -63,6 +63,9 @@ import net.minecraft.world.level.block.state.properties.SlabType;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate.StructureBlockInfo;
 import net.minecraft.world.phys.Vec3;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+
 public class RollerMovementBehaviour extends BlockBreakingMovementBehaviour {
 
 	@Override
@@ -78,12 +81,14 @@ public class RollerMovementBehaviour extends BlockBreakingMovementBehaviour {
 
 	@Nullable
 	@Override
+	@Environment(EnvType.CLIENT)
 	public ActorVisual createVisual(VisualizationContext visualizationContext, VirtualRenderWorld simulationWorld,
 		MovementContext movementContext) {
 		return new RollerActorVisual(visualizationContext, simulationWorld, movementContext);
 	}
 
 	@Override
+	@Environment(EnvType.CLIENT)
 	public void renderInContraption(MovementContext context, VirtualRenderWorld renderWorld,
 		ContraptionMatrices matrices, MultiBufferSource buffers) {
 		if (!VisualizationManager.supportsVisualization(context.world))

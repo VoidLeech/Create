@@ -4,6 +4,9 @@ import me.shedaniel.math.Rectangle;
 import me.shedaniel.rei.api.client.gui.Renderer;
 import net.minecraft.client.gui.GuiGraphics;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+
 public class EmptyBackground implements Renderer {
 
 	private int width;
@@ -24,6 +27,7 @@ public class EmptyBackground implements Renderer {
 	}
 
 	@Override
+	@Environment(EnvType.CLIENT)
 	public void render(GuiGraphics graphics, Rectangle bounds, int mouseX, int mouseY, float delta) {
 	}
 }

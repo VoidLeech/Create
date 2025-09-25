@@ -11,6 +11,9 @@ import net.createmod.catnip.gui.element.GuiGameElement;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.world.item.ItemStack;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+
 public class ItemIcon implements Renderer {
 
 	private Supplier<ItemStack> supplier;
@@ -21,6 +24,7 @@ public class ItemIcon implements Renderer {
 	}
 
 	@Override
+	@Environment(EnvType.CLIENT)
 	public void render(GuiGraphics graphics, Rectangle bounds, int mouseX, int mouseY, float delta) {
 		if (stack == null) {
 			stack = supplier.get();

@@ -19,6 +19,9 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+
 import io.github.fabricators_of_create.porting_lib.transfer.item.ItemStackHandler;
 import io.github.fabricators_of_create.porting_lib.transfer.item.SlotItemHandler;
 import io.github.fabricators_of_create.porting_lib.transfer.item.SlottedStackStorage;
@@ -48,6 +51,7 @@ public class StockKeeperCategoryMenu extends MenuBase<StockTickerBlockEntity> {
 	}
 
 	@Override
+	@Environment(EnvType.CLIENT)
 	protected StockTickerBlockEntity createOnClient(FriendlyByteBuf extraData) {
 		BlockPos blockPos = extraData.readBlockPos();
 		return AllBlocks.STOCK_TICKER.get()

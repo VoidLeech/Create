@@ -49,6 +49,8 @@ import net.minecraft.world.level.block.BaseRailBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import net.fabricmc.fabric.api.transfer.v1.storage.base.ResourceAmount;
@@ -300,6 +302,7 @@ public class DeployerMovementBehaviour implements MovementBehaviour {
 	}
 
 	@Override
+	@Environment(EnvType.CLIENT)
 	public void renderInContraption(MovementContext context, VirtualRenderWorld renderWorld,
 		ContraptionMatrices matrices, MultiBufferSource buffers) {
 		if (!VisualizationManager.supportsVisualization(context.world))
@@ -308,6 +311,7 @@ public class DeployerMovementBehaviour implements MovementBehaviour {
 
 	@Nullable
 	@Override
+	@Environment(EnvType.CLIENT)
 	public ActorVisual createVisual(VisualizationContext visualizationContext, VirtualRenderWorld simulationWorld,
 		MovementContext movementContext) {
 		return new DeployerActorVisual(visualizationContext, simulationWorld, movementContext);

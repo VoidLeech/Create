@@ -13,6 +13,9 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.ItemStack;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+
 public class StockKeeperRequestMenu extends MenuBase<StockTickerBlockEntity> {
 
 	boolean isAdmin;
@@ -35,6 +38,7 @@ public class StockKeeperRequestMenu extends MenuBase<StockTickerBlockEntity> {
 	}
 
 	@Override
+	@Environment(EnvType.CLIENT)
 	protected StockTickerBlockEntity createOnClient(FriendlyByteBuf extraData) {
 		isAdmin = extraData.readBoolean();
 		isLocked = extraData.readBoolean();

@@ -11,6 +11,9 @@ import net.minecraft.client.particle.SpriteSet;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleType;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+
 import io.github.fabricators_of_create.porting_lib.util.ParticleHelper;
 
 public class SoulBaseParticle extends CustomRotationParticle {
@@ -45,6 +48,7 @@ public class SoulBaseParticle extends CustomRotationParticle {
 
 	public static class Data extends BasicParticleData<SoulBaseParticle> {
 		@Override
+		@Environment(EnvType.CLIENT)
 		public IBasicParticleFactory<SoulBaseParticle> getBasicFactory() {
 			return SoulBaseParticle::new;
 		}

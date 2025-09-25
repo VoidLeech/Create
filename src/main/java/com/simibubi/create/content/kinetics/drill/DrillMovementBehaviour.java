@@ -53,6 +53,7 @@ public class DrillMovementBehaviour extends BlockBreakingMovementBehaviour {
 
 	@Nullable
 	@Override
+	@Environment(EnvType.CLIENT)
 	public ActorVisual createVisual(VisualizationContext visualizationContext, VirtualRenderWorld simulationWorld, MovementContext movementContext) {
 		return new DrillActorVisual(visualizationContext, simulationWorld, movementContext);
 	}

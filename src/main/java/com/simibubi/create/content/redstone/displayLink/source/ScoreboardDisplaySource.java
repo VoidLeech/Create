@@ -15,6 +15,9 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.scores.Objective;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+
 public class ScoreboardDisplaySource extends ValueListDisplaySource {
 
 	@Override
@@ -57,6 +60,7 @@ public class ScoreboardDisplaySource extends ValueListDisplaySource {
 	}
 
 	@Override
+	@Environment(EnvType.CLIENT)
 	public void initConfigurationWidgets(DisplayLinkContext context, ModularGuiLineBuilder builder, boolean isFirstLine) {
 		if (isFirstLine)
 			builder.addTextInput(0, 137, (e, t) -> {

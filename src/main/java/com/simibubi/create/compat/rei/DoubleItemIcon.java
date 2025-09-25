@@ -12,6 +12,9 @@ import net.createmod.catnip.gui.element.GuiGameElement;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.world.item.ItemStack;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+
 public class DoubleItemIcon implements Renderer {
 
 	private Supplier<ItemStack> primarySupplier;
@@ -31,6 +34,7 @@ public class DoubleItemIcon implements Renderer {
 	}
 
 	@Override
+	@Environment(EnvType.CLIENT)
 	public void render(GuiGraphics graphics, Rectangle bounds, int mouseX, int mouseY, float delta) {
 		if (primaryStack == null) {
 			primaryStack = primarySupplier.get();

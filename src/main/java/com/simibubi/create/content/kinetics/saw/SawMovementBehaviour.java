@@ -104,6 +104,7 @@ public class SawMovementBehaviour extends BlockBreakingMovementBehaviour {
 	}
 
 	@Override
+	@Environment(EnvType.CLIENT)
 	public @Nullable ActorVisual createVisual(VisualizationContext visualizationContext, VirtualRenderWorld simulationWorld, MovementContext movementContext) {
 		return new SawActorVisual(visualizationContext, simulationWorld, movementContext);
 	}
