@@ -234,8 +234,7 @@ public class FilterItemStack {
 
 		@Override
 		public boolean test(Level world, ItemStack stack, boolean matchNBT) {
-			return (filterString.isBlank() && super.test(world, stack, matchNBT))
-				|| PackageItem.isPackage(stack) && PackageItem.matchAddress(stack, filterString);
+			return PackageItem.isPackage(stack) && PackageItem.matchAddress(stack, filterString);
 		}
 
 		@Override
