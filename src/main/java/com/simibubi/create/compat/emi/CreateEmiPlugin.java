@@ -54,8 +54,8 @@ import com.simibubi.create.content.kinetics.crusher.CrushingRecipe;
 import com.simibubi.create.content.kinetics.millstone.MillingRecipe;
 import com.simibubi.create.content.kinetics.mixer.MixingRecipe;
 import com.simibubi.create.content.kinetics.press.MechanicalPressBlockEntity;
-import com.simibubi.create.content.logistics.filter.AttributeFilterScreen;
-import com.simibubi.create.content.logistics.filter.FilterScreen;
+import com.simibubi.create.content.logistics.factoryBoard.FactoryPanelSetItemScreen;
+import com.simibubi.create.content.logistics.filter.AbstractFilterScreen;
 import com.simibubi.create.content.logistics.redstoneRequester.RedstoneRequesterScreen;
 import com.simibubi.create.content.processing.basin.BasinRecipe;
 import com.simibubi.create.content.processing.recipe.ProcessingRecipeBuilder;
@@ -162,12 +162,12 @@ public class CreateEmiPlugin implements EmiPlugin {
 
 		registry.addRecipeHandler(AllMenuTypes.CRAFTING_BLUEPRINT.get(), new BlueprintTransferHandler());
 
-		registry.addDragDropHandler(FilterScreen.class, new GhostIngredientHandler());
-		registry.addDragDropHandler(AttributeFilterScreen.class, new GhostIngredientHandler());
+		registry.addDragDropHandler(AbstractFilterScreen.class, new GhostIngredientHandler());
 		registry.addDragDropHandler(BlueprintScreen.class, new GhostIngredientHandler());
 		registry.addDragDropHandler(LinkedControllerScreen.class, new GhostIngredientHandler());
 		registry.addDragDropHandler(ScheduleScreen.class, new GhostIngredientHandler());
 		registry.addDragDropHandler(RedstoneRequesterScreen.class, new GhostIngredientHandler());
+		registry.addDragDropHandler(FactoryPanelSetItemScreen.class, new GhostIngredientHandler());
 
 		registerGeneratedRecipes(registry);
 
