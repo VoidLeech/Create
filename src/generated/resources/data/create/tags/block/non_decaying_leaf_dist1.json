@@ -3,6 +3,10 @@
     {
       "id": "quark:glow_shroom_block",
       "required": false
+    },
+    {
+      "id": "biomesoplenty:toadstool_block",
+      "required": false
     }
   ]
 }

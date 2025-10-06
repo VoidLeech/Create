@@ -209,7 +209,28 @@ public class CreateRegistrateTags {
 				"indigo_mushroom_stem", "blood_mushroom_stem", "ink_mushroom_stem", "veil_mushroom_stem"));
 
 		TagGen.addOptional(prov.tag(AllBlockTags.NON_DECAYING_LEAF_DIST3.tag), Mods.UG, List.of(
-				"indigo_mushroom_cap", "blood_mushroom_cap", "engorged_blood_mushroom_cap", "ink_mushroom_cap", "veil_mushroom_cap"));
+				"indigo_mushroom_cap", "veil_mushroom_cap"));
+
+		TagGen.addOptional(prov.tag(AllBlockTags.NON_DECAYING_LEAF_DIST4.tag), Mods.UG, List.of(
+			"blood_mushroom_cap", "engorged_blood_mushroom_cap", "ink_mushroom_cap"));
+
+		TagGen.addOptional(prov.tag(AllBlockTags.NON_DECAYING_LEAF_DIST1.tag), Mods.BOP, List.of(
+			"toadstool_block"));
+
+		TagGen.addOptional(prov.tag(AllBlockTags.NON_DECAYING_LEAF_DIST2.tag), Mods.BOP, List.of(
+			"glowshroom_block"));
+
+		TagGen.addOptional(prov.tag(AllBlockTags.MUSHROOM_STEMS.tag), Mods.BWG, List.of(
+			"white_mushroom_stem", "brown_mushroom_stem"));
+
+		TagGen.addOptional(prov.tag(AllBlockTags.NON_DECAYING_LEAF_DIST2.tag), Mods.BWG, List.of(
+			"allium_petal_block", "pink_allium_petal_block", "white_allium_petal_block", "rose_petal_block"));
+
+		TagGen.addOptional(prov.tag(AllBlockTags.NON_DECAYING_LEAF_DIST3.tag), Mods.BWG, List.of(
+			"green_mushroom_block", "wood_blewit_mushroom_block"));
+
+		TagGen.addOptional(prov.tag(AllBlockTags.NON_DECAYING_LEAF_DIST4.tag), Mods.BWG, List.of(
+			"weeping_milkcap_mushroom_block"));
 	}
 
 	private static void genItemTags(RegistrateTagsProvider<Item> provIn) {

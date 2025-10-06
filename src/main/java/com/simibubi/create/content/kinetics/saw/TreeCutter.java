@@ -297,6 +297,9 @@ public class TreeCutter {
 	}
 
 	private static int nonDecayingLeafDistance(BlockState state) {
+		if (AllBlockTags.NON_DECAYING_LEAF_DIST4.matches(state)) {
+			return 4;
+		}
 		if (AllBlockTags.NON_DECAYING_LEAF_DIST3.matches(state)){
 			return 3;
 		}
