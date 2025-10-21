@@ -44,9 +44,9 @@ repositories {
 val modApiInclude: Configuration by configurations.dependencyScope("modApiInclude")
 val apiInclude: Configuration by configurations.dependencyScope("apiInclude")
 
-configurations.modApi.configure { extendsFrom(modApiInclude) }
-configurations.api.configure { extendsFrom(apiInclude) }
-configurations.include.configure { extendsFrom(modApiInclude, apiInclude) }
+configurations.modApi { extendsFrom(modApiInclude) }
+configurations.api { extendsFrom(apiInclude) }
+configurations.include { extendsFrom(modApiInclude, apiInclude) }
 
 val recipeViewer = "emi"
 val runtimeCc = false
