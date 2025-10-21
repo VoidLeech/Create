@@ -5,12 +5,11 @@ plugins {
 
 val buildNum = providers.environmentVariable("GITHUB_RUN_NUMBER")
     .filter(String::isNotEmpty)
-    .map { "-build.$it" }
-    .orElse("-local")
-    .getOrElse("")
+    .map { "build.$it" }
+    .getOrElse("local")
 
 val mcVer: String = libs.versions.minecraft.get()
-version = "6.0.7.0+mc$mcVer$buildNum"
+version = "6.0.7.0+$buildNum-mc$mcVer"
 
 group = "com.simibubi.create"
 
@@ -122,16 +121,10 @@ dependencies {
 
 java {
     withSourcesJar()
-    // loom requires java >= 21
-    toolchain.languageVersion = JavaLanguageVersion.of(21)
+    toolchain.languageVersion = JavaLanguageVersion.of(17)
 }
 
 tasks.named<JavaCompile>("compileJava") {
-    javaCompiler = javaToolchains.compilerFor {
-        // 1.20.1 uses java 17
-        languageVersion = JavaLanguageVersion.of(17)
-    }
-
     // this makes it possible to actually count errors after a big merge, since by default only 100 are shown
     options.compilerArgs.add("-Xmaxerrs")
     options.compilerArgs.add("10000")

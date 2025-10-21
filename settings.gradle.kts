@@ -1,4 +1,4 @@
-rootProject.name = "create-fabric-1.20.1"
+rootProject.name = "create-fabric"
 
 pluginManagement {
     repositories {
