@@ -72,7 +72,7 @@ public class CardboardSwordItem extends SwordItem implements CustomEnchantingBeh
 		else
 			AllSoundEvents.CARDBOARD_SWORD.play(level, player, pos, 0.5f, 1.85f);
 
-		return InteractionResult.SUCCESS;
+		return InteractionResult.PASS;
 	}
 
 	public static void cardboardSwordsCannotHurtYou(LivingAttackEvent event) {
