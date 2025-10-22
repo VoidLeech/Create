@@ -1,7 +1,5 @@
 package com.simibubi.create.content.kinetics.base;
 
-import org.apache.commons.lang3.ArrayUtils;
-
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.simibubi.create.AllBlocks;
@@ -29,12 +27,6 @@ public class KineticBlockEntityRenderer<T extends KineticBlockEntity> extends Sa
 
 	public static final SuperByteBufferCache.Compartment<BlockState> KINETIC_BLOCK = new SuperByteBufferCache.Compartment<>();
 	public static boolean rainbowMode = false;
-
-	protected static final RenderType[] REVERSED_CHUNK_BUFFER_LAYERS = RenderType.chunkBufferLayers().toArray(RenderType[]::new);
-
-	static {
-		ArrayUtils.reverse(REVERSED_CHUNK_BUFFER_LAYERS);
-	}
 
 	public KineticBlockEntityRenderer(BlockEntityRendererProvider.Context context) {
 	}

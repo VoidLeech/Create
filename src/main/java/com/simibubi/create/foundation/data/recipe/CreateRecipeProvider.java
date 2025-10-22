@@ -39,7 +39,7 @@ public final class CreateRecipeProvider extends FabricRecipeProvider {
 	}
 
 	@Override
-	protected void buildRecipes(Consumer<FinishedRecipe> writer) {
+	public void buildRecipes(Consumer<FinishedRecipe> writer) {
 	}
 
 	public static DataProvider registerAllProcessing(FabricDataOutput output) {
