@@ -11,7 +11,6 @@ import com.simibubi.create.Create;
 import com.simibubi.create.compat.archEx.ArchExCompat;
 import com.simibubi.create.foundation.advancement.AllAdvancements;
 import com.simibubi.create.foundation.data.DamageTypeTagGen;
-import com.simibubi.create.foundation.data.TagLangGen;
 import com.simibubi.create.foundation.data.recipe.CreateMechanicalCraftingRecipeGen;
 import com.simibubi.create.foundation.data.recipe.CreateRecipeProvider;
 import com.simibubi.create.foundation.data.recipe.CreateSequencedAssemblyRecipeGen;
@@ -45,8 +44,6 @@ public class CreateDatagen implements DataGeneratorEntrypoint {
 	public static void gatherData(FabricDataGenerator.Pack pack, ExistingFileHelper existingFileHelper) {
 		addExtraRegistrateData();
 
-		// fabric: tag lang
-		TagLangGen.datagen();
 		// fabric: archex compat
 		ArchExCompat.init(pack);
 

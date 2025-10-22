@@ -1,4 +1,4 @@
-// 1.20.1	2025-10-21T19:59:11.004909317	Create/Create's Standard Recipes
+// 1.20.1	2025-10-21T21:08:02.365254746	Create/Create's Standard Recipes
 fcd251937ad8ec78213d8d4277fefff3ae998061 data/create/recipes/crafting/kinetics/speedometer_from_conversion.json
 e89aa3ab801e3ce25387ae67c5e47bab518b9225 data/create/recipes/crafting/materials/raw_zinc_block.json
 fa58c3eeca2d2cd2a42a60f8e72021288773d20f data/create/recipes/crafting/kinetics/radial_chassis.json
@@ -251,8 +251,8 @@ bc69dfe59b369eead6f3da593eae5a107933d339 data/create/recipes/crafting/kinetics/h
 b3c4585dc6ed9c4a38d7923ae399b88ab8912df9 data/create/recipes/blasting/zinc_ingot_from_crushed.json
 76bcdecacf540457a752952eb29dcca3db8836a1 data/create/recipes/crafting/kinetics/minecart_from_contraption_cart.json
 a11a4e11fe9b762ccf8be72adffd59e45f6d47fe data/create/advancements/recipes/misc/crafting/kinetics/furnace_minecart_from_contraption_cart.json
-460c7c74597e5bcb0088abf1879de5e6036d220c data/create/recipes/blasting/ingot_uranium_compat_mekanism.json
 0a711cd78f66f0199509c58666365af059c32478 data/create/recipes/smelting/ingot_uranium_compat_immersiveengineering.json
+460c7c74597e5bcb0088abf1879de5e6036d220c data/create/recipes/blasting/ingot_uranium_compat_mekanism.json
 8ea35f78211932c11630cb03625b269ef55ef11a data/create/recipes/smelting/zinc_ingot_from_crushed.json
 535f36569982fbc992683fce0358774f7e0eab95 data/create/advancements/recipes/misc/smelting/tin_ingot_compat_techreborn.json
 739b692c19cbb2fe2c960c0c32fdda1fef3a9298 data/create/advancements/recipes/misc/blasting/uranium_ingot_compat_modern_industrialization.json

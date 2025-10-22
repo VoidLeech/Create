@@ -157,6 +157,10 @@ public class TagLangGenerator {
 		translate(AllFluidTags.CHOCOLATE, "Chocolate");
 		translate(AllFluidTags.CREOSOTE, "Creosote");
 
+		// fabric exclusives
+		translate(AllFluidTags.DIVING_FLUIDS, "Diving Fluids");
+		translate(AllFluidTags.CREATE_FLUIDS, "Create's Fluids");
+
 		// misc
 		translate(AllRecipeSerializerTags.AUTOMATION_IGNORE.tag, "Non-automatable");
 		translate(AllContraptionTypeTags.OPENS_CONTROLS.tag, "Opens Contraption Controls");
