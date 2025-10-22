@@ -24,6 +24,7 @@ import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.material.FlowingFluid;
+import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.AABB;
@@ -179,7 +180,7 @@ public class OpenEndedPipe extends FlowSource {
 			return false;
 		if (!(fluid.getFluid() instanceof FlowingFluid))
 			return false;
-		if (!FluidHelper.hasBlockState(fluid.getFluid()) || fluid.getFluid().is(Milk.MILK_FLUID_TAG)) // fabric: milk logic is different
+		if (!isPlaceable(fluid.getFluid()))
 			return true;
 
 		// fabric: note - this is possibly prone to issues but follows what forge does.
@@ -220,6 +221,12 @@ public class OpenEndedPipe extends FlowSource {
 		return true;
 	}
 
+	private static boolean isPlaceable(Fluid fluid) {
+		// fabric: explicitly prevent placing milk blocks, which don't exist on forge.
+		// hasBlockState was originally just called directly.
+		return FluidHelper.hasBlockState(fluid) && !fluid.is(Milk.MILK_FLUID_TAG);
+	}
+
 	private class OpenEndFluidHandler extends FluidTank {
 
 		public OpenEndFluidHandler() {
@@ -243,7 +250,7 @@ public class OpenEndedPipe extends FlowSource {
 			}
 
 			FluidStack containedFluidStack = getFluid();
-			boolean hasBlockState = FluidHelper.hasBlockState(containedFluidStack.getFluid());
+			boolean hasBlockState = isPlaceable(containedFluidStack.getFluid());
 
 			if (!containedFluidStack.isEmpty() && !containedFluidStack.canFill(resource))
 				setFluid(FluidStack.EMPTY);
