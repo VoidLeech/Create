@@ -26,7 +26,8 @@ import io.github.fabricators_of_create.porting_lib.tags.Tags;
 
 /**
  * The class that handles gathering Create's generated recipes for most types.
- * Data here is only generated when running server dategen
+ * Data here is only generated when running server datagen
+ *
  * @see com.simibubi.create.infrastructure.data.CreateDatagen
  */
 public final class CreateRecipeProvider extends FabricRecipeProvider {
@@ -38,7 +39,8 @@ public final class CreateRecipeProvider extends FabricRecipeProvider {
 	}
 
 	@Override
-	public void buildRecipes(Consumer<FinishedRecipe> writer) {}
+	protected void buildRecipes(Consumer<FinishedRecipe> writer) {
+	}
 
 	public static DataProvider registerAllProcessing(FabricDataOutput output) {
 		GENERATORS.add(new CreateCrushingRecipeGen(output));

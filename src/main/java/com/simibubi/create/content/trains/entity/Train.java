@@ -17,30 +17,14 @@ import java.util.function.Consumer;
 
 import javax.annotation.Nullable;
 
-import com.simibubi.create.api.behaviour.movement.MovementBehaviour;
-import com.simibubi.create.api.contraption.storage.fluid.MountedFluidStorageWrapper;
-
-import com.simibubi.create.api.contraption.storage.item.MountedItemStorageWrapper;
-
-import io.github.fabricators_of_create.porting_lib.fluids.FluidStack;
-import io.github.fabricators_of_create.porting_lib.transfer.TransferUtil;
-
-import net.fabricmc.fabric.api.registry.FuelRegistry;
-import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
-import net.fabricmc.fabric.api.transfer.v1.storage.SlottedStorage;
-import net.fabricmc.fabric.api.transfer.v1.storage.StorageUtil;
-import net.fabricmc.fabric.api.transfer.v1.storage.StorageView;
-import net.fabricmc.fabric.api.transfer.v1.storage.base.CombinedSlottedStorage;
-import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
-
 import org.apache.commons.lang3.mutable.MutableBoolean;
 import org.apache.commons.lang3.mutable.MutableObject;
 
 import com.simibubi.create.AllPackets;
 import com.simibubi.create.Create;
+import com.simibubi.create.api.behaviour.movement.MovementBehaviour;
 import com.simibubi.create.api.contraption.storage.fluid.MountedFluidStorageWrapper;
 import com.simibubi.create.api.contraption.storage.item.MountedItemStorageWrapper;
-import com.simibubi.create.api.behaviour.movement.MovementBehaviour;
 import com.simibubi.create.content.logistics.filter.FilterItemStack;
 import com.simibubi.create.content.trains.bogey.AbstractBogeyBlockEntity;
 import com.simibubi.create.content.trains.entity.Carriage.DimensionalCarriageEntity;
@@ -606,7 +590,7 @@ public class Train {
 		TravellingPoint trailingPoint = carriage.getTrailingPoint();
 		TravellingPoint leadingPoint = carriage.getLeadingPoint();
 
-		if (leadingPoint.node1 == null || trailingPoint.node1 == null)
+		if (leadingPoint.node1 == null || trailingPoint.node1 == null || leadingPoint.edge == null || trailingPoint.edge == null)
 			return;
 		ResourceKey<Level> dimension = leadingPoint.node1.getLocation().dimension;
 		if (!dimension.equals(trailingPoint.node1.getLocation().dimension))

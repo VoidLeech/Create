@@ -50,7 +50,7 @@ public class ChainConveyorInteractionHandler {
 		}
 
 		Minecraft mc = Minecraft.getInstance();
-		boolean isWrench = mc.player.isHolding(AllItemTags.CHAIN_RIDEABLE::matches);
+		boolean isWrench = mc.player.isHolding(AllItemTags.WRENCH::matches);
 		boolean dismantling = isWrench && mc.player.isShiftKeyDown();
 		double range = ReachUtil.reach(mc.player) + 1;
 
@@ -110,9 +110,9 @@ public class ChainConveyorInteractionHandler {
 
 	private static boolean isActive() {
 		Minecraft mc = Minecraft.getInstance();
-		return mc.player.isHolding(AllItemTags.CHAIN_RIDEABLE::matches)
-			|| mc.player.isHolding(s->AllBlocks.PACKAGE_FROGPORT.isIn(s))
-			|| mc.player.isHolding(PackageItem::isPackage);
+		ItemStack mainHandItem = mc.player.getMainHandItem();
+		return mc.player.isHolding(AllItemTags.CHAIN_RIDEABLE::matches) || AllBlocks.PACKAGE_FROGPORT.isIn(mainHandItem)
+			|| PackageItem.isPackage(mainHandItem);
 	}
 
 	public static boolean onUse() {
@@ -121,8 +121,9 @@ public class ChainConveyorInteractionHandler {
 
 		Minecraft mc = Minecraft.getInstance();
 		ItemStack mainHandItem = mc.player.getMainHandItem();
-		ItemStack offHandItem  = mc.player.getOffhandItem();
+
 		if (mc.player.isHolding(AllItemTags.CHAIN_RIDEABLE::matches)) {
+			ItemStack offHandItem = mc.player.getOffhandItem();
 			ItemStack usedItem = AllItemTags.CHAIN_RIDEABLE.matches(mainHandItem) ? mainHandItem : offHandItem;
 
 			if (!mc.player.isShiftKeyDown()) {
@@ -136,19 +137,17 @@ public class ChainConveyorInteractionHandler {
 			return true;
 		}
 
-		if (mc.player.isHolding(s->AllBlocks.PACKAGE_FROGPORT.isIn(s))) {
+		if (AllBlocks.PACKAGE_FROGPORT.isIn(mainHandItem)) {
 			PackagePortTargetSelectionHandler.exactPositionOfTarget = selectedBakedPosition;
 			PackagePortTargetSelectionHandler.activePackageTarget =
 				new PackagePortTarget.ChainConveyorFrogportTarget(selectedLift, selectedChainPosition, selectedConnection);
 			return true;
 		}
 
-		if (mc.player.isHolding(PackageItem::isPackage)) {
-			ItemStack usedItem = PackageItem.isPackage(mainHandItem) ? mainHandItem : offHandItem;
+		if (PackageItem.isPackage(mainHandItem)) {
 			AllPackets.getChannel()
 				.sendToServer(new ChainPackageInteractionPacket(selectedLift, selectedConnection, selectedChainPosition,
 					false));
-
 			return true;
 		}
 

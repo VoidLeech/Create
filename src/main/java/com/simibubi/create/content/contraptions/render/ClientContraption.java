@@ -9,16 +9,12 @@ import java.util.function.Function;
 import org.apache.commons.lang3.tuple.Pair;
 import org.jetbrains.annotations.Nullable;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import com.simibubi.create.api.behaviour.movement.MovementBehaviour;
 import com.simibubi.create.content.contraptions.Contraption;
 import com.simibubi.create.content.kinetics.base.KineticBlockEntity;
-import com.simibubi.create.foundation.utility.fabric.SingleRenderTypeSbbBuilder;
 import com.simibubi.create.foundation.virtualWorld.VirtualRenderWorld;
 
 import dev.engine_room.flywheel.api.visualization.VisualizationManager;
-import net.createmod.catnip.client.render.model.BakedModelBufferer;
-import net.createmod.catnip.render.SuperByteBuffer;
 import net.createmod.catnip.render.SuperByteBufferCache;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.BlockPos;
@@ -32,8 +28,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate.StructureBlockInfo;
 
 public class ClientContraption {
-	public static final SuperByteBufferCache.Compartment<Pair<Contraption, RenderType>> CONTRAPTION = new SuperByteBufferCache.Compartment<>();
-	private static final ThreadLocal<ThreadLocalObjects> THREAD_LOCAL_OBJECTS = ThreadLocal.withInitial(ThreadLocalObjects::new);
 
 	private final VirtualRenderWorld renderLevel;
 	/**
@@ -100,7 +94,7 @@ public class ClientContraption {
 	public void invalidateStructure() {
 		for (RenderType renderType : RenderType.chunkBufferLayers()) {
 			SuperByteBufferCache.getInstance()
-				.invalidate(CONTRAPTION, Pair.of(contraption, renderType));
+				.invalidate(ContraptionEntityRenderer.CONTRAPTION, Pair.of(contraption, renderType));
 		}
 
 		structureVersion++;
@@ -200,28 +194,6 @@ public class ClientContraption {
 	 */
 	public BitSet getAndAdjustShouldRenderBlockEntities() {
 		return shouldRenderBlockEntities;
-	}
-
-	public static SuperByteBuffer getBuffer(Contraption contraption, VirtualRenderWorld renderWorld, RenderType renderType) {
-		return SuperByteBufferCache.getInstance().get(CONTRAPTION, Pair.of(contraption, renderType), () -> buildStructureBuffer(contraption, renderWorld, renderType));
-	}
-
-	private static SuperByteBuffer buildStructureBuffer(Contraption contraption, VirtualRenderWorld renderWorld, RenderType layer) {
-		ThreadLocalObjects objects = THREAD_LOCAL_OBJECTS.get();
-
-		PoseStack poseStack = objects.poseStack;
-		var clientContraption = contraption.getOrCreateClientContraptionLazy();
-		RenderedBlocks blocks = clientContraption.getRenderedBlocks();
-
-		SingleRenderTypeSbbBuilder sbbBuilder = objects.sbbBuilder;
-		sbbBuilder.prepare(layer);
-		BakedModelBufferer.bufferBlocks(blocks.positions().iterator(), renderWorld, poseStack, true, sbbBuilder);
-		return sbbBuilder.build();
-	}
-
-	private static class ThreadLocalObjects {
-		public final PoseStack poseStack = new PoseStack();
-		public final SingleRenderTypeSbbBuilder sbbBuilder = new SingleRenderTypeSbbBuilder();
 	}
 
 	public record RenderedBlocks(Function<BlockPos, BlockState> lookup, Iterable<BlockPos> positions) {
