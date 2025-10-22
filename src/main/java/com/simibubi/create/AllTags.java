@@ -292,6 +292,9 @@ public class AllTags {
 		// fabric: extra tag for diving helmet behavior
 		DIVING_FLUIDS,
 
+		// fabric: this is used to avoid rendering the on-screen water overlay when submerged in Create's fluids
+		CREATE_FLUIDS,
+
 		TEA(FORGE),
 		HONEY(FORGE),
 		CHOCOLATE(FORGE),

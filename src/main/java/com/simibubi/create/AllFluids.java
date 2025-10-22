@@ -101,7 +101,7 @@ public class AllFluids {
 				.flowSpeed(3)
 				.blastResistance(100f))
 			.fluidAttributes(() -> new CreateAttributeHandler("block.create.honey", 2000, 1400))
-			.tag(AllFluidTags.HONEY.tag, FluidTags.WATER) // fabric: water tag controls physics
+			.tag(AllFluidTags.HONEY.tag, FluidTags.WATER, AllFluidTags.CREATE_FLUIDS.tag) // fabric: water tag controls physics
 			.source(SimpleFlowableFluid.Source::new) // TODO: remove when Registrate fixes FluidBuilder
 			.block()
 			.properties(p -> p.mapColor(MapColor.TERRACOTTA_YELLOW))
@@ -126,7 +126,7 @@ public class AllFluids {
 	public static final FluidEntry<SimpleFlowableFluid.Flowing> CHOCOLATE =
 		REGISTRATE.standardFluid("chocolate")
 			.lang("Chocolate")
-			.tag(AllFluidTags.CHOCOLATE.tag, FluidTags.WATER) // fabric: water tag controls physics
+			.tag(AllFluidTags.CHOCOLATE.tag, FluidTags.WATER, AllFluidTags.CREATE_FLUIDS.tag) // fabric: water tag controls physics
 			.fluidProperties(p -> p.levelDecreasePerBlock(2)
 				.tickRate(25)
 				.flowSpeed(3)
