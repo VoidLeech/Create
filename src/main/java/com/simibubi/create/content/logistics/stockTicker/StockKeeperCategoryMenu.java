@@ -6,6 +6,7 @@ import com.simibubi.create.AllBlocks;
 import com.simibubi.create.AllMenuTypes;
 import com.simibubi.create.content.logistics.filter.FilterItem;
 import com.simibubi.create.foundation.gui.menu.MenuBase;
+import com.simibubi.create.foundation.utility.fabric.ReachUtil;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
@@ -79,7 +80,7 @@ public class StockKeeperCategoryMenu extends MenuBase<StockTickerBlockEntity> {
 	@Override
 	public boolean stillValid(Player player) {
 		return !contentHolder.isRemoved() && player.position()
-			.closerThan(Vec3.atCenterOf(contentHolder.getBlockPos()), player.getBlockReach() + 4);
+			.closerThan(Vec3.atCenterOf(contentHolder.getBlockPos()), ReachUtil.reach(player) + 4);
 	}
 
 	class InactiveSlot extends Slot {
