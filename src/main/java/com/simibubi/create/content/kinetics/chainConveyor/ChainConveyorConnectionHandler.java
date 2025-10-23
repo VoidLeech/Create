@@ -33,6 +33,8 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.HitResult.Type;
 import net.minecraft.world.phys.Vec3;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.entity.FakePlayer;
 
 public class ChainConveyorConnectionHandler {
@@ -40,6 +42,7 @@ public class ChainConveyorConnectionHandler {
 	private static BlockPos firstPos;
 	private static ResourceKey<Level> firstDim;
 
+	@Environment(EnvType.CLIENT)
 	public static boolean onRightClick() {
 		Minecraft mc = Minecraft.getInstance();
 		if (!isChain(mc.player.getMainHandItem()))
@@ -108,6 +111,7 @@ public class ChainConveyorConnectionHandler {
 		return itemStack.is(Items.CHAIN); // Replace with tag? generic renderer?
 	}
 
+	@Environment(EnvType.CLIENT)
 	public static void clientTick() {
 		if (firstPos == null)
 			return;
@@ -264,6 +268,7 @@ public class ChainConveyorConnectionHandler {
 		return true;
 	}
 
+	@Environment(EnvType.CLIENT)
 	private static boolean fail(String message) {
 		CreateLang.translate(message)
 			.style(ChatFormatting.RED)

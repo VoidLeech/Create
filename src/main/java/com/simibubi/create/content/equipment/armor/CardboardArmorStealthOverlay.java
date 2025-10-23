@@ -11,6 +11,9 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+
 public class CardboardArmorStealthOverlay extends HelmetOverlay {
 
 	public CardboardArmorStealthOverlay() {
@@ -23,6 +26,7 @@ public class CardboardArmorStealthOverlay extends HelmetOverlay {
 		.startWithValue(0)
 		.chase(0, 0.25f, Chaser.EXP);
 
+	@Environment(EnvType.CLIENT)
 	public static void clientTick() {
 		LocalPlayer player = Minecraft.getInstance().player;
 		if (player == null)
