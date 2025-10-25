@@ -3,14 +3,14 @@
     {
       "condition": "fabric:all_mods_loaded",
       "values": [
-        "byg"
+        "biomeswevegone"
       ]
     }
   ],
   "type": "create:crushing",
   "ingredients": [
     {
-      "item": "byg:red_rock"
+      "item": "biomeswevegone:red_rock"
     }
   ],
   "processingTime": 150,

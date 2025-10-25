@@ -3,14 +3,14 @@
     {
       "condition": "fabric:all_mods_loaded",
       "values": [
-        "byg"
+        "biomeswevegone"
       ]
     }
   ],
   "type": "create:crushing",
   "ingredients": [
     {
-      "item": "byg:blue_nether_quartz_ore"
+      "item": "biomeswevegone:blue_nether_quartz_ore"
     }
   ],
   "processingTime": 350,
@@ -29,7 +29,7 @@
     },
     {
       "chance": 0.125,
-      "item": "byg:blue_netherrack"
+      "item": "biomeswevegone:blue_netherrack"
     }
   ]
 }

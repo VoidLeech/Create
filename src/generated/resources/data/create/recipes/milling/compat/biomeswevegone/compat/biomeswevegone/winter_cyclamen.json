@@ -3,14 +3,14 @@
     {
       "condition": "fabric:all_mods_loaded",
       "values": [
-        "byg"
+        "biomeswevegone"
       ]
     }
   ],
   "type": "create:milling",
   "ingredients": [
     {
-      "item": "byg:compat/byg/winter_cyclamen"
+      "item": "biomeswevegone:compat/biomeswevegone/winter_cyclamen"
     }
   ],
   "processingTime": 50,

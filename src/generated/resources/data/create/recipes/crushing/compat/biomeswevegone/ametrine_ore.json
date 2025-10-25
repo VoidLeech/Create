@@ -3,7 +3,7 @@
     {
       "condition": "fabric:all_mods_loaded",
       "values": [
-        "byg"
+        "biomeswevegone"
       ]
     }
   ],
@@ -17,11 +17,11 @@
   "results": [
     {
       "count": 2,
-      "item": "byg:ametrine_gems"
+      "item": "biomeswevegone:ametrine_gems"
     },
     {
       "chance": 0.25,
-      "item": "byg:ametrine_gems"
+      "item": "biomeswevegone:ametrine_gems"
     },
     {
       "chance": 0.75,
@@ -29,7 +29,7 @@
     },
     {
       "chance": 0.125,
-      "item": "byg:cobbled_ether_stone"
+      "item": "biomeswevegone:cobbled_ether_stone"
     }
   ]
 }

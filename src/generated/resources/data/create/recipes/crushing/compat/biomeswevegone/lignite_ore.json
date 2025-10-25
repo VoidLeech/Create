@@ -3,7 +3,7 @@
     {
       "condition": "fabric:all_mods_loaded",
       "values": [
-        "byg"
+        "biomeswevegone"
       ]
     }
   ],
@@ -17,12 +17,12 @@
   "results": [
     {
       "count": 2,
-      "item": "byg:lignite"
+      "item": "biomeswevegone:lignite"
     },
     {
       "chance": 0.5,
       "count": 2,
-      "item": "byg:lignite"
+      "item": "biomeswevegone:lignite"
     },
     {
       "chance": 0.75,
@@ -30,7 +30,7 @@
     },
     {
       "chance": 0.125,
-      "item": "byg:cobbled_ether_stone"
+      "item": "biomeswevegone:cobbled_ether_stone"
     }
   ]
 }

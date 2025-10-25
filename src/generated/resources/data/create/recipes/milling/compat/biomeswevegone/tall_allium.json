@@ -3,14 +3,14 @@
     {
       "condition": "fabric:all_mods_loaded",
       "values": [
-        "byg"
+        "biomeswevegone"
       ]
     }
   ],
   "type": "create:milling",
   "ingredients": [
     {
-      "item": "byg:tall_allium"
+      "item": "biomeswevegone:tall_allium"
     }
   ],
   "processingTime": 50,

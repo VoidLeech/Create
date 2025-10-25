@@ -3,21 +3,21 @@
     {
       "condition": "fabric:all_mods_loaded",
       "values": [
-        "byg"
+        "biomeswevegone"
       ]
     }
   ],
   "type": "create:milling",
   "ingredients": [
     {
-      "item": "byg:white_puffball_cap"
+      "item": "biomeswevegone:white_puffball_cap"
     }
   ],
   "processingTime": 150,
   "results": [
     {
       "chance": 0.25,
-      "item": "byg:white_puffball_spores"
+      "item": "biomeswevegone:white_puffball_spores"
     }
   ]
 }

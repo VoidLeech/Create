@@ -1,11 +1,13 @@
 {
-  "type": "create:cutting",
-  "conditions": [
+  "fabric:load_conditions": [
     {
-      "type": "forge:mod_loaded",
-      "modid": "atmospheric"
+      "condition": "fabric:all_mods_loaded",
+      "values": [
+        "atmospheric"
+      ]
     }
   ],
+  "type": "create:cutting",
   "ingredients": [
     {
       "item": "atmospheric:crustose_wood"

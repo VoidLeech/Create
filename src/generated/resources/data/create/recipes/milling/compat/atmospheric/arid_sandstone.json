@@ -1,11 +1,13 @@
 {
-  "type": "create:milling",
-  "conditions": [
+  "fabric:load_conditions": [
     {
-      "type": "forge:mod_loaded",
-      "modid": "atmospheric"
+      "condition": "fabric:all_mods_loaded",
+      "values": [
+        "atmospheric"
+      ]
     }
   ],
+  "type": "create:milling",
   "ingredients": [
     {
       "item": "atmospheric:arid_sandstone"

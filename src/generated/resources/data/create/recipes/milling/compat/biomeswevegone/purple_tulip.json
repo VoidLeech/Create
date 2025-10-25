@@ -3,14 +3,14 @@
     {
       "condition": "fabric:all_mods_loaded",
       "values": [
-        "byg"
+        "biomeswevegone"
       ]
     }
   ],
   "type": "create:milling",
   "ingredients": [
     {
-      "item": "byg:purple_tulip"
+      "item": "biomeswevegone:purple_tulip"
     }
   ],
   "processingTime": 50,

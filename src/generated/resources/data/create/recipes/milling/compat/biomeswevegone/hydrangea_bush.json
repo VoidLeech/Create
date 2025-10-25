@@ -3,14 +3,14 @@
     {
       "condition": "fabric:all_mods_loaded",
       "values": [
-        "byg"
+        "biomeswevegone"
       ]
     }
   ],
   "type": "create:milling",
   "ingredients": [
     {
-      "item": "byg:hydrangea_bush"
+      "item": "biomeswevegone:hydrangea_bush"
     }
   ],
   "processingTime": 50,

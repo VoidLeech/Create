@@ -3,7 +3,7 @@
     {
       "condition": "fabric:all_mods_loaded",
       "values": [
-        "byg"
+        "biomeswevegone"
       ]
     }
   ],
@@ -17,11 +17,11 @@
   "results": [
     {
       "count": 2,
-      "item": "byg:emeraldite_shards"
+      "item": "biomeswevegone:emeraldite_shards"
     },
     {
       "chance": 0.25,
-      "item": "byg:emeraldite_shards"
+      "item": "biomeswevegone:emeraldite_shards"
     },
     {
       "chance": 0.75,
@@ -29,7 +29,7 @@
     },
     {
       "chance": 0.125,
-      "item": "byg:scoria_cobblestone"
+      "item": "biomeswevegone:scoria_cobblestone"
     }
   ]
 }

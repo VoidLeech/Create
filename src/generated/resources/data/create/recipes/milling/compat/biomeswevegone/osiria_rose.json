@@ -3,14 +3,14 @@
     {
       "condition": "fabric:all_mods_loaded",
       "values": [
-        "byg"
+        "biomeswevegone"
       ]
     }
   ],
   "type": "create:milling",
   "ingredients": [
     {
-      "item": "byg:osiria_rose"
+      "item": "biomeswevegone:osiria_rose"
     }
   ],
   "processingTime": 50,
