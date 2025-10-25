@@ -11,6 +11,7 @@ import javax.annotation.Nullable;
 import com.simibubi.create.api.behaviour.display.DisplaySource;
 import com.simibubi.create.api.behaviour.display.DisplayTarget;
 import com.simibubi.create.api.registry.CreateRegistries;
+import com.simibubi.create.infrastructure.fabric.SimpleBlockEntityVisualFactory;
 import com.tterrag.registrate.AbstractRegistrate;
 import com.tterrag.registrate.builders.BlockEntityBuilder;
 import com.tterrag.registrate.builders.BuilderCallback;
@@ -28,7 +29,7 @@ import net.fabricmc.api.EnvType;
 public class CreateBlockEntityBuilder<T extends BlockEntity, P> extends BlockEntityBuilder<T, P> {
 
 	@Nullable
-	private NonNullSupplier<SimpleBlockEntityVisualizer.Factory<T>> visualFactory;
+	private NonNullSupplier<SimpleBlockEntityVisualFactory<T>> visualFactory;
 	private Predicate<T> renderNormally;
 
 	private Collection<NonNullSupplier<? extends Collection<NonNullSupplier<? extends Block>>>> deferredValidBlocks =
@@ -76,18 +77,18 @@ public class CreateBlockEntityBuilder<T extends BlockEntity, P> extends BlockEnt
 	}
 
 	public CreateBlockEntityBuilder<T, P> visual(
-		NonNullSupplier<SimpleBlockEntityVisualizer.Factory<T>> visualFactory) {
+		NonNullSupplier<SimpleBlockEntityVisualFactory<T>> visualFactory) {
 		return visual(visualFactory, true);
 	}
 
 	public CreateBlockEntityBuilder<T, P> visual(
-		NonNullSupplier<SimpleBlockEntityVisualizer.Factory<T>> visualFactory,
+		NonNullSupplier<SimpleBlockEntityVisualFactory<T>> visualFactory,
 		boolean renderNormally) {
 		return visual(visualFactory, be -> renderNormally);
 	}
 
 	public CreateBlockEntityBuilder<T, P> visual(
-		NonNullSupplier<SimpleBlockEntityVisualizer.Factory<T>> visualFactory,
+		NonNullSupplier<SimpleBlockEntityVisualFactory<T>> visualFactory,
 		Predicate<T> renderNormally) {
 		if (this.visualFactory == null) {
 			EnvExecutor.runWhenOn(EnvType.CLIENT, () -> this::registerVisualizer);
@@ -104,7 +105,7 @@ public class CreateBlockEntityBuilder<T extends BlockEntity, P> extends BlockEnt
 			Objects.requireNonNull(this.visualFactory);
 			Predicate<T> renderNormally = this.renderNormally;
 			SimpleBlockEntityVisualizer.builder(this.getEntry())
-				.factory(this.visualFactory.get())
+				.factory(this.visualFactory.get()::create)
 				.skipVanillaRender(be -> !renderNormally.test(be))
 				.apply();
 		});

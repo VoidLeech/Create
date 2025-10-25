@@ -6,13 +6,13 @@ import java.util.function.Predicate;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import com.simibubi.create.infrastructure.fabric.SimpleEntityVisualFactory;
 import com.tterrag.registrate.AbstractRegistrate;
 import com.tterrag.registrate.builders.BuilderCallback;
 import com.tterrag.registrate.builders.EntityBuilder;
 import com.tterrag.registrate.fabric.EnvExecutor;
 import com.tterrag.registrate.util.nullness.NonNullSupplier;
 
-import dev.engine_room.flywheel.lib.visualization.SimpleBlockEntityVisualizer;
 import dev.engine_room.flywheel.lib.visualization.SimpleEntityVisualizer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -24,7 +24,7 @@ import net.fabricmc.api.EnvType;
 public class CreateEntityBuilder<T extends Entity, P> extends EntityBuilder<T, P> {
 
 	@Nullable
-	private NonNullSupplier<SimpleEntityVisualizer.Factory<T>> visualFactory;
+	private NonNullSupplier<SimpleEntityVisualFactory<T>> visualFactory;
 	private Predicate<T> renderNormally;
 
 	public static <T extends Entity, P> EntityBuilder<T, P> create(AbstractRegistrate<?> owner, P parent, String name, BuilderCallback callback, EntityType.EntityFactory<T> factory, MobCategory classification) {
@@ -35,15 +35,15 @@ public class CreateEntityBuilder<T extends Entity, P> extends EntityBuilder<T, P
 		super(owner, parent, name, callback, factory, classification/*, (mobCategory, tEntityFactory) -> FabricEntityTypeBuilder.create(mobCategory, tEntityFactory)*/);
 	}
 
-	public CreateEntityBuilder<T, P> visual(NonNullSupplier<SimpleEntityVisualizer.Factory<T>> visualFactory) {
+	public CreateEntityBuilder<T, P> visual(NonNullSupplier<SimpleEntityVisualFactory<T>> visualFactory) {
 		return visual(visualFactory, true);
 	}
 
-	public CreateEntityBuilder<T, P> visual(NonNullSupplier<SimpleEntityVisualizer.Factory<T>> visualFactory, boolean renderNormally) {
+	public CreateEntityBuilder<T, P> visual(NonNullSupplier<SimpleEntityVisualFactory<T>> visualFactory, boolean renderNormally) {
 		return visual(visualFactory, entity -> renderNormally);
 	}
 
-	public CreateEntityBuilder<T, P> visual(NonNullSupplier<SimpleEntityVisualizer.Factory<T>> visualFactory, Predicate<T> renderNormally) {
+	public CreateEntityBuilder<T, P> visual(NonNullSupplier<SimpleEntityVisualFactory<T>> visualFactory, Predicate<T> renderNormally) {
 		if (this.visualFactory == null) {
 			EnvExecutor.runWhenOn(EnvType.CLIENT, () -> this::registerVisualizer);
 		}
@@ -59,7 +59,7 @@ public class CreateEntityBuilder<T extends Entity, P> extends EntityBuilder<T, P
 			Objects.requireNonNull(this.visualFactory);
 			Predicate<T> renderNormally = this.renderNormally;
 			SimpleEntityVisualizer.builder(this.getEntry())
-				.factory(this.visualFactory.get())
+				.factory(this.visualFactory.get()::create)
 				.skipVanillaRender(entity -> !renderNormally.test(entity))
 				.apply();
 		});

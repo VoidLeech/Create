@@ -8,6 +8,7 @@ import com.simibubi.create.content.kinetics.gantry.GantryShaftBlock;
 import com.simibubi.create.content.kinetics.gantry.GantryShaftBlock.Part;
 import com.simibubi.create.content.kinetics.gantry.GantryShaftBlockEntity;
 import com.simibubi.create.foundation.render.AllInstanceTypes;
+import com.simibubi.create.infrastructure.fabric.SimpleBlockEntityVisualFactory;
 
 import dev.engine_room.flywheel.api.instance.Instance;
 import dev.engine_room.flywheel.api.model.Model;
@@ -15,7 +16,6 @@ import dev.engine_room.flywheel.api.visual.BlockEntityVisual;
 import dev.engine_room.flywheel.api.visualization.VisualizationContext;
 import dev.engine_room.flywheel.lib.model.Models;
 import dev.engine_room.flywheel.lib.model.baked.PartialModel;
-import dev.engine_room.flywheel.lib.visualization.SimpleBlockEntityVisualizer;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Direction.AxisDirection;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -40,7 +40,7 @@ public class OrientedRotatingVisual<T extends KineticBlockEntity> extends Kineti
 		rotatingModel.setChanged();
 	}
 
-	public static <T extends KineticBlockEntity> SimpleBlockEntityVisualizer.Factory<T> of(PartialModel partial) {
+	public static <T extends KineticBlockEntity> SimpleBlockEntityVisualFactory<T> of(PartialModel partial) {
 		return (context, blockEntity, partialTick) -> {
 			Direction facing = blockEntity.getBlockState()
 				.getValue(BlockStateProperties.FACING);
@@ -48,7 +48,7 @@ public class OrientedRotatingVisual<T extends KineticBlockEntity> extends Kineti
 		};
 	}
 
-	public static <T extends KineticBlockEntity> SimpleBlockEntityVisualizer.Factory<T> backHorizontal(PartialModel partial) {
+	public static <T extends KineticBlockEntity> SimpleBlockEntityVisualFactory<T> backHorizontal(PartialModel partial) {
 		return (context, blockEntity, partialTick) -> {
 			Direction facing = blockEntity.getBlockState()
 				.getValue(BlockStateProperties.HORIZONTAL_FACING)

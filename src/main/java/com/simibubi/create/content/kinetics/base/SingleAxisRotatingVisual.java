@@ -5,6 +5,7 @@ import java.util.function.Consumer;
 import com.simibubi.create.AllPartialModels;
 import com.simibubi.create.content.equipment.armor.BacktankRenderer;
 import com.simibubi.create.foundation.render.AllInstanceTypes;
+import com.simibubi.create.infrastructure.fabric.SimpleBlockEntityVisualFactory;
 
 import dev.engine_room.flywheel.api.instance.Instance;
 import dev.engine_room.flywheel.api.model.Model;
@@ -12,7 +13,6 @@ import dev.engine_room.flywheel.api.visualization.VisualizationContext;
 import dev.engine_room.flywheel.lib.model.Models;
 import dev.engine_room.flywheel.lib.model.baked.PartialModel;
 import dev.engine_room.flywheel.lib.visual.SimpleTickableVisual;
-import dev.engine_room.flywheel.lib.visualization.SimpleBlockEntityVisualizer;
 import net.createmod.catnip.theme.Color;
 import net.minecraft.core.Direction;
 
@@ -40,7 +40,7 @@ public class SingleAxisRotatingVisual<T extends KineticBlockEntity> extends Kine
 		rotatingModel.setChanged();
 	}
 
-	public static <T extends KineticBlockEntity> SimpleBlockEntityVisualizer.Factory<T> of(PartialModel partial) {
+	public static <T extends KineticBlockEntity> SimpleBlockEntityVisualFactory<T> of(PartialModel partial) {
 		return (context, blockEntity, partialTick) -> {
 			return new SingleAxisRotatingVisual<>(context, blockEntity, partialTick, Models.partial(partial));
 		};
@@ -49,7 +49,7 @@ public class SingleAxisRotatingVisual<T extends KineticBlockEntity> extends Kine
 	/**
 	 * For partial models whose source model is aligned with the Z axis instead of Y
 	 */
-	public static <T extends KineticBlockEntity> SimpleBlockEntityVisualizer.Factory<T> ofZ(PartialModel partial) {
+	public static <T extends KineticBlockEntity> SimpleBlockEntityVisualFactory<T> ofZ(PartialModel partial) {
 		return (context, blockEntity, partialTick) -> {
 			return new SingleAxisRotatingVisual<>(context, blockEntity, partialTick, Direction.SOUTH, Models.partial(partial));
 		};
