@@ -232,6 +232,9 @@ public class CreateRegistrateTags {
 		TagGen.addOptional(prov.tag(AllItemTags.UA_CORAL.tag), Mods.UA, List.of("acan_coral",
 			"finger_coral", "star_coral", "moss_coral", "petal_coral", "branch_coral",
 			"rock_coral", "pillow_coral", "chrome_coral", "silk_coral"));
+
+		TagGen.addOptional(prov.tag(AllItemTags.UPRIGHT_ON_BELT.tag), Mods.ATM, List.of(
+			"orange_pudding", "orange_sorbet", "passion_fruit_sorbet", "aloe_gel_bottle"));
 	}
 
 	private static ArrayList<String> gsPalette(String material) {
@@ -259,10 +262,9 @@ public class CreateRegistrateTags {
 		helper.add(Mods.FA, "mysterywood");
 		helper.add(Mods.HEX, "akashic");
 		helper.add(Mods.ID, "menril");
-		helper.add(Mods.BYG, "aspen", "baobab", "enchanted", "cika", "cypress", "ebony", "ether",
-			"fir", "green_enchanted", "holly", "jacaranda", "lament", "mahogany", "mangrove", "maple", "nightshade",
-			"palm", "palo_verde", "pine", "rainbow_eucalyptus", "redwood", "skyris", "willow", "witch_hazel",
-			"zelkova");
+		helper.add(Mods.BWG, "aspen", "baobab", "blue_enchanted", "cika", "cypress", "ebony",
+				"fir", "green_enchanted", "holly", "jacaranda", "ironwood", "mahogany", "maple", "sakura", "white_mangrove",
+				"palm", "pine", "rainbow_eucalyptus", "redwood", "skyris", "willow", "witch_hazel", "zelkova");
 		helper.add(Mods.SG, "netherwood");
 		helper.add(Mods.TF, "twilight_oak", "canopy", "mangrove", "dark", "time", "transformation", "mining",
 			"sorting");
@@ -271,10 +273,10 @@ public class CreateRegistrateTags {
 		helper.add(Mods.Q, "azalea", "blossom");
 		helper.add(Mods.ECO, "coconut", "walnut", "azalea");
 		helper.add(Mods.BOP, "fir", "redwood", "mahogany", "jacaranda", "palm", "willow", "dead",
-			"magic", "umbran", "hellbark");
+			"magic", "umbran", "hellbark", "pine", "maple", "empyreal");
 		helper.add(Mods.BSK, "bluebright", "starlit", "frostbright", "lunar", "dusk", "maple");
 		helper.add(Mods.ENV, "willow", "wisteria");
-		helper.add(Mods.ATM, "aspen", "kousa", "yucca", "morado");
+		helper.add(Mods.ATM, "aspen", "kousa", "yucca", "morado", "laurel");
 		helper.add(Mods.ATM_2, "rosewood", "grimwood");
 		helper.add(Mods.GOOD, "muddy_oak", "cypress");
 		helper.add(Mods.BMK, "blighted_balsa", "willow", "swamp_cypress", "ancient_oak");
@@ -286,8 +288,10 @@ public class CreateRegistrateTags {
 		TagGen.addOptional(logAppender, Mods.AUTUM, "maple");
 		TagGen.addOptional(logAppender, Mods.IX, "stripped_luminous_stem");
 		TagGen.addOptional(woodAppender, Mods.IX, "stripped_luminous_hyphae");
-		TagGen.addOptional(logAppender, Mods.BYG, "stripped_bulbis_stem");
-		TagGen.addOptional(woodAppender, Mods.BYG, "stripped_bulbis_wood");
+		TagGen.addOptional(logAppender, Mods.BWG, "stripped_florus_stem");
+		TagGen.addOptional(woodAppender, Mods.BWG, "stripped_florus_wood");
+		TagGen.addOptional(logAppender, Mods.BWG, "stripped_palo_verde_log");
+		TagGen.addOptional(woodAppender, Mods.BWG, "stripped_palo_verde_wood");
 
 		TagGen.addOptional(logAppender, Mods.RU, "stripped_blue_bioshroom_stem");
 		TagGen.addOptional(woodAppender, Mods.RU, "stripped_blue_bioshroom_hyphae");

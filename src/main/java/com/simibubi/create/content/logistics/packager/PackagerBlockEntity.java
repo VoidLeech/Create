@@ -15,6 +15,7 @@ import com.simibubi.create.Create;
 import com.simibubi.create.api.packager.unpacking.UnpackingHandler;
 import com.simibubi.create.compat.computercraft.AbstractComputerBehaviour;
 import com.simibubi.create.compat.computercraft.ComputerCraftProxy;
+import com.simibubi.create.compat.computercraft.events.PackageEvent;
 import com.simibubi.create.content.contraptions.actors.psi.PortableStorageInterfaceBlockEntity;
 import com.simibubi.create.content.logistics.BigItemStack;
 import com.simibubi.create.content.logistics.box.PackageItem;
@@ -56,20 +57,14 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.entity.SignBlockEntity;
 import net.minecraft.world.level.block.entity.SignText;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
+import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.ItemHandlerHelper;
+import net.minecraftforge.items.ItemStackHandler;
 
-import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
-import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
-import net.fabricmc.fabric.api.transfer.v1.storage.StorageView;
-import net.fabricmc.fabric.api.transfer.v1.storage.base.SidedStorageBlockEntity;
-import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
-import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
-
-import io.github.fabricators_of_create.porting_lib.transfer.callbacks.TransactionCallback;
-import io.github.fabricators_of_create.porting_lib.transfer.item.ItemHandlerHelper;
-import io.github.fabricators_of_create.porting_lib.transfer.item.ItemStackHandler;
-import io.github.fabricators_of_create.porting_lib.util.StorageProvider;
-
-public class PackagerBlockEntity extends SmartBlockEntity implements SidedStorageBlockEntity {
+public class PackagerBlockEntity extends SmartBlockEntity {
 
 	public boolean redstonePowered;
 	public int buttonCooldown;
@@ -82,6 +77,7 @@ public class PackagerBlockEntity extends SmartBlockEntity implements SidedStorag
 	public List<BigItemStack> queuedExitingPackages;
 
 	public PackagerItemHandler inventory;
+	private final LazyOptional<IItemHandler> invProvider;
 
 	public static final int CYCLE = 20;
 	public int animationTicks;
@@ -105,6 +101,7 @@ public class PackagerBlockEntity extends SmartBlockEntity implements SidedStorag
 		heldBox = ItemStack.EMPTY;
 		previouslyUnwrapped = ItemStack.EMPTY;
 		inventory = new PackagerItemHandler(this);
+		invProvider = LazyOptional.of(() -> inventory);
 		animationTicks = 0;
 		animationInward = true;
 		queuedExitingPackages = new LinkedList<>();
@@ -123,8 +120,8 @@ public class PackagerBlockEntity extends SmartBlockEntity implements SidedStorag
 		behaviours.add(computerBehaviour = ComputerCraftProxy.behaviour(this));
 	}
 
-	private boolean supportsBlockEntity(Storage<ItemVariant> storage, StorageProvider<ItemVariant> provider) {
-		return !(provider.findBlockEntity() instanceof PortableStorageInterfaceBlockEntity);
+	private boolean supportsBlockEntity(BlockEntity target) {
+		return target != null && !(target instanceof PortableStorageInterfaceBlockEntity);
 	}
 
 	@Override
@@ -175,12 +172,6 @@ public class PackagerBlockEntity extends SmartBlockEntity implements SidedStorag
 		}
 	}
 
-	// fabric: cannot check stock from a transaction close callback
-	public void scheduleStockCheck() {
-		Objects.requireNonNull(this.level);
-		this.level.scheduleTick(this.worldPosition, this.getBlockState().getBlock(), 1);
-	}
-
 	public void triggerStockCheck() {
 		getAvailableItems();
 	}
@@ -195,7 +186,7 @@ public class PackagerBlockEntity extends SmartBlockEntity implements SidedStorag
 
 		InventorySummary availableItems = new InventorySummary();
 
-		Storage<ItemVariant> targetInv = targetInventory.getInventory();
+		IItemHandler targetInv = targetInventory.getInventory();
 		if (targetInv == null || targetInv instanceof PackagerItemHandler) {
 			this.availableItems = availableItems;
 			return availableItems;
@@ -207,12 +198,9 @@ public class PackagerBlockEntity extends SmartBlockEntity implements SidedStorag
 			return availableItems;
 		}
 
-		try (Transaction t = Transaction.openOuter()) {
-			for (StorageView<ItemVariant> view : targetInv.nonEmptyViews()) {
-				ItemVariant resource = view.getResource();
-				long amount = scanInputSlots ? view.getAmount() : view.extract(resource, view.getAmount(), t);
-				availableItems.add(resource, amount);
-			}
+		for (int slot = 0; slot < targetInv.getSlots(); slot++) {
+			int slotLimit = targetInv.getSlotLimit(slot);
+			availableItems.add(scanInputSlots ? targetInv.getStackInSlot(slot) : targetInv.extractItem(slot, slotLimit, true));
 		}
 
 		invVersionTracker.awaitNewVersion(targetInventory.getInventory());
@@ -353,7 +341,7 @@ public class PackagerBlockEntity extends SmartBlockEntity implements SidedStorag
 		}
 	}
 
-	public boolean unwrapBox(ItemStack box, TransactionContext ctx) {
+	public boolean unwrapBox(ItemStack box, boolean simulate) {
 		if (animationTicks > 0)
 			return false;
 
@@ -372,15 +360,14 @@ public class PackagerBlockEntity extends SmartBlockEntity implements SidedStorag
 		UnpackingHandler handler = UnpackingHandler.REGISTRY.get(targetState);
 		UnpackingHandler toUse = handler != null ? handler : UnpackingHandler.DEFAULT;
 		// note: handler may modify the passed items
-		boolean unpacked = toUse.unpack(level, target, targetState, facing, items, orderContext, ctx);
+		boolean unpacked = toUse.unpack(level, target, targetState, facing, items, orderContext, simulate);
 
-		if (unpacked) {
-			TransactionCallback.onSuccess(ctx, () -> {
-				previouslyUnwrapped = box;
-				animationInward = true;
-				animationTicks = CYCLE;
-				notifyUpdate();
-			});
+		if (unpacked && !simulate) {
+			computerBehaviour.prepareComputerEvent(new PackageEvent(box, "package_received"));
+			previouslyUnwrapped = box;
+			animationInward = true;
+			animationTicks = CYCLE;
+			notifyUpdate();
 		}
 
 		return unpacked;
@@ -390,7 +377,7 @@ public class PackagerBlockEntity extends SmartBlockEntity implements SidedStorag
 		if (queuedRequests == null && (!heldBox.isEmpty() || animationTicks != 0 || buttonCooldown > 0))
 			return;
 
-		Storage<ItemVariant> targetInv = targetInventory.getInventory();
+		IItemHandler targetInv = targetInventory.getInventory();
 		if (targetInv == null || targetInv instanceof PackagerItemHandler)
 			return;
 
@@ -428,68 +415,64 @@ public class PackagerBlockEntity extends SmartBlockEntity implements SidedStorag
 			while (continuePacking) {
 				continuePacking = false;
 
-				for (StorageView<ItemVariant> view : targetInv.nonEmptyViews()) {
-					try (Transaction t = Transaction.openOuter()) {
-						ItemVariant resource = view.getResource();
-						boolean bulky = !resource.getItem().canFitInsideContainerItems();
-						if (bulky && anyItemPresent)
-							continue;
+				for (int slot = 0; slot < targetInv.getSlots(); slot++) {
+					int initialCount = requestQueue ? Math.min(64, nextRequest.getCount()) : 64;
+					ItemStack extracted = targetInv.extractItem(slot, initialCount, true);
+					if (extracted.isEmpty())
+						continue;
+					if (requestQueue && !ItemHandlerHelper.canItemStacksStack(extracted, nextRequest.item()))
+						continue;
 
-						int initialCount = requestQueue ? Math.min(64, nextRequest.getCount()) : 64;
-						long extractedAmount = view.extract(resource, initialCount, t);
-						if (extractedAmount == 0)
-							continue;
+					boolean bulky = !extracted.getItem()
+						.canFitInsideContainerItems();
+					if (bulky && anyItemPresent)
+						continue;
 
-						ItemStack extracted = resource.toStack((int) extractedAmount);
-						if (requestQueue && !ItemHandlerHelper.canItemStacksStack(extracted, nextRequest.item()))
-							continue;
+					anyItemPresent = true;
+					int leftovers = ItemHandlerHelper.insertItemStacked(extractedItems, extracted.copy(), false)
+						.getCount();
+					int transferred = extracted.getCount() - leftovers;
+					targetInv.extractItem(slot, transferred, false);
 
-						long inserted = extractedItems.insert(resource, extractedAmount, t);
-						if (inserted != extractedAmount)
-							continue;
-						anyItemPresent = true;
-						t.commit();
+					if (extracted.getItem() instanceof PackageItem)
+						extractedPackageItem = extracted;
 
-						if (extracted.getItem() instanceof PackageItem)
-							extractedPackageItem = extracted;
-
-						if (!requestQueue) {
-							if (bulky)
-								break Outer;
-							continue;
-						}
-
-						nextRequest.subtract((int) inserted);
-
-						if (!nextRequest.isEmpty()) {
-							if (bulky)
-								break Outer;
-							continue;
-						}
-
-						finalPackageAtLink = true;
-						queuedRequests.remove(0);
-						if (queuedRequests.isEmpty())
-							break Outer;
-						int previousCount = nextRequest.packageCounter()
-							.intValue();
-						nextRequest = queuedRequests.get(0);
-						if (!fixedAddress.equals(nextRequest.address()))
-							break Outer;
-						if (fixedOrderId != nextRequest.orderId())
-							break Outer;
-
-						nextRequest.packageCounter()
-							.setValue(previousCount);
-						finalPackageAtLink = false;
-						continuePacking = true;
-						if (nextRequest.context() != null)
-							orderContext = nextRequest.context();
-
+					if (!requestQueue) {
 						if (bulky)
 							break Outer;
-						break;
+						continue;
 					}
+
+					nextRequest.subtract(transferred);
+
+					if (!nextRequest.isEmpty()) {
+						if (bulky)
+							break Outer;
+						continue;
+					}
+
+					finalPackageAtLink = true;
+					queuedRequests.remove(0);
+					if (queuedRequests.isEmpty())
+						break Outer;
+					int previousCount = nextRequest.packageCounter()
+						.intValue();
+					nextRequest = queuedRequests.get(0);
+					if (!fixedAddress.equals(nextRequest.address()))
+						break Outer;
+					if (fixedOrderId != nextRequest.orderId())
+						break Outer;
+
+					nextRequest.packageCounter()
+						.setValue(previousCount);
+					finalPackageAtLink = false;
+					continuePacking = true;
+					if (nextRequest.context() != null)
+						orderContext = nextRequest.context();
+
+					if (bulky)
+						break Outer;
+					break;
 				}
 			}
 		}
@@ -502,6 +485,7 @@ public class PackagerBlockEntity extends SmartBlockEntity implements SidedStorag
 
 		ItemStack createdBox =
 			extractedPackageItem.isEmpty() ? PackageItem.containing(extractedItems) : extractedPackageItem.copy();
+		computerBehaviour.prepareComputerEvent(new PackageEvent(createdBox, "package_created"));
 		PackageItem.clearAddress(createdBox);
 
 		if (fixedAddress != null)
@@ -606,6 +590,12 @@ public class PackagerBlockEntity extends SmartBlockEntity implements SidedStorag
 	}
 
 	@Override
+	public void invalidate() {
+		super.invalidate();
+		invProvider.invalidate();
+	}
+
+	@Override
 	public void destroy() {
 		super.destroy();
 		ItemHelper.dropContents(level, worldPosition, inventory);
@@ -618,9 +608,12 @@ public class PackagerBlockEntity extends SmartBlockEntity implements SidedStorag
 	}
 
 	@Override
-	@Nullable
-	public Storage<ItemVariant> getItemStorage(@Nullable Direction side) {
-		return this.inventory;
+	public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side) {
+		if (cap == ForgeCapabilities.ITEM_HANDLER)
+			return invProvider.cast();
+		if (computerBehaviour.isPeripheralCap(cap))
+			return computerBehaviour.getPeripheralCapability();
+		return super.getCapability(cap, side);
 	}
 
 	public float getTrayOffset(float partialTicks) {
@@ -640,7 +633,7 @@ public class PackagerBlockEntity extends SmartBlockEntity implements SidedStorag
 		if (inventory == null)
 			return false;
 
-		Storage<ItemVariant> targetHandler = this.targetInventory.getInventory();
+		IItemHandler targetHandler = this.targetInventory.getInventory();
 		if (targetHandler == null)
 			return false;
 
@@ -648,9 +641,27 @@ public class PackagerBlockEntity extends SmartBlockEntity implements SidedStorag
 			BlockFace face = this.targetInventory.getTarget().getOpposite();
 			return inventory.identifier().contains(face);
 		} else {
-			// fabric: forge's fallback approach is not viable.
-			return false;
+			return isSameInventoryFallback(targetHandler, inventory.handler());
 		}
+	}
+
+	private static boolean isSameInventoryFallback(IItemHandler first, IItemHandler second) {
+		if (first == second)
+			return true;
+
+		// If a contained ItemStack instance is the same, we can be pretty sure these
+		// inventories are the same (works for compound inventories)
+		for (int i = 0; i < second.getSlots(); i++) {
+			ItemStack stackInSlot = second.getStackInSlot(i);
+			if (stackInSlot.isEmpty())
+				continue;
+			for (int j = 0; j < first.getSlots(); j++)
+				if (stackInSlot == first.getStackInSlot(j))
+					return true;
+			break;
+		}
+
+		return false;
 	}
 
 }

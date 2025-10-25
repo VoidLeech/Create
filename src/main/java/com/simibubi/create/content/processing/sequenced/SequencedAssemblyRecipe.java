@@ -16,10 +16,6 @@ import com.simibubi.create.foundation.fluid.FluidIngredient;
 import com.simibubi.create.foundation.utility.CreateLang;
 
 import net.createmod.catnip.data.Pair;
-
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
-
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.NonNullList;
@@ -160,13 +156,15 @@ public class SequencedAssemblyRecipe implements Recipe<Container> {
 	}
 
 	private boolean appliesTo(ItemStack input) {
-		if (ingredient.test(input))
-			return true;
-		return input.hasTag() && getTransitionalItem().getItem() == input.getItem() && input.getTag()
-			.contains("SequencedAssembly") && input.getTag()
-			.getCompound("SequencedAssembly")
-			.getString("id")
-			.equals(id.toString());
+		// First check if the item is already in the middle of a sequenced assembly recipe
+		if (input.hasTag() && input.getTag().contains("SequencedAssembly")) {
+			return getTransitionalItem().getItem() == input.getItem() && input.getTag()
+				.getCompound("SequencedAssembly")
+				.getString("id")
+				.equals(id.toString());
+		}
+		// Else it must be the first step in a new sequenced assembly recipe
+		return ingredient.test(input);
 	}
 
 	private SequencedRecipe<?> getNextRecipe(ItemStack input) {

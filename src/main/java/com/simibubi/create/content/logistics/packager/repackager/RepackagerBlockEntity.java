@@ -2,6 +2,8 @@ package com.simibubi.create.content.logistics.packager.repackager;
 
 import java.util.List;
 
+import com.simibubi.create.compat.computercraft.events.PackageEvent;
+import com.simibubi.create.compat.computercraft.events.RepackageEvent;
 import com.simibubi.create.content.logistics.BigItemStack;
 import com.simibubi.create.content.logistics.box.PackageItem;
 import com.simibubi.create.content.logistics.crate.BottomlessItemHandler;
@@ -49,6 +51,7 @@ public class RepackagerBlockEntity extends PackagerBlockEntity {
 			return false;
 
 		TransactionCallback.onSuccess(ctx, () -> {
+			computerBehaviour.prepareComputerEvent(new PackageEvent(box, "package_received"));
 			previouslyUnwrapped = box;
 			animationInward = true;
 			animationTicks = CYCLE;
@@ -134,6 +137,11 @@ public class RepackagerBlockEntity extends PackagerBlockEntity {
 				return;
 			}
 
+			if (computerBehaviour.hasAttachedComputer()) {
+				for (BigItemStack box : boxesToExport) {
+					computerBehaviour.prepareComputerEvent(new RepackageEvent(box.stack, box.count));
+				}
+			}
 			queuedExitingPackages.addAll(boxesToExport);
 			t.commit();
 		}

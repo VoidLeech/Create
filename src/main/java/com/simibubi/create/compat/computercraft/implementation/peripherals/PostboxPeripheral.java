@@ -1,16 +1,17 @@
 package com.simibubi.create.compat.computercraft.implementation.peripherals;
 
-import com.simibubi.create.content.logistics.packagePort.postbox.PostboxBlockEntity;
-import com.simibubi.create.compat.computercraft.implementation.ComputerUtil;
-import com.simibubi.create.AllPackets;
-import com.simibubi.create.content.logistics.packagePort.PackagePortConfigurationPacket;
-
-import dan200.computercraft.api.lua.LuaException;
-import dan200.computercraft.api.lua.LuaFunction;
+import java.util.Map;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Map;
+import com.simibubi.create.compat.computercraft.events.ComputerEvent;
+import com.simibubi.create.compat.computercraft.events.PackageEvent;
+import com.simibubi.create.compat.computercraft.implementation.ComputerUtil;
+import com.simibubi.create.compat.computercraft.implementation.luaObjects.PackageLuaObject;
+import com.simibubi.create.content.logistics.packagePort.postbox.PostboxBlockEntity;
+
+import dan200.computercraft.api.lua.LuaException;
+import dan200.computercraft.api.lua.LuaFunction;
 
 public class PostboxPeripheral extends SyncedPeripheral<PostboxBlockEntity> {
 
@@ -68,6 +69,13 @@ public class PostboxPeripheral extends SyncedPeripheral<PostboxBlockEntity> {
 		}
 		throw new LuaException("Unknown configuration: \"" + config
 				+ "\" Possible configurations are: \"send_recieve\" and \"send\".");
+	}
+
+	@Override
+	public void prepareComputerEvent(@NotNull ComputerEvent event) {
+		if (event instanceof PackageEvent pe) {
+			queueEvent(pe.status, new PackageLuaObject(null, pe.box));
+		}
 	}
 
 	@NotNull

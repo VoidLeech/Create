@@ -7,6 +7,7 @@ import com.simibubi.create.AllItems;
 import com.simibubi.create.api.equipment.goggles.IHaveHoveringInformation;
 import com.simibubi.create.compat.computercraft.AbstractComputerBehaviour;
 import com.simibubi.create.compat.computercraft.ComputerCraftProxy;
+import com.simibubi.create.compat.computercraft.events.PackageEvent;
 import com.simibubi.create.content.logistics.box.PackageItem;
 import com.simibubi.create.content.logistics.box.PackageStyles;
 import com.simibubi.create.content.logistics.packagePort.PackagePortBlockEntity;
@@ -166,6 +167,8 @@ public class FrogportBlockEntity extends PackagePortBlockEntity implements IHave
 					if (target == null
 						|| !target.depositImmediately() && !target.export(level, worldPosition, animatedPackage, false))
 						drop(animatedPackage);
+					else
+						computerBehaviour.prepareComputerEvent(new PackageEvent(animatedPackage, "package_sent"));
 					animatedPackage = null;
 				}
 			} else {
@@ -193,6 +196,8 @@ public class FrogportBlockEntity extends PackagePortBlockEntity implements IHave
 			long inserted = TransferUtil.insertItem(this.inventory, animatedPackage.copy());
 			if (inserted <= 0)
 				drop(animatedPackage);
+			else
+				computerBehaviour.prepareComputerEvent(new PackageEvent(animatedPackage, "package_received"));
 		}
 
 		animatedPackage = null;

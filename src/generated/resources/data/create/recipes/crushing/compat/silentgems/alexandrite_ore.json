@@ -29,7 +29,7 @@
     },
     {
       "chance": 0.12,
-      "item": "minecraft:netherrack"
+      "item": "minecraft:cobblestone"
     }
   ]
 }

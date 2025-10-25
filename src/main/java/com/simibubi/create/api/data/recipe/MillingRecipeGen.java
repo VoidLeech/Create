@@ -12,6 +12,14 @@ import net.minecraft.data.PackOutput;
  * Needs to be added to a registered recipe provider to do anything, see {@link com.simibubi.create.foundation.data.recipe.CreateRecipeProvider}
  */
 public abstract class MillingRecipeGen extends ProcessingRecipeGen {
+	protected GeneratedRecipe moddedSandstone(DatagenMod mod, String name) {
+		String sandstone = name + "_sandstone";
+		return create(mod.recipeId(sandstone), b -> b.duration(150)
+			.require(mod, sandstone)
+			.output(mod, name + "_sand")
+			.whenModLoaded(mod.getId()));
+	}
+
 	public MillingRecipeGen(PackOutput output, String defaultNamespace) {
 		super(output, defaultNamespace);
 	}

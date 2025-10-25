@@ -8,6 +8,7 @@ import java.util.Map.Entry;
 import javax.annotation.Nullable;
 
 import com.simibubi.create.Create;
+import com.simibubi.create.compat.computercraft.events.PackageEvent;
 import com.simibubi.create.content.logistics.box.PackageItem;
 import com.simibubi.create.content.logistics.packagePort.postbox.PostboxBlockEntity;
 import com.simibubi.create.content.trains.entity.Carriage;
@@ -199,6 +200,8 @@ public class GlobalStation extends SingleBlockEntityEdgePoint {
 						continue;
 
 					long inserted = TransferUtil.insertItem(carriageInventory, stack);
+					if (box != null)
+						box.computerBehaviour.prepareComputerEvent(new PackageEvent(stack, "package_sent"));
 					if (inserted == 0)
 						continue;
 
@@ -237,6 +240,10 @@ public class GlobalStation extends SingleBlockEntityEdgePoint {
 						}
 
 						long inserted = postboxInventory.insert(resource, view.getAmount(), t);
+						if (box != null) {
+							ItemStack stack = resource.toStack();
+							box.computerBehaviour.prepareComputerEvent(new PackageEvent(stack, "package_received"));
+						}
 						if (inserted == 0)
 							continue;
 

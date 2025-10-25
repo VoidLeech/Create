@@ -6,9 +6,9 @@ import com.simibubi.create.Create;
 import com.simibubi.create.api.data.recipe.CuttingRecipeGen;
 import com.simibubi.create.foundation.data.recipe.CreateRecipeProvider.I;
 
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
-
 import net.minecraft.world.level.block.Blocks;
+
+import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 
 /**
  * Create's own Data Generation for Cutting recipes
@@ -58,7 +58,14 @@ public final class CreateCuttingRecipeGen extends CuttingRecipeGen {
 
 		// Jaden's Nether Expansion
 		JNE_1 = stripAndMakePlanks(Mods.JNE, "cerebrage_claret_stem", "stripped_claret_stem", null),
-		JNE_2 = stripAndMakePlanks(Mods.JNE, "cerebrage_claret_hyphae", "stripped_claret_hyphae", null)
+		JNE_2 = stripAndMakePlanks(Mods.JNE, "cerebrage_claret_hyphae", "stripped_claret_hyphae", null),
+
+		// Atmospheric
+		ATM_1 = stripAndMakePlanks(Mods.ATM, "watchful_aspen_log", "aspen_log", null),
+	    ATM_2 = stripAndMakePlanks(Mods.ATM, "watchful_aspen_wood", "aspen_wood", null),
+		ATM_3 = stripAndMakePlanks(Mods.ATM, "crustose_log", "aspen_log", null),
+		ATM_4 = stripAndMakePlanks(Mods.ATM, "crustose_wood", "aspen_wood", null)
+
 		;
 
 	public CreateCuttingRecipeGen(FabricDataOutput output) {
