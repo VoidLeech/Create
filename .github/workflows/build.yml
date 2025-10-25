@@ -28,9 +28,6 @@ jobs:
         with:
           cache-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
 
-      - name: Validate Gradle Wrapper Integrity
-        uses: gradle/actions/wrapper-validation@v3
-
       - name: Build
         run: ./gradlew build
 
