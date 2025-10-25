@@ -2,10 +2,6 @@ package com.simibubi.create.content.contraptions.chassis;
 
 import java.util.List;
 
-import io.github.fabricators_of_create.porting_lib.util.LazyOptional;
-
-import org.jetbrains.annotations.NotNull;
-
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.AllSoundEvents;
 import com.simibubi.create.compat.computercraft.AbstractComputerBehaviour;
@@ -107,19 +103,6 @@ public class StickerBlockEntity extends SmartBlockEntity {
 	@Environment(EnvType.CLIENT)
 	public void playSound(boolean attach) {
 		AllSoundEvents.SLIME_ADDED.play(level, Minecraft.getInstance().player, worldPosition, 0.35f, attach ? 0.75f : 0.2f);
-	}
-
-	@Override
-	public <T> @NotNull LazyOptional<T> getCapability(@NotNull Capability<T> cap, Direction side) {
-		if (computerBehaviour.isPeripheralCap(cap))
-			return computerBehaviour.getPeripheralCapability();
-		return super.getCapability(cap, side);
-	}
-
-	@Override
-	public void invalidateCaps() {
-		super.invalidateCaps();
-		computerBehaviour.removePeripheral();
 	}
 
 }

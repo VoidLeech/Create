@@ -82,9 +82,7 @@ public class ManualApplicationRecipe extends ItemApplicationRecipe {
 				heldItem.hurtAndBreak(1, player,
 					s -> s.broadcastBreakEvent(InteractionHand.MAIN_HAND));
 			} else {
-				Player player = event.getEntity();
-				InteractionHand hand = event.getHand();
-				ItemStack leftover = heldItem.getCraftingRemainingItem();
+				ItemStack leftover = heldItem.getRecipeRemainder();
 				heldItem.shrink(1);
 				if (heldItem.isEmpty()) {
 					player.setItemInHand(hand, leftover);

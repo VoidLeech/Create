@@ -1,5 +1,6 @@
 package com.simibubi.create.compat.computercraft.implementation;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import com.simibubi.create.compat.computercraft.AbstractComputerBehaviour;
@@ -132,7 +133,7 @@ public class ComputerBehaviour extends AbstractComputerBehaviour {
 	@Override
 	public void prepareComputerEvent(@NotNull ComputerEvent event) {
 		if (peripheral != null)
-			peripheral.ifPresent(p -> p.prepareComputerEvent(event));
+			peripheral.prepareComputerEvent(event);
 	}
 
 }
