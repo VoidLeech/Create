@@ -371,20 +371,14 @@ public class ClientEvents {
 
 		Fluid fluid = fluidState.getType();
 
-		if (AllFluids.CHOCOLATE.get()
-			.isSame(fluid)) {
+		if (AllFluids.CHOCOLATE.get().isSame(fluid)) {
 			event.setRed(98 / 255f);
 			event.setGreen(32 / 255f);
 			event.setBlue(32 / 255f);
-			return;
-		}
-
-		if (AllFluids.HONEY.get()
-			.isSame(fluid)) {
+		} else if (AllFluids.HONEY.get().isSame(fluid)) {
 			event.setRed(234 / 255f);
 			event.setGreen(174 / 255f);
 			event.setBlue(47 / 255f);
-			return;
 		}
 	}
 

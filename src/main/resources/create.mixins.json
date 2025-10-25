@@ -73,6 +73,7 @@
     "client.HumanoidArmorLayerMixin",
     "client.HumanoidModelMixin",
     "client.LevelRendererMixin",
+    "client.LocalPlayerMixin",
     "client.MapRendererMapInstanceMixin",
     "client.PlayerRendererMixin",
     "compat.journeymap.JourneyFullscreenMapMixin",
