@@ -28,7 +28,25 @@
 
 <h3 align="center">Development</h3>
 
-Looking to make an addon for Create? A template mod for a Fabric addon can be found
-[here](https://github.com/Fabricators-of-Create/create-fabric-addon-template),
-and a template for a multi-loader addon with Architectury can be found
-[here](https://github.com/Fabricators-of-Create/create-multiloader-addon-template).
+To depend on Create Fabric for an addon or compatibility, you'll need to set up a few things.
+
+Five Maven repos are required:
+- `https://mvn.devos.one/snapshots/`
+  - Create (`com.simibubi.create:create-fabric`)
+  - Registrate (`com.tterrag.registrate_fabric:Registrate`)
+  - Milk Lib (`io.github.tropheusj:milk-lib`)
+  - Dripstone Fluid Lib (`io.github.tropheusj:dripstone-fluid-lib`)
+- `https://mvn.devos.one/releases/`
+  - Porting Lib (`io.github.fabricators_of_create.Porting-Lib:<module>`)
+- `https://maven.createmod.net/`
+  - Flywheel (`dev.engine-room.flywheel:flywheel-fabric-<mc-version>`)
+  - Flywheel API (`dev.engine-room.flywheel:flywheel-fabric-api-<mc-version>`)
+  - Ponder Fabric (`net.createmod.ponder:Ponder-Fabric-<mc-version>`)
+  - Ponder Common (`net.createmod.ponder:Ponder-Common-<mc-version>`)
+- `https://raw.githubusercontent.com/Fuzss/modresources/main/maven`
+  - Forge Config API Port (`fuzs.forgeconfigapiport:forgeconfigapiport-fabric`)
+- `https://maven.jamieswhiteshirt.com/libs-release`
+  - Reach Entity Attributes (`com.jamieswhiteshirt:reach-entity-attributes`)
+
+All you need dependency-wise is a dependency on `com.simibubi.create:create-fabric:<version>`. Everything else will be pulled in transitively.
+Check [Modrinth](https://modrinth.com/mod/create-fabric/versions) to find the right version number.
