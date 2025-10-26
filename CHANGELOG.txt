@@ -1,0 +1,1 @@
+- Searching in the Stockkeeper GUI now syncs with EMI too, not just JEI
