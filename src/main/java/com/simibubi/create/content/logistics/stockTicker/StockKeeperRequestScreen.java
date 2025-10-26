@@ -45,6 +45,7 @@ import com.simibubi.create.foundation.gui.widget.ScrollInput;
 import com.simibubi.create.foundation.utility.CreateLang;
 import com.simibubi.create.infrastructure.config.AllConfigs;
 
+import dev.emi.emi.api.EmiApi;
 import dev.engine_room.flywheel.lib.model.baked.PartialModel;
 import me.pepperbell.simplenetworking.SimpleChannel;
 import net.createmod.catnip.animation.AnimationTickHolder;
@@ -1710,8 +1711,14 @@ public class StockKeeperRequestScreen extends AbstractSimiContainerScreen<StockK
 	}
 
 	private void syncJEI() {
-		if (Mods.JEI.isLoaded() && AllConfigs.client().syncJeiSearch.get())
+		if (!AllConfigs.client().syncJeiSearch.get())
+			return;
+
+		if (Mods.EMI.isLoaded()) {
+			EmiApi.setSearchText(searchBox.getValue());
+		} else if (Mods.JEI.isLoaded()) {
 			CreateJEI.runtime.getIngredientFilter().setFilterText(searchBox.getValue());
+		}
 	}
 
 }

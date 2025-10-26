@@ -40,6 +40,7 @@ public enum Mods {
 	INVENTORYSORTER,
 
 	// fabric mods
+	EMI,
 	SANDWICHABLE,
 	TRINKETS,
 	MODMENU,
