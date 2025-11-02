@@ -1,12 +1,10 @@
 package com.simibubi.create.content.trains.schedule;
 
-import com.simibubi.create.foundation.gui.menu.GhostItemMenu;
+import com.simibubi.create.foundation.gui.menu.HeldItemGhostItemMenu;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
@@ -17,7 +15,7 @@ import net.fabricmc.api.Environment;
 import io.github.fabricators_of_create.porting_lib.transfer.item.ItemStackHandler;
 import io.github.fabricators_of_create.porting_lib.transfer.item.SlotItemHandler;
 
-public class ScheduleMenu extends GhostItemMenu<ItemStack> {
+public class ScheduleMenu extends HeldItemGhostItemMenu {
 
 	public boolean slotsActive = true;
 	public int targetSlotsActive = 1;
@@ -37,21 +35,8 @@ public class ScheduleMenu extends GhostItemMenu<ItemStack> {
 	}
 
 	@Override
-	public void clicked(int index, int dragType, ClickType clickType, Player player) {
-		if (!this.isInSlot(index) || clickType == ClickType.THROW || clickType == ClickType.CLONE) {
-			super.clicked(index, dragType, clickType, player);
-		}
-	}
-
-	@Override
 	protected boolean allowRepeats() {
 		return true;
-	}
-
-	@Override
-	@Environment(EnvType.CLIENT)
-	protected ItemStack createOnClient(FriendlyByteBuf extraData) {
-		return extraData.readItem();
 	}
 
 	@Override
@@ -68,22 +53,6 @@ public class ScheduleMenu extends GhostItemMenu<ItemStack> {
 
 	@Override
 	protected void saveData(ItemStack contentHolder) {}
-
-	@Override
-	public boolean stillValid(Player player) {
-		return playerInventory.getSelected() == contentHolder;
-	}
-
-	@Override
-	public boolean canTakeItemForPickAll(ItemStack stack, Slot slot) {
-		// prevent pick-all from taking this schedule out of its slot
-		return super.canTakeItemForPickAll(stack, slot) && !this.isInSlot(slot.index);
-	}
-
-	protected boolean isInSlot(int index) {
-		// Inventory has the hotbar as 0-8, but menus put the hotbar at 27-35
-		return index >= 27 && index - 27 == playerInventory.selected;
-	}
 
 	class InactiveSlot extends Slot {
 
