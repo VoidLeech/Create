@@ -9,7 +9,7 @@ val buildNum = providers.environmentVariable("GITHUB_RUN_NUMBER")
     .getOrElse("local")
 
 val mcVer: String = libs.versions.minecraft.get()
-version = "6.0.7.0+$buildNum-mc$mcVer"
+version = "6.0.8.0+$buildNum-mc$mcVer"
 
 group = "com.simibubi.create"
 
