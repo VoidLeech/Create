@@ -163,6 +163,7 @@ public class CreateEmiPlugin implements EmiPlugin {
 
 		registry.addRecipeHandler(AllMenuTypes.CRAFTING_BLUEPRINT.get(), new BlueprintTransferHandler());
 
+		// note: class is an exact match, cannot use AbstractFilterScreen here
 		registry.addDragDropHandler(FilterScreen.class, new GhostIngredientHandler());
 		registry.addDragDropHandler(AttributeFilterScreen.class, new GhostIngredientHandler());
 		registry.addDragDropHandler(BlueprintScreen.class, new GhostIngredientHandler());
