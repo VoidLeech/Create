@@ -25,6 +25,7 @@ import net.createmod.catnip.nbt.NBTHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.BlockSource;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Registry;
 import net.minecraft.core.dispenser.DefaultDispenseItemBehavior;
 import net.minecraft.core.dispenser.DispenseItemBehavior;
 import net.minecraft.core.registries.Registries;
@@ -41,6 +42,7 @@ import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
@@ -60,6 +62,10 @@ import net.fabricmc.fabric.api.transfer.v1.fluid.base.FullItemFluidStorage;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
 
 import io.github.fabricators_of_create.porting_lib.event.common.FluidPlaceBlockCallback;
+import io.github.fabricators_of_create.porting_lib.fluids.FluidInteractionRegistry;
+import io.github.fabricators_of_create.porting_lib.fluids.FluidInteractionRegistry.InteractionInformation;
+import io.github.fabricators_of_create.porting_lib.fluids.FluidType;
+import io.github.fabricators_of_create.porting_lib.fluids.PortingLibFluids;
 
 @SuppressWarnings("UnstableApiUsage")
 public class AllFluids {
@@ -149,9 +155,33 @@ public class AllFluids {
 			})
 			.register();
 
+	// fabric: I hate FluidType.
+	// we need to have them for CobbleGenOptimization, unfortunately.
+	// we've ripped them out of Registrate, so actually associating these with their fluids is a pain.
+	// that's handled with a mixin to Fluid that calls getTypeOf here for clarity.
+	// none of the attributes actually matter because porting lib never actually got the necessary hooks.
+	public static final FluidType HONEY_FLUID_TYPE = new FluidType(FluidType.Properties.create());
+	public static final FluidType CHOCOLATE_FLUID_TYPE = new FluidType(FluidType.Properties.create());
+
 	// Load this class
 
 	public static void register() {
+		// fabric: register fluid types
+		Registry.register(PortingLibFluids.FLUID_TYPES, Create.asResource("honey"), HONEY_FLUID_TYPE);
+		Registry.register(PortingLibFluids.FLUID_TYPES, Create.asResource("chocolate"), CHOCOLATE_FLUID_TYPE);
+
+	}
+
+	// fabric: see above
+	@Nullable
+	public static FluidType getTypeOf(Fluid fluid) {
+		if (HONEY.is(fluid)) {
+			return HONEY_FLUID_TYPE;
+		} else if (CHOCOLATE.is(fluid)) {
+			return CHOCOLATE_FLUID_TYPE;
+		} else {
+			return null;
+		}
 	}
 
 	@Environment(EnvType.CLIENT)
@@ -165,7 +195,33 @@ public class AllFluids {
 	}
 
 	public static void registerFluidInteractions() {
-		// fabric: no fluid interaction API, use legacy method
+		FluidInteractionRegistry.addInteraction(PortingLibFluids.LAVA_TYPE, new InteractionInformation(
+			HONEY.get().getFluidType(),
+			fluidState -> {
+				if (fluidState.isSource()) {
+					return Blocks.OBSIDIAN.defaultBlockState();
+				} else {
+					return AllPaletteStoneTypes.LIMESTONE.getBaseBlock()
+						.get()
+						.defaultBlockState();
+				}
+			}
+		));
+
+		FluidInteractionRegistry.addInteraction(PortingLibFluids.LAVA_TYPE, new InteractionInformation(
+			CHOCOLATE.get().getFluidType(),
+			fluidState -> {
+				if (fluidState.isSource()) {
+					return Blocks.OBSIDIAN.defaultBlockState();
+				} else {
+					return AllPaletteStoneTypes.SCORIA.getBaseBlock()
+						.get()
+						.defaultBlockState();
+				}
+			}
+		));
+
+		// fabric: FluidInteractionRegistry doesn't actually work. keep using the legacy method.
 		FluidPlaceBlockCallback.EVENT.register(AllFluids::whenFluidsMeet);
 	}
 

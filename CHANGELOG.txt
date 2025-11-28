@@ -1,4 +1,1 @@
-- Synced with 6.0.8
-- Searching in the Stockkeeper GUI now syncs with EMI too, not just JEI
-- Fixed a crash with Ribbits (#1823)
-- Fixed a crash with Enchancement (#1818)
+- fixed crash with an optimized limestone or scoria generator (#1834)

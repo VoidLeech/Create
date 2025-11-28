@@ -50,6 +50,7 @@
     "fabric.BlockableEventLoopAccessor",
     "fabric.EntityAccessor",
     "fabric.EntityMixin",
+    "fabric.FluidMixin",
     "fabric.LivingEntityMixin",
     "fabric.ServerGamePacketListenerImplAccessor",
     "fabric.SortedArraySetAccessor",
