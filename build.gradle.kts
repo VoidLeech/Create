@@ -180,6 +180,9 @@ tasks.named<ProcessResources>("processResources") {
         "minecraft_version" to libs.versions.minecraft.get(),
         "loader_version" to libs.versions.fabric.loader.get(),
         "fabric_version" to libs.versions.fabric.api.get(),
+        "flywheel_version" to libs.versions.flywheel.get(),
+        "ponder_version" to libs.versions.ponder.get(),
+        "registrate_version" to libs.versions.registrate.get(),
         "forge_config_version" to libs.versions.forge.config.get(),
         "milk_lib_version" to libs.versions.milk.get(),
         "reach_entity_attributes_version" to libs.versions.rea.get()

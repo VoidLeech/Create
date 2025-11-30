@@ -53,6 +53,10 @@
     "fabricloader": ">=${loader_version}",
     "fabric-api": ">=${fabric_version}",
 
+    "flywheel": ">=${flywheel_version}",
+    "ponder": ">=${ponder_version}",
+    "registrate-fabric": ">=${registrate_version}",
+
     "porting_lib_accessors": ">=${port_lib_accessors_version}",
     "porting_lib_base": ">=${port_lib_base_version}",
     "porting_lib_entity": ">=${port_lib_entity_version}",
