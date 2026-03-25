@@ -161,9 +161,6 @@ public class CreateRegistrateTags {
 		prov.tag(AllBlockTags.PLOUGH_BLACKLIST.tag)
 			.addTag(BlockTags.PORTALS);
 
-		prov.tag(AllBlockTags.STEM_GROWN.tag)
-				.add(Blocks.PUMPKIN, Blocks.MELON);
-
 		prov.tag(AllBlockTags.VERTICAL_PLANTS.tag)
 				.add(Blocks.BAMBOO, Blocks.CACTUS, Blocks.SUGAR_CANE, Blocks.KELP, Blocks.KELP_PLANT);
 
@@ -201,9 +198,6 @@ public class CreateRegistrateTags {
 
 		TagGen.addOptional(prov.tag(AllBlockTags.NON_DECAYING_LEAF_DIST1.tag), Mods.Q, List.of(
 				"glow_shroom_block"));
-
-		TagGen.addOptional(prov.tag(AllBlockTags.STEM_GROWN.tag), Mods.UG, List.of(
-			"gloomgourd"));
 
 		TagGen.addOptional(prov.tag(AllBlockTags.MUSHROOM_STEMS.tag), Mods.UG, List.of(
 				"indigo_mushroom_stem", "blood_mushroom_stem", "ink_mushroom_stem", "veil_mushroom_stem"));

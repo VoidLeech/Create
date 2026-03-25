@@ -129,7 +129,6 @@ public class AllTags {
 		ANDESITE_ALLOY_STORAGE_BLOCKS(COMMON, "storage_blocks/andesite_alloy"),
 
 		CORALS,
-		STEM_GROWN,
 		VERTICAL_PLANTS,
 		MUSHROOM_STEMS,
 		NON_DECAYING_LEAF_DIST1,

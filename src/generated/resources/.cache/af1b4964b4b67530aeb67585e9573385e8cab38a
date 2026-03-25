@@ -1,4 +1,4 @@
-// 1.21.1	2026-03-23T14:31:48.000713	Registrate Provider for create [Registries, Data Maps, Recipes, Advancements, Loot Tables, Tags (blocks), Tags (enchantments), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider]
+// 1.21.1	2026-03-26T00:07:01.9750883	Registrate Provider for create [Registries, Data Maps, Recipes, Advancements, Loot Tables, Tags (blocks), Tags (enchantments), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider]
 60bbdf92d2ac9824ea6144955c74043a6005f79d assets/create/blockstates/acacia_window.json
 6a67703c2697d81b7dc83e9d72a66f9c9ff08383 assets/create/blockstates/acacia_window_pane.json
 c3ae87b62e81d8e9476eccd793bb1548d74c66a1 assets/create/blockstates/adjustable_chain_gearshift.json
@@ -4774,7 +4774,6 @@ f400870b8dbcd14238be3ec99c419093073ba3a6 data/create/tags/block/postboxes.json
 79418bd729cef417b322cef9b491e7ae83317d61 data/create/tags/block/seats.json
 7d783d948cc49503fb645045fe9ef48906b74341 data/create/tags/block/simple_mounted_storage.json
 e9f4eef0275a0d859c0e75baecdec89561c5875c data/create/tags/block/single_block_inventories.json
-7ecce5f459400668313147d44609f31f3ff4c186 data/create/tags/block/stem_grown.json
 f02fc9781e8f0ae33ed3b98cf4f46ba6927c7ff8 data/create/tags/block/sugar_cane_variants.json
 8a6ad3c63fb0c436ec8109f39358213930effd5a data/create/tags/block/table_cloths.json
 5def5088f7fd31b80e6f28c1c4ea146aa9d7d15b data/create/tags/block/toolboxes.json

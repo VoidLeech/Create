@@ -516,8 +516,6 @@ public class SawBlockEntity extends BlockBreakingKineticBlockEntity implements C
 			return true;
 		if (TreeCutter.isVerticalPlant(stateToBreak))
 			return true;
-		if (AllBlockTags.STEM_GROWN.matches(stateToBreak))
-			return true;
 		Block block = stateToBreak.getBlock();
 		if (block instanceof ChorusPlantBlock)
 			return true;
