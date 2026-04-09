@@ -674,9 +674,12 @@ public class SchematicannonBlockEntity extends SmartBlockEntity implements MenuP
 					if (storage == null)
 						continue;
 					long amountExtracted = storage.extract(ItemVariant.of(Items.GUNPOWDER), 1, t);
-					if (amountExtracted > 0)
-						externalGunpowderFound = true;
+					if (amountExtracted == 0)
+						continue;
+					externalGunpowderFound = true;
+					break;
 				}
+				t.commit();
 			}
 			if (!externalGunpowderFound)
 				return;
