@@ -679,10 +679,11 @@ public class SchematicannonBlockEntity extends SmartBlockEntity implements MenuP
 					externalGunpowderFound = true;
 					break;
 				}
+
+				if (!externalGunpowderFound)
+					return;
 				t.commit();
 			}
-			if (!externalGunpowderFound)
-				return;
 		}
 
 		remainingFuel += getShotsPerGunpowder();
