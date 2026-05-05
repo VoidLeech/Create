@@ -162,17 +162,18 @@ public class CreateRegistrateTags {
 			.addTag(BlockTags.PORTALS);
 
 		prov.tag(AllBlockTags.VERTICAL_PLANTS.tag)
-				.add(Blocks.BAMBOO, Blocks.CACTUS, Blocks.SUGAR_CANE, Blocks.KELP, Blocks.KELP_PLANT);
+			.add(Blocks.BAMBOO, Blocks.CACTUS, Blocks.KELP, Blocks.KELP_PLANT)
+			.addTag(AllBlockTags.SUGAR_CANE_VARIANTS.tag);
 
 		prov.tag(AllBlockTags.MUSHROOM_STEMS.tag)
-				.add(Blocks.MUSHROOM_STEM);
+			.add(Blocks.MUSHROOM_STEM);
 
 		prov.tag(AllBlockTags.NON_DECAYING_LEAF_DIST2.tag)
-				.add(Blocks.RED_MUSHROOM_BLOCK);
+			.add(Blocks.RED_MUSHROOM_BLOCK);
 
 		prov.tag(AllBlockTags.NON_DECAYING_LEAF_DIST3.tag)
-				.add(Blocks.BROWN_MUSHROOM_BLOCK, Blocks.WEEPING_VINES, Blocks.WEEPING_VINES_PLANT)
-				.addTag(BlockTags.WART_BLOCKS);
+			.add(Blocks.BROWN_MUSHROOM_BLOCK, Blocks.WEEPING_VINES, Blocks.WEEPING_VINES_PLANT)
+			.addTag(BlockTags.WART_BLOCKS);
 
 		// COMPAT
 
